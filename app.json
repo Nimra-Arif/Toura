@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "UserPortal",
-    "slug": "UserPortal",
+    "name": "TourGuide",
+    "slug": "TourGuide",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
