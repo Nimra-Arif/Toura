@@ -18,32 +18,55 @@ import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
-import SearchPage from "./search_page";
-import WelcomePage from "./welcome_page";
+import Home from "./Home_page.js";
+import Profile from "./Profile_page.js";
+import Cart from "./cart_page.js";
+import Bookings from "./booking_page.js";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-export default function Home({ navigation }) {
-  const Stack = createStackNavigator();
+
+
+export default function MainPage({ navigation }) {
+    const Tab = createBottomTabNavigator();
   return (
-    <NavigationContainer
-    independent={true}
-    >
-      <Stack.Navigator 
-      initialRouteName="Starting Page"
-      >
-       <Stack.Screen name="WelcomePage" component={WelcomePage} 
-        options={{headerShown: false}}
-       /> 
-        <Stack.Screen name="Search" component={SearchPage} 
-      options={{
-        headerStyle: {
-          backgroundColor: "#01877E",
-          height: 70,
-        },
-      }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <NavigationContainer  independent={true}>
+        <Tab.Navigator
+        
+        screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+        
+              if (route.name === "Home") {
+                iconName = "search";
+              } else if (route.name === "Bookings") {
+                iconName = "bookmarks";
+              } else if (route.name === "Cart") {
+                iconName = "cart";
+              } else if (route.name === "Profile") {
+                iconName = "person";
+              }
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+            tabBarActiveTintColor: "white",
+            tabBarInactiveTintColor: "#13313D",
+            headerShown: false,
+            tabBarStyle:{
+                backgroundColor:"#01877E",
+            }
 
+          })}
+         
+        >
+            <Tab.Screen name="Home" component={Home} 
+        headerShown={false}
+            />
+            <Tab.Screen name="Bookings" component={Bookings} />
+            <Tab.Screen name="Cart" component={Cart}
+            options={{ tabBarBadge: 0 }}
+            />
+            <Tab.Screen name="Profile" component={Profile} />
+        </Tab.Navigator>
+  </NavigationContainer>
   );
 }
 
@@ -84,12 +107,12 @@ const styles = StyleSheet.create({
     borderLeftColor: "#01877E",
     borderRightColor: "#01877E",
     borderWidth: 1,
-    // shadowColor: 'black',
-    // shadowOffset: { width: 1, height: 1 },
-    // shadowRadius: 1,
-    // shadowOpacity: 0.4,
-    // elevation: 5,
-    // borderRadius: 2,
+    shadowColor: 'black',
+    shadowOffset: { width: 1, height: 1 },
+    shadowRadius: 1,
+    shadowOpacity: 0.4,
+    elevation: 5,
+    borderRadius: 2,
 
 
 

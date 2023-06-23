@@ -45,7 +45,7 @@ export default function SignUp1({ navigation }) {
           onchangeusername("");
           onchangepassword("");
           onchangegender("");
-          navigation.navigate("Home");
+          navigation.navigate("MainPage");
         })
         .catch((error) => {
           console.error("Error writing document: ", error);

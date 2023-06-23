@@ -35,7 +35,7 @@ export default function Login({ navigation }) {
     
       querySnapshot.forEach((doc) => {
         if (doc.data().password === password) {
-          navigation.navigate("Home");
+          navigation.navigate("MainPage");
         } else {
           alert("Invalid email or password");
         }
