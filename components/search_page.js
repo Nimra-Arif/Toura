@@ -18,13 +18,15 @@ import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
-import Activities from "./page_1.js";
+import WelcomePage from "./welcome_page";
 export default function SearchPage({ navigation }) {
   const [tosearch, onchangetosearch] = useState("");
   return (
     <ScrollView>
       <SafeAreaView>
+     
         <View style={{ paddingTop: 10 }}>
+        
           <Text style={styles.text_style2}>Where do you want to go?</Text>
         </View>
         <View style={styles.search_style}>
@@ -189,16 +191,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+ 
   text_style: {
-    fontSize: 30,
+    fontSize: 23,
     fontWeight: "bold",
     color: "#01877E",
     textAlign: "center",
     justifyContent: "center",
-    paddingTop: 70,
     textShadowColor: "black",
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 1,
+    textShadowRadius: 0.7,
+    paddingTop: 70,
   },
   text_style2: {
     fontSize: 23,

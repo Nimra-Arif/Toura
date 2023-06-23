@@ -21,6 +21,7 @@ import { ScrollView } from "react-native";
 import SearchPage from "./search_page";
 import WelcomePage from "./welcome_page";
 import Activities from "./page_1";
+import SecondPage from "./page_2";
 
 export default function Home({ navigation }) {
   const Stack = createStackNavigator();
@@ -35,6 +36,7 @@ export default function Home({ navigation }) {
         <Stack.Screen
           name="Search"
           component={SearchPage}
+               
           options={{
             headerStyle: {
               backgroundColor: "#01877E",
@@ -45,12 +47,18 @@ export default function Home({ navigation }) {
         <Stack.Screen
           name="Activities"
           component={Activities}
+          
           options={{
             headerStyle: {
               backgroundColor: "#01877E",
               height: 80,
             },
           }}
+        />
+        <Stack.Screen
+          name="SecondPage"
+          component={SecondPage}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -18,6 +18,7 @@ import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
+import SearchPage from "./search_page";
 
 export default function Activities({ navigation }) {
   const [tosearch, onchangetosearch] = useState("");
@@ -46,6 +47,7 @@ export default function Activities({ navigation }) {
   return (
     <ScrollView>
       <SafeAreaView>
+      
         <View style={{ paddingTop: 10 }}>
           <Text style={styles.text_style2}>Where do you want to go?</Text>
         </View>
@@ -62,7 +64,7 @@ export default function Activities({ navigation }) {
             secureTextEntry={true}
           ></TextInput>
 
-          <Pressable onPress={() => navigation.navigate("Activities")}>
+          <Pressable onPress={() => navigation.navigate("SecondPage")}>
             <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
           </Pressable>
         </View>
@@ -125,7 +127,7 @@ export default function Activities({ navigation }) {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 </Text>
                 <Text style={styles.norm_text2}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  Lorem ipsum
                 </Text>
                 <Text style={styles.norm_text3}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
@@ -158,7 +160,7 @@ export default function Activities({ navigation }) {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 </Text>
                 <Text style={styles.norm_text2}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  Lorem ipsum 
                 </Text>
                 <Text style={styles.norm_text3}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
@@ -190,9 +192,7 @@ export default function Activities({ navigation }) {
                 <Text style={styles.norm_text1}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 </Text>
-                <Text style={styles.norm_text2}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                </Text>
+                <Text style={styles.norm_text2}>Lorem ipsum</Text>
                 <Text style={styles.norm_text3}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 </Text>
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     textShadowColor: "black",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 0.7,
-    paddingTop: -20,
+    paddingTop: 30,
   },
   text_style: {
     fontSize: 20,
@@ -355,11 +355,12 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     color: "#01877E",
+    margin:0,
   },
   norm_text2: {
     fontSize: 12,
 
-    color: "#01877E",
+    color: "red",
   },
   norm_text3: {
     fontSize: 14,
