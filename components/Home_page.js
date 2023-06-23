@@ -20,30 +20,40 @@ import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 import SearchPage from "./search_page";
 import WelcomePage from "./welcome_page";
+import Activities from "./page_1";
 
 export default function Home({ navigation }) {
   const Stack = createStackNavigator();
   return (
-    <NavigationContainer
-    independent={true}
-    >
-      <Stack.Navigator 
-      initialRouteName="Starting Page"
-      >
-       <Stack.Screen name="WelcomePage" component={WelcomePage} 
-        options={{headerShown: false}}
-       /> 
-        <Stack.Screen name="Search" component={SearchPage} 
-      options={{
-        headerStyle: {
-          backgroundColor: "#01877E",
-          height: 70,
-        },
-      }}
+    <NavigationContainer independent={true}>
+      <Stack.Navigator initialRouteName="Starting Page">
+        <Stack.Screen
+          name="WelcomePage"
+          component={WelcomePage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={SearchPage}
+          options={{
+            headerStyle: {
+              backgroundColor: "#01877E",
+              height: 80,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Activities"
+          component={Activities}
+          options={{
+            headerStyle: {
+              backgroundColor: "#01877E",
+              height: 80,
+            },
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
-
   );
 }
 
@@ -90,18 +100,14 @@ const styles = StyleSheet.create({
     // shadowOpacity: 0.4,
     // elevation: 5,
     // borderRadius: 2,
-
-
-
-
   },
   small_containers: {
     marginTop: 30,
-marginBottom: 30,
+    marginBottom: 30,
     width: 140,
     height: 140,
     margin: 20,
-    shadowColor: 'black',
+    shadowColor: "black",
     shadowOffset: { width: 5, height: 5 },
     shadowRadius: 5,
     shadowOpacity: 0.4,
@@ -112,10 +118,9 @@ marginBottom: 30,
     width: "100%",
     height: "100%",
     borderWidth: 1,
-    borderColor:"white",
+    borderColor: "white",
     borderRadius: 20,
     flexDirection: "column-reverse",
-   
   },
   button_style: {
     backgroundColor: "white",
@@ -126,25 +131,20 @@ marginBottom: 30,
     alignItems: "center",
     flexDirection: "row",
     padding: 10,
-    shadowColor: 'black',
+    shadowColor: "black",
     shadowOffset: { width: 5, height: 5 },
     shadowRadius: 5,
     shadowOpacity: 0.4,
     elevation: 5,
     marginBottom: 20,
-    borderColor:"13313D",
+    borderColor: "13313D",
     borderWidth: 1,
-
-
-
   },
   button_container: {
     marginTop: 20,
     marginBottom: 20,
     justifyContent: "center",
     alignItems: "center",
-
-
   },
 
   button_text: {
@@ -158,7 +158,5 @@ marginBottom: 30,
     fontSize: 15,
     fontWeight: "bold",
     margin: 10,
-
-  
   },
 });

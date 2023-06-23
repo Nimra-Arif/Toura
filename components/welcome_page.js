@@ -111,7 +111,7 @@ export default function WelcomePage({ navigation }) {
         </View>
         <View style={styles.button_container}>
           <Pressable style={styles.button_style}
-          onPress={() => navigation.navigate("Search")}
+          onPress={() => navigation.navigate("Activities")}
           >
         
             <Text style={styles.button_text}
