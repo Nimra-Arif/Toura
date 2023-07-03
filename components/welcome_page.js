@@ -22,8 +22,24 @@ import SearchPage from "./search_page";
 
 export default function WelcomePage({ navigation }) {
   return (
+    <View>
+        <View 
+      style={{
+        backgroundColor: "#01877E",
+        height: 35,
+        position: "absolute",
+        top: 0,
+        width: "100%",
+        zIndex:1
+
+      }}
+      >
+ 
+      </View>
+   
     <ScrollView>
       <SafeAreaView>
+    
         <ImageBackground
           style={styles.home_image}
           source={require("../assets/home_page_img.png")}
@@ -138,6 +154,7 @@ export default function WelcomePage({ navigation }) {
         </View>
       </SafeAreaView>
     </ScrollView>
+    </View>
   );
 }
 

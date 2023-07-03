@@ -23,183 +23,225 @@ import SearchPage from "./search_page";
 export default function SecondPage({ navigation }) {
   return (
     <View style={styles.container}>
-    <ScrollView>
-      <SafeAreaView>
-        <ImageBackground
-          style={styles.home_image}
-          source={require("../assets/Nangaparbat_fairymedows.jpeg")}
-        >
-          <Pressable
-            color="#01877E"
-            style={{ position: "absolute", top: 10, left: 10, opacity: 0.9 }}
-            onPress={() => navigation.navigate("Activities")}
+        <View 
+      style={{
+        backgroundColor: "#01877E",
+        height: 35,
+        position: "absolute",
+        top: 0,
+        width: "100%",
+        zIndex:1
+
+      }}
+      >
+ 
+      </View>
+      <ScrollView>
+        <SafeAreaView>
+          <ImageBackground
+            style={styles.home_image}
+            source={require("../assets/Nangaparbat_fairymedows.jpeg")}
           >
-            <Ionicons name="arrow-back-circle" size={47} color="#01877E" />
-          </Pressable>
-        </ImageBackground>
-        <View>
-          <Text style={styles.heading_style}>
-            From Islamabad : Fairy Meadows Range 7-Days Tour
-          </Text>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text
-            style={{
-              color: "#01877E",
-              fontSize: 15,
-              // fontWeight: "bold",
-              margin: 10,
-            }}
-          >
-            Activity Provider:
-          </Text>
-          <Text
-            style={{
-              color: "black",
-              fontSize: 15,
-              // fontWeight: "bold",
-              marginBottom: 10,
-              marginRight: 10,
-              marginTop: 10,
-            }}
-          >
-            Bedar Travels
-          </Text>
-        </View>
-
-        <Text style={styles.heading_style}>Description</Text>
-        <Text style={styles.norm_text}>
-          Leave Islamabad to see the beautiful Landmarks of Fairy Meadows on the
-          7-Day tour.
-        </Text>
-        <View style={{padding:2}}>
-          <Text style={styles.heading_style}>About this activity</Text>
-
-          <View style={{ flexDirection: "row" }}>
-            <Image
-              style={styles.image_style}
-              source={require("../assets/free_cancelation_icon.png")}
-            />
-            <Text style={styles.heading_style}>Free cancellation</Text>
-          </View>
-          <Text style={styles.norm_text}>
-            Cancel up to 24 hours in advance for a full Refund
-          </Text>
-
-          <View style={{ flexDirection: "row" }}>
-            <Image
-              style={styles.image_style}
-              source={require("../assets/ticking_icon.png")}
-            />
-            <Text style={styles.heading_style}>Mobile Ticketing</Text>
-          </View>
-          <Text style={styles.norm_text}>
-            Use your phone or print your voucher
-          </Text>
-
-          <View style={{ flexDirection: "row" }}>
-            <Image
-              style={styles.image_style}
-              source={require("../assets/duration_icon.png")}
-            />
-            <Text style={styles.heading_style}>Duration 7 days</Text>
-          </View>
-          <Text style={styles.norm_text}>
-            Check availability to see starting times
-          </Text>
-          <View style={{ flexDirection: "row" }}>
-            <Image
-              style={styles.image_style}
-              source={require("../assets/guide_icon.png")}
-            />
-            <Text style={styles.heading_style}>Live tour guide</Text>
-          </View>
-          <Text style={styles.norm_text}>English</Text>
-          <View style={{ flexDirection: "row" }}>
-            <Image
-              style={styles.image_style}
-              source={require("../assets/pickup_icon.png")}
-            />
-            <Text style={styles.heading_style}>Pickup included</Text>
-          </View>
-          <Text style={styles.norm_text}>
-            We (our guide) will in arrivals of Islamabad International Airport
-          </Text>
-        </View>
-        <View style={{paddingTop: 10,
-paddingBottom: 10,
-paddingLeft: 2,
-paddingRight: 2,
-}}>
-          <Text style={styles.heading_style}>Experience</Text>
+            <Pressable
+              color="#01877E"
+              style={{ position: "absolute", top: 10, left: 10, opacity: 0.9 }}
+              onPress={() => navigation.navigate("Activities")}
+            >
+              <Ionicons name="arrow-back-circle" size={47} color="#01877E" />
+            </Pressable>
+          </ImageBackground>
           <View>
-            <Pressable style={styles.button_style}>
+            <Text style={styles.heading_style}>
+              From Islamabad : Fairy Meadows Range 7-Days Tour
+            </Text>
+          </View>
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={{
+                color: "#01877E",
+                fontSize: 15,
+                // fontWeight: "bold",
+                margin: 10,
+              }}
+            >
+              Activity Provider:
+            </Text>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 15,
+                // fontWeight: "bold",
+                marginBottom: 10,
+                marginRight: 10,
+                marginTop: 10,
+              }}
+            >
+              Bedar Travels
+            </Text>
+          </View>
+
+          <Text style={styles.heading_style}>Description</Text>
+          <Text style={styles.norm_text}>
+            Leave Islamabad to see the beautiful Landmarks of Fairy Meadows on
+            the 7-Day tour.
+          </Text>
+          <View style={{ padding: 2 }}>
+            <Text style={styles.heading_style}>About this activity</Text>
+
+            <View style={{ flexDirection: "row" }}>
+              <Image
+                style={styles.image_style}
+                source={require("../assets/free_cancelation_icon.png")}
+              />
+              <Text style={styles.heading_style}>Free cancellation</Text>
+            </View>
+            <Text style={styles.norm_text}>
+              Cancel up to 24 hours in advance for a full Refund
+            </Text>
+
+            <View style={{ flexDirection: "row" }}>
+              <Image
+                style={styles.image_style}
+                source={require("../assets/ticking_icon.png")}
+              />
+              <Text style={styles.heading_style}>Mobile Ticketing</Text>
+            </View>
+            <Text style={styles.norm_text}>
+              Use your phone or print your voucher
+            </Text>
+
+            <View style={{ flexDirection: "row" }}>
+              <Image
+                style={styles.image_style}
+                source={require("../assets/duration_icon.png")}
+              />
+              <Text style={styles.heading_style}>Duration 7 days</Text>
+            </View>
+            <Text style={styles.norm_text}>
+              Check availability to see starting times
+            </Text>
+            <View style={{ flexDirection: "row" }}>
+              <Image
+                style={styles.image_style}
+                source={require("../assets/guide_icon.png")}
+              />
+              <Text style={styles.heading_style}>Live tour guide</Text>
+            </View>
+            <Text style={styles.norm_text}>English</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Image
+                style={styles.image_style}
+                source={require("../assets/pickup_icon.png")}
+              />
+              <Text style={styles.heading_style}>Pickup included</Text>
+            </View>
+            <Text style={styles.norm_text}>
+              We (our guide) will in arrivals of Islamabad International Airport
+            </Text>
+          </View>
+          <View
+            style={{
+              paddingTop: 10,
+              paddingBottom: 10,
+              paddingLeft: 2,
+              paddingRight: 2,
+            }}
+          >
+            <Text style={styles.heading_style}>Experience</Text>
+            <View>
+              <Pressable style={styles.button_style}>
                 <Text style={styles.button_text}>Highlights</Text>
-                <Ionicons name="chevron-forward-circle" size={30} color="#01877E" />
-            </Pressable>
-            <Pressable style={styles.button_style}>
+                <Ionicons
+                  name="chevron-forward-circle"
+                  size={30}
+                  color="#01877E"
+                />
+              </Pressable>
+              <Pressable style={styles.button_style}>
                 <Text style={styles.button_text}>Full description</Text>
-                <Ionicons name="chevron-forward-circle" size={30} color="#01877E" />
-            </Pressable>
-            <Pressable style={styles.button_style}>
+                <Ionicons
+                  name="chevron-forward-circle"
+                  size={30}
+                  color="#01877E"
+                />
+              </Pressable>
+              <Pressable style={styles.button_style}>
                 <Text style={styles.button_text}>Includes</Text>
-                <Ionicons name="chevron-forward-circle" size={30} color="#01877E" />
-            </Pressable>
-            <Pressable style={styles.button_style}>
+                <Ionicons
+                  name="chevron-forward-circle"
+                  size={30}
+                  color="#01877E"
+                />
+              </Pressable>
+              <Pressable style={styles.button_style}>
                 <Text style={styles.button_text}>Not Suitable for</Text>
-                <Ionicons name="chevron-forward-circle" size={30} color="#01877E" />
-            </Pressable>
+                <Ionicons
+                  name="chevron-forward-circle"
+                  size={30}
+                  color="#01877E"
+                />
+              </Pressable>
+            </View>
           </View>
-          </View>
-        <View style={{paddingTop: 10,
-paddingBottom: 10,
-paddingLeft: 2,
-paddingRight: 2,
-}}>
-          <Text style={styles.heading_style}>Prepare for the activity</Text>
-          <View>
-            <Pressable style={styles.button_style}>
+          <View
+            style={{
+              paddingTop: 10,
+              paddingBottom: 10,
+              paddingLeft: 2,
+              paddingRight: 2,
+            }}
+          >
+            <Text style={styles.heading_style}>Prepare for the activity</Text>
+            <View>
+              <Pressable style={styles.button_style}>
                 <Text style={styles.button_text}>What to bring</Text>
-                <Ionicons name="chevron-forward-circle" size={30} color="#01877E" />
-            </Pressable>
-            <Pressable style={styles.button_style}>
+                <Ionicons
+                  name="chevron-forward-circle"
+                  size={30}
+                  color="#01877E"
+                />
+              </Pressable>
+              <Pressable style={styles.button_style}>
                 <Text style={styles.button_text}>Know before you go</Text>
-                <Ionicons name="chevron-forward-circle" size={30} color="#01877E" />
-            </Pressable>
-            
-          </View>
+                <Ionicons
+                  name="chevron-forward-circle"
+                  size={30}
+                  color="#01877E"
+                />
+              </Pressable>
+            </View>
           </View>
           <View style={styles.customer_container}>
             <Text style={styles.heading_style}>Customer Reviews</Text>
-            <View style={{flexDirection:"row", paddingTop:5}}>
-            <Pressable >
+            <View style={{ flexDirection: "row", paddingTop: 5 }}>
+              <Pressable>
                 <Ionicons name="star" size={30} color="#FFFF00" />
-            </Pressable>
-            <Pressable >
+              </Pressable>
+              <Pressable>
                 <Ionicons name="star" size={30} color="#FFFF00" />
-            </Pressable>
-            <Pressable >
+              </Pressable>
+              <Pressable>
                 <Ionicons name="star" size={30} color="#FFFF00" />
-            </Pressable>
-            <Pressable >
+              </Pressable>
+              <Pressable>
                 <Ionicons name="star" size={30} color="#FFFF00" />
-            </Pressable>
-            <Pressable >
+              </Pressable>
+              <Pressable>
                 <Ionicons name="star" size={30} color="#FFFF00" />
-            </Pressable>
+              </Pressable>
             </View>
           </View>
-      </SafeAreaView>
-    </ScrollView>
-    <View style={styles.footer_style}>
-
-    <Text style={styles.footer_text} numberOfLines={2}
-    >From  {"\n"}
-    Rs. 30,000 per person</Text>
-<Pressable style={styles.footer_button}>
-    <Text style={styles.footer_text}>Book Now</Text>
-</Pressable>
-    </View>
+        </SafeAreaView>
+      </ScrollView>
+      <View style={styles.footer_style}>
+        <Text style={styles.footer_text} numberOfLines={2}>
+          From {"\n"}
+          Rs. 30,000 per person
+        </Text>
+        <Pressable style={styles.footer_button}>
+          <Text style={styles.footer_text}>Book Now</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -251,7 +293,7 @@ const styles = StyleSheet.create({
   },
   button_style: {
     padding: 10,
-    paddingBottom:6,
+    paddingBottom: 6,
     fontSize: 20,
     fontWeight: "bold",
     color: "#01877E",
@@ -266,40 +308,37 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#01877E",
   },
-    customer_container: {
-paddingTop: 40,
-paddingBottom: 10,
-alignItems: "center",
-justifyContent: "center",
-
-
-    },
-    footer_style: {
-        flexDirection:"row", justifyContent:"space-between",borderColor:"#13313D",
-        borderWidth:2,borderRadius:3,
-        backgroundColor:"#01877E",
-        height:60,
-    },
-    footer_text: {
-        color:"white",
-        fontSize:17,
-        fontWeight:"bold",
-        marginLeft:10,
-     
-
-    },
-    footer_button: {
-        backgroundColor:"#13313D",
-        width:120,
-        height:40,
-        justifyContent:"center",
-        alignItems:"center",
-        borderRadius:50,
-        alignSelf:"center",
-        marginRight:10,
-        borderColor:"white",
-        borderWidth:1,
-
-
-    },
+  customer_container: {
+    paddingTop: 40,
+    paddingBottom: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  footer_style: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderColor: "#13313D",
+    borderWidth: 2,
+    borderRadius: 3,
+    backgroundColor: "#01877E",
+    height: 60,
+  },
+  footer_text: {
+    color: "white",
+    fontSize: 17,
+    fontWeight: "bold",
+    marginLeft: 10,
+  },
+  footer_button: {
+    backgroundColor: "#13313D",
+    width: 120,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    alignSelf: "center",
+    marginRight: 10,
+    borderColor: "white",
+    borderWidth: 1,
+  },
 });
