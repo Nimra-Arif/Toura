@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     // top: 0,
     marginTop: 35,
     width: "100%",
-    alignItems: "center",
+
     justifyContent: "center",
     zIndex: 1,
   },

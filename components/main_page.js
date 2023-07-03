@@ -31,7 +31,7 @@ export default function MainPage({ navigation }) {
   return (
     <NavigationContainer  independent={true}>
         <Tab.Navigator
-        initialRouteName="Bookings"
+        initialRouteName="Home"
         screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
@@ -60,8 +60,7 @@ export default function MainPage({ navigation }) {
             <Tab.Screen name="Home" component={Home} 
         headerShown={false}
             />
-            <Tab.Screen name="Bookings" component={Bookings} />
-            <Tab.Screen name="Cart" component={Cart}
+              <Tab.Screen name="Cart" component={Cart}
             options={{ tabBarBadge: 0 ,
             
           
@@ -69,6 +68,8 @@ export default function MainPage({ navigation }) {
             }}
            
             />
+            <Tab.Screen name="Bookings" component={Bookings} />
+          
             <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
   </NavigationContainer>

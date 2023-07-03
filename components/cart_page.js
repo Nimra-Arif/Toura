@@ -102,7 +102,7 @@ export default function Cart({ navigation }) {
               <Text style={styles.text_style3}>Language : English</Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="cash" style={styles.icon_style} />
+              <Ionicons name="wallet" style={styles.icon_style} />
               <View style={{ flexDirection: "column", alignItems: "center" }}>
                 <Text style={styles.text_style3}>Pay nothing today</Text>
                 <Text style={styles.text_style4}>
@@ -181,11 +181,11 @@ export default function Cart({ navigation }) {
               <Text style={styles.text_style3}>1 Adult</Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="globe" style={styles.icon_style} />
+              <Ionicons name="globe-outline" style={styles.icon_style} />
               <Text style={styles.text_style3}>Language : English</Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="cash" style={styles.icon_style} />
+              <Ionicons name="wallet" style={styles.icon_style} />
               <View style={{ flexDirection: "column", alignItems: "center" }}>
                 <Text style={styles.text_style3}>Pay nothing today</Text>
                 <Text style={styles.text_style4}>
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     // top: 0,
     marginTop: 35,
     width: "100%",
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "center",
     zIndex: 1,
   },
