@@ -12,6 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
+import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -20,7 +21,17 @@ import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 import SearchPage from "./search_page";
 
+async function loadFonts() {
+  Font.loadAsync({
+   'Podkova': require("../assets/fonts/Podkova.ttf"),
+   "Playball": require("../assets/fonts/Playball.ttf"),
+   // Add other custom fonts here if needed
+ });
+}
 export default function WelcomePage({ navigation }) {
+ 
+ 
+ loadFonts();
   return (
     <View>
         <View 
@@ -163,8 +174,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text_style: {
-    fontSize: 30,
-    fontWeight: "bold",
+    fontSize: 35,
+    // fontWeight: "bold",
+    fontFamily: "Podkova",
     color: "#01877E",
     textAlign: "center",
     justifyContent: "center",
@@ -175,7 +187,7 @@ const styles = StyleSheet.create({
   },
   text_style2: {
     fontSize: 25,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     color: "#01877E",
     textAlign: "center",
     justifyContent: "center",
@@ -183,6 +195,7 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
     paddingTop: -20,
+    fontFamily: "Podkova",
   },
   home_image: {
     width: "100%",
@@ -261,14 +274,16 @@ marginBottom: 30,
   button_text: {
     color: "#01877E",
     fontSize: 17,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     marginRight: 15,
+    fontFamily: "Podkova",
   },
   norm_text: {
     color: "white",
     fontSize: 15,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     margin: 10,
+    fontFamily: "Podkova",
 
   
   },

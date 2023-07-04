@@ -12,6 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
+import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -20,7 +21,19 @@ import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 import SearchPage from "./search_page";
 
+
+
+async function loadFonts() {
+  Font.loadAsync({
+   'Podkova': require("../assets/fonts/Podkova.ttf"),
+   "Playball": require("../assets/fonts/Playball.ttf"),
+   // Add other custom fonts here if needed
+ });
+}
 export default function SecondPage({ navigation }) {
+ 
+ 
+ loadFonts();
   return (
     <View style={styles.container}>
         <View 
@@ -251,15 +264,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   heading_style: {
-    fontSize: 22,
-    fontWeight: "bold",
+    fontSize: 23,
+    // fontWeight: "bold",
     color: "#01877E",
+    fontFamily: "Podkova", 
     // textAlign: "center",
     justifyContent: "center",
     marginTop: 7,
     marginRight: 10,
     marginLeft: 10,
-    fontFamily: "sans-serif-condensed",
+    // fontFamily: "sans-serif-condensed",
     // textShadowColor: "black",
     // textShadowOffset: { width: 1, height: 1 },
     // textShadowRadius: 1,
@@ -284,6 +298,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginRight: 10,
     marginLeft: 10,
+    fontFamily: "Podkova", 
+    
   },
   image_style: {
     width: 33,
@@ -305,7 +321,8 @@ const styles = StyleSheet.create({
   },
   button_text: {
     fontSize: 17,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "Podkova", 
     color: "#01877E",
   },
   customer_container: {
@@ -325,8 +342,9 @@ const styles = StyleSheet.create({
   },
   footer_text: {
     color: "white",
-    fontSize: 17,
-    fontWeight: "bold",
+    fontSize: 18,
+    // fontWeight: "bold",
+    fontFamily: "Podkova", 
     marginLeft: 10,
   },
   footer_button: {

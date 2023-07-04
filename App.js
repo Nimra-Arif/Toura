@@ -6,19 +6,35 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Login from "./components/login_page.js";
 import SignUp1 from "./components/signup_page1.js";
 import SignUp2 from "./components/signup_page2.js";
-import Home from "./components/Home_page.js";
+import React, { useEffect } from "react";
+import * as Font from 'expo-font';
 import MainPage from "./components/main_page";
-import SearchPage from "./components/search_page";
 import LaunchScreen from "./components/landing_page";
 
+async function loadFonts() {
+  Font.loadAsync({
+   'Podkova': require('./assets/fonts/Podkova.ttf'),
+   "Playball": require('./assets/fonts/Playball.ttf'),
+   // Add other custom fonts here if needed
+ });
+}
+
+const Stack = createStackNavigator();
+
+
+
+
 export default function App() {
-  const Stack = createStackNavigator();
+
+  useEffect(() => {
+    loadFonts();
+  }, []);
   return (
     <NavigationContainer
     independent={true}
     >
       <Stack.Navigator 
-      initialRouteName="StarterPage"
+      initialRouteName="LaunchScreen"
       screenOptions={
         {headerShown: false}
      
@@ -38,3 +54,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+// export {loadFonts};

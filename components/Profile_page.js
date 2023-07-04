@@ -12,6 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
+import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -19,7 +20,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 
+async function loadFonts() {
+  Font.loadAsync({
+   'Podkova': require("../assets/fonts/Podkova.ttf"),
+   "Playball": require("../assets/fonts/Playball.ttf"),
+   // Add other custom fonts here if needed
+ });
+}
 export default function Profile({ navigation }) {
+ 
+ 
+ loadFonts();
   return (
     <View style={styles.container}>
       <View
@@ -136,8 +147,9 @@ const styles = StyleSheet.create({
   },
   header_text: {
     color: "white",
-    fontSize: 22,
-    fontWeight: "bold",
+    fontSize: 25,
+    // fontWeight: "bold",
+    fontFamily: "Podkova",
     marginLeft: 10,
   },
   large_container: {
@@ -177,10 +189,10 @@ const styles = StyleSheet.create({
   },
   text_style: {
     color: "white",
-    fontSize: 19,
-    fontWeight: "bold",
+    fontSize: 22,
+    // fontWeight: "bold",
     margin: 2,
-
+    fontFamily: "Podkova",
     // marginRight: 100,
   },
  

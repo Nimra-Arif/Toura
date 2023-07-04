@@ -12,6 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
+import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -19,7 +20,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 
+async function loadFonts() {
+  Font.loadAsync({
+   'Podkova': require("../assets/fonts/Podkova.ttf"),
+   "Playball": require("../assets/fonts/Playball.ttf"),
+   // Add other custom fonts here if needed
+ });
+}
 export default function Cart({ navigation }) {
+ 
+ 
+ loadFonts();
   return (
     <View style={styles.container}>
       <View
@@ -45,89 +56,7 @@ export default function Cart({ navigation }) {
        style={{flex:1, marginTop:90,marginBottom:90
         
        }}>
-         <View style={styles.small_container}>
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Pressable style={styles.waiting_button}>
-              <Text style={styles.text_style}>
-                We'll hold your spot for 60 minutes
-              </Text>
-            </Pressable>
-          </View>
-          <View style={styles.inner_container1}>
-            <Image
-              source={require("../assets/Nangaparbat_fairymedows.jpeg")}
-              style={styles.image_style}
-            />
-
-            <View style={styles.text_container}>
-              <Text style={styles.text_style2}>
-                From Islamabad: 7 Days Tour of Fairy Meadows
-              </Text>
-            </View>
-            <Pressable>
-              <Ionicons
-                name="trash"
-                size={30}
-                color="red"
-                marginTop={15}
-                marginLeft={17}
-              />
-            </Pressable>
-          </View>
-          <View style={styles.inner_container2}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="calendar" style={styles.icon_style} />
-              <Text style={styles.text_style3}>28 Feb 2024</Text>
-            </View>
-
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="time" style={styles.icon_style} />
-              <Text style={styles.text_style3}>Opening hours: 8:30-9:30</Text>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="timer" style={styles.icon_style} />
-              <Text style={styles.text_style3}>Duration: 7 days</Text>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="person-circle" style={styles.icon_style} />
-              <Text style={styles.text_style3}>1 Adult</Text>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="globe" style={styles.icon_style} />
-              <Text style={styles.text_style3}>Language : English</Text>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="wallet" style={styles.icon_style} />
-              <View style={{ flexDirection: "column", alignItems: "center" }}>
-                <Text style={styles.text_style3}>Pay nothing today</Text>
-                <Text style={styles.text_style4}>
-                  Book now and pay on 26 Feb
-                </Text>
-              </View>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="checkmark" size={30} color="#00FF00" />
-              <View style={{ flexDirection: "column", alignItems: "center" }}>
-                <Text style={styles.text_style3}>Free Cancellation</Text>
-                <Text style={styles.text_style4}>Until 12:00 AM on 27 Feb</Text>
-              </View>
-            </View>
-            <Text
-              style={{
-                color: "red",
-                fontSize: 23,
-                marginTop: 5,
-                marginLeft: 220,
-              }}
-            >
-              Rs 30,000</Text>
-          </View>
-        </View>
+       
         <View style={styles.small_container}>
           <View
             style={{
@@ -201,12 +130,7 @@ export default function Cart({ navigation }) {
               </View>
             </View>
             <Text
-              style={{
-                color: "red",
-                fontSize: 23,
-                marginTop: 5,
-                marginLeft: 220,
-              }}
+              style={styles.price_style}
             >
               Rs 30,000</Text>
           </View>
@@ -245,12 +169,14 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     justifyContent: "center",
     zIndex: 1,
+   
   },
   header_text: {
     color: "white",
-    fontSize: 22,
-    fontWeight: "bold",
+    fontSize: 25,
+    // fontWeight: "bold",
     marginLeft: 10,
+    fontFamily: "Podkova",
   },
   footer_style: {
     flexDirection: "row",
@@ -266,9 +192,10 @@ const styles = StyleSheet.create({
   },
   footer_text: {
     color: "white",
-    fontSize: 17,
-    fontWeight: "bold",
+    fontSize: 19,
+    // fontWeight: "bold",
     marginLeft: 10,
+    fontFamily: "Podkova",
   },
   footer_button: {
     backgroundColor: "#13313D",
@@ -322,6 +249,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     // fontWeight: "bold",
     marginLeft: 10,
+    fontFamily: "Podkova",
   },
   text_style2: {
     color: "#01877E",
@@ -329,13 +257,14 @@ const styles = StyleSheet.create({
     // fontWeight: "bold",
     margin: 10,
     marginRight: 2,
+    fontFamily: "Podkova",
   },
   text_style3: {
     color: "#01877E",
     fontSize: 17,
     // fontWeight: "bold",
     // margin: 10,
-
+    fontFamily: "Podkova",
     marginTop: 5,
     marginLeft: 9,
   },
@@ -344,7 +273,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     // fontWeight: "bold",
     // margin: 10,
-
+    fontFamily: "Podkova",
     // marginTop: 5,
     // marginLeft: 9,
   },
@@ -368,5 +297,14 @@ const styles = StyleSheet.create({
     fontSize: 27,
     marginTop: 5,
     marginLeft: 5,
+  },
+  price_style: {
+    
+      color: "red",
+      fontSize: 23,
+      marginTop: 5,
+      marginLeft: 220,
+      fontFamily: "Podkova",
+    
   },
 });

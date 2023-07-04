@@ -12,6 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
+import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -28,6 +29,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 export default function MainPage({ navigation }) {
     const Tab = createBottomTabNavigator();
+    async function loadFonts() {
+      Font.loadAsync({
+       'Podkova': require("../assets/fonts/Podkova.ttf"),
+       "Playball": require("../assets/fonts/Playball.ttf"),
+       // Add other custom fonts here if needed
+     });
+   }
+   
+   loadFonts();
   return (
     <NavigationContainer  independent={true}>
         <Tab.Navigator
@@ -50,9 +60,15 @@ export default function MainPage({ navigation }) {
             tabBarActiveTintColor: "white",
             tabBarInactiveTintColor: "#13313D",
             headerShown: false,
+            fontFamily: "Podkova",
             tabBarStyle:{
                 backgroundColor:"#01877E",
-            }
+            },
+            tabBarLabelStyle:{
+                fontSize:13,
+                fontFamily: "Podkova",
+            },
+
 
           })}
          

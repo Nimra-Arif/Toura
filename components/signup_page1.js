@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   Button,
 } from "react-native";
+import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -18,7 +19,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { collection, addDoc, setDoc,doc } from "firebase/firestore";
 import { db } from "./config.jsx";
 
-
+async function loadFonts() {
+  Font.loadAsync({
+   'Podkova': require("../assets/fonts/Podkova.ttf"),
+   "Playball": require("../assets/fonts/Playball.ttf"),
+   // Add other custom fonts here if needed
+ });
+}
 
 export default function SignUp1({ navigation }) {
   const [username, onchangeusername] = useState("");
@@ -27,6 +34,9 @@ export default function SignUp1({ navigation }) {
 
   const [gender, onchangegender] = useState("");
   let iconName;
+
+ 
+ loadFonts();
   function createuser() {
    if (email === "" || password === "" || username === "" || gender === "") {
       alert("Please enter all the fields");
@@ -178,27 +188,29 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     borderBottomColor: "white",
     marginTop: 13,
+    fontFamily: "Podkova",
   },
   text_style: {
     color: "white",
     fontSize: 25,
     paddingTop: "6%",
-    fontWeight: "bold",
-    fontStyle: "italic",
+    // fontWeight: "bold",
+    // fontStyle: "italic",
+    fontFamily: "Podkova",
   },
   normal_text: {
     color: "white",
     fontSize: 15,
-    fontFamily: "Roboto",
-    fontStyle: "italic",
+    fontFamily: "Podkova",
+    // fontStyle: "italic",
     paddingLeft: "33%",
     paddingTop: "2%",
   },
   normal_text2: {
     color: "white",
     fontSize: 20,
-    fontFamily: "Roboto",
-    fontStyle: "italic",
+    fontFamily: "Podkova",
+ 
    paddingRight:"5%",
     paddingTop: "4%",
   },

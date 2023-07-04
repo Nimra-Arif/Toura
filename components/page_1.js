@@ -12,6 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
+import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -20,14 +21,25 @@ import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 import SearchPage from "./search_page";
 
+async function loadFonts() {
+  Font.loadAsync({
+   'Podkova': require("../assets/fonts/Podkova.ttf"),
+   "Playball": require("../assets/fonts/Playball.ttf"),
+   // Add other custom fonts here if needed
+ });
+}
 export default function Activities({ navigation }) {
   const [tosearch, onchangetosearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
+
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
+  
+ 
+ loadFonts();
 
   const options = [
     { option: "Recommended", value: "Recommended" },
@@ -212,7 +224,7 @@ const styles = StyleSheet.create({
 
   text_style2: {
     fontSize: 23,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     color: "#01877E",
     textAlign: "center",
     justifyContent: "center",
@@ -220,10 +232,12 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 0.7,
     paddingTop: 30,
+    fontFamily: "Podkova", 
   },
   text_style: {
     fontSize: 20,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "Podkova", 
     color: "#01877E",
     textAlign: "center",
     justifyContent: "center",
@@ -308,13 +322,15 @@ const styles = StyleSheet.create({
   button_text: {
     color: "#01877E",
     fontSize: 17,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "Podkova", 
     marginRight: 15,
   },
 
   input_style: {
     fontSize: 18,
     flexDirection: "row",
+    fontFamily: "Podkova", 
   },
   container2: {
     flexDirection: "row",
@@ -348,23 +364,25 @@ const styles = StyleSheet.create({
   },
   option_text: {
     fontSize: 17,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "Podkova", 
     color: "#01877E",
   },
   norm_text1: {
     fontSize: 17,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "Podkova", 
     color: "#01877E",
     margin:0,
   },
   norm_text2: {
     fontSize: 12,
-
+    fontFamily: "Podkova", 
     color: "red",
   },
   norm_text3: {
     fontSize: 14,
-
+    fontFamily: "Podkova", 
     color: "#01877E",
   },
 });

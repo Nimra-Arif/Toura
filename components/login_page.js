@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
+import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -18,12 +19,21 @@ import { Ionicons } from "@expo/vector-icons";
 import { collection, addDoc, setDoc,doc } from "firebase/firestore";
 import { db } from "./config.jsx";
 import { query, where, getDocs, deleteDoc } from "firebase/firestore";
+async function loadFonts() {
+  Font.loadAsync({
+   'Podkova': require("../assets/fonts/Podkova.ttf"),
+   "Playball": require("../assets/fonts/Playball.ttf"),
+   // Add other custom fonts here if needed
+ });
+}
+
 
 export default function Login({ navigation }) {
   const [email, onchangeemail] = useState("");
   const [password, onchangepassword] = useState("");
   let iconName;
 
+ loadFonts();
 
   function loginuser() {
     if (email === "" || password === "") {
@@ -149,23 +159,25 @@ paddingTop:20,
     borderColor: "transparent",
     borderBottomColor: "white",
     marginTop: 13,
+    fontFamily: "Podkova",
   },
   text_style: {
     color: "white",
-    fontSize: 30,
+    fontSize: 35,
 
-    fontWeight: "bold",
-    fontStyle: "italic",
-
+    // fontWeight: "bold",
+    // fontStyle: "italic",
+    fontFamily: "Podkova",
     paddingLeft: "6%",
   },
   normal_text: {
     color: "white",
     fontSize: 15,
-    fontFamily: "Roboto",
-    fontStyle: "italic",
+    // fontFamily: "Roboto",
+    // fontStyle: "italic",
     paddingLeft: "33%",
     paddingTop: "2%",
+    fontFamily: "Podkova",
   },
   icon_style: {
     // paddingTop: "10%",

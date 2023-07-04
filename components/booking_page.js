@@ -12,6 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
+import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -19,7 +20,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 
+async function loadFonts() {
+  Font.loadAsync({
+   'Podkova': require("../assets/fonts/Podkova.ttf"),
+   "Playball": require("../assets/fonts/Playball.ttf"),
+   // Add other custom fonts here if needed
+ });
+}
 export default function Bookings({ navigation }) {
+  const Stack = createStackNavigator();
+
+ 
+ loadFonts();
   return (
     <View style={styles.container}>
       <View
@@ -159,9 +171,10 @@ const styles = StyleSheet.create({
   },
   header_text: {
     color: "white",
-    fontSize: 22,
-    fontWeight: "bold",
+    fontSize: 25,
+    // fontWeight: "bold",
     marginLeft: 10,
+    fontFamily: "Podkova",
   },
 
   button_style: {
@@ -204,7 +217,8 @@ const styles = StyleSheet.create({
   text_style: {
     color: "white",
     fontSize: 15,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "Podkova",
     marginLeft: 10,
     alignSelf: "center",
   },
@@ -214,6 +228,7 @@ const styles = StyleSheet.create({
     // fontWeight: "bold",
     margin: 15,
     marginRight: 2,
+    fontFamily: "Podkova",
   },
   text_container: {
     margin: 2,
@@ -224,6 +239,7 @@ const styles = StyleSheet.create({
   text_style3: {
     color: "white",
     fontSize: 17,
+    fontFamily: "Podkova",
     // fontWeight: "bold",
     // margin: 10,
 
@@ -233,6 +249,7 @@ const styles = StyleSheet.create({
   text_style4: {
     color: "#01877E",
     fontSize: 10,
+    fontFamily: "Podkova",
     // fontWeight: "bold",
     // margin: 10,
 

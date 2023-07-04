@@ -12,6 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
+import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -19,8 +20,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 import WelcomePage from "./welcome_page";
+async function loadFonts() {
+  Font.loadAsync({
+   'Podkova': require("../assets/fonts/Podkova.ttf"),
+   "Playball": require("../assets/fonts/Playball.ttf"),
+   // Add other custom fonts here if needed
+ });
+}
+
 export default function SearchPage({ navigation }) {
   const [tosearch, onchangetosearch] = useState("");
+ 
+ loadFonts();
   return (
     <ScrollView>
       <SafeAreaView>
@@ -59,12 +70,7 @@ export default function SearchPage({ navigation }) {
                 name="heart"
                 size={25}
                 color="white"
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  opacity: 0.7,
-                }}
+                style={styles.heart_icon_style}
               />
               <Text style={styles.norm_text}>Fairy Meadows</Text>
             </ImageBackground>
@@ -78,12 +84,7 @@ export default function SearchPage({ navigation }) {
                 name="heart"
                 size={25}
                 color="white"
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  opacity: 0.7,
-                }}
+                style={styles.heart_icon_style}
               />
               <Text style={styles.norm_text}>Mushk Pori Top</Text>
             </ImageBackground>
@@ -97,12 +98,7 @@ export default function SearchPage({ navigation }) {
                 name="heart"
                 size={25}
                 color="white"
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  opacity: 0.7,
-                }}
+                style={styles.heart_icon_style}
               />
               <Text style={styles.norm_text}>Hunza Valley</Text>
             </ImageBackground>
@@ -116,12 +112,7 @@ export default function SearchPage({ navigation }) {
                 name="heart"
                 size={25}
                 color="white"
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  opacity: 0.7,
-                }}
+                style={styles.heart_icon_style}
               />
               <Text style={styles.norm_text}>Fairy Meadows</Text>
             </ImageBackground>
@@ -135,12 +126,7 @@ export default function SearchPage({ navigation }) {
                 name="heart"
                 size={25}
                 color="white"
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  opacity: 0.7,
-                }}
+                style={styles.heart_icon_style}
               />
               <Text style={styles.norm_text}>Mushk Pori Top</Text>
             </ImageBackground>
@@ -154,12 +140,7 @@ export default function SearchPage({ navigation }) {
                 name="heart"
                 size={25}
                 color="white"
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  opacity: 0.7,
-                }}
+                style={styles.heart_icon_style}
               />
               <Text style={styles.norm_text}>Hunza Valley</Text>
             </ImageBackground>
@@ -194,7 +175,7 @@ const styles = StyleSheet.create({
  
   text_style: {
     fontSize: 23,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     color: "#01877E",
     textAlign: "center",
     justifyContent: "center",
@@ -202,10 +183,11 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 0.7,
     paddingTop: 70,
+    fontFamily: "Podkova",
   },
   text_style2: {
     fontSize: 23,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     color: "#01877E",
     textAlign: "center",
     justifyContent: "center",
@@ -213,6 +195,7 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 0.7,
     paddingTop: -20,
+    fontFamily: "Podkova",
   },
   home_image: {
     width: "100%",
@@ -299,23 +282,35 @@ const styles = StyleSheet.create({
   button_text: {
     color: "#01877E",
     fontSize: 17,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     marginRight: 15,
+    fontFamily: "Podkova",
   },
   norm_text: {
     color: "white",
     fontSize: 15,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     margin: 10,
+    fontFamily: "Podkova",
   },
   norm_text2: {
     color: "black",
     fontSize: 20,
     padding: 15,
     paddingBottom: 20,
+    fontFamily: "Podkova",
   },
   input_style: {
     fontSize: 18,
     flexDirection: "row",
+    fontFamily: "Podkova",
+  },
+  heart_icon_style: {
+    
+      position: "absolute",
+      top: 10,
+      right: 10,
+      opacity: 0.7,
+    
   },
 });

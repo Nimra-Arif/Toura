@@ -12,6 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
+import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -23,15 +24,28 @@ import WelcomePage from "./welcome_page";
 import Activities from "./page_1";
 import SecondPage from "./page_2";
 
+
+async function loadFonts() {
+  Font.loadAsync({
+   'Podkova': require("../assets/fonts/Podkova.ttf"),
+   "Playball": require("../assets/fonts/Playball.ttf"),
+   // Add other custom fonts here if needed
+ });
+}
 export default function Home({ navigation }) {
   const Stack = createStackNavigator();
+  
+ 
+ loadFonts();
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName="Starting Page">
         <Stack.Screen
           name="WelcomePage"
           component={WelcomePage}
-          options={{ headerShown: false }}
+          options={{ headerShown: false,
+            fontFamily: "Playball", 
+          }}
         />
         <Stack.Screen
           name="Search"
@@ -41,7 +55,12 @@ export default function Home({ navigation }) {
             headerStyle: {
               backgroundColor: "#01877E",
               height: 80,
+           
             },
+            headerTitleStyle: {
+              fontFamily: "Podkova", 
+              fontSize: 25,
+              },
           }}
         />
         <Stack.Screen
@@ -52,6 +71,11 @@ export default function Home({ navigation }) {
             headerStyle: {
               backgroundColor: "#01877E",
               height: 80,
+             
+            },
+           headerTitleStyle: {
+            fontFamily: "Podkova", 
+            fontSize: 25,
             },
           }}
         />

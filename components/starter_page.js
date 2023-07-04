@@ -10,11 +10,23 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
+import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Login from "./login_page.js";
 import SignUp1 from "./signup_page1.js";
+
+async function loadFonts() {
+  Font.loadAsync({
+   'Podkova': require("../assets/fonts/Podkova.ttf"),
+   "Playball": require("../assets/fonts/Playball.ttf"),
+   // Add other custom fonts here if needed
+ });
+}
+
 export default function StarterPage({ navigation }) {
+ 
+ loadFonts();
   return (
     <View style={styles.container}>
       <View style={styles.container1}>
@@ -71,8 +83,8 @@ const styles = StyleSheet.create({
   name_style: {
     color: "#fff",
     fontSize: 45,
-    fontFamily: "Roboto",
-    fontWeight: "bold",
+    fontFamily: "Podkova",
+    // fontWeight: "bold",
     textShadowColor: "black",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 10,
@@ -80,7 +92,7 @@ const styles = StyleSheet.create({
   slogan_style: {
     color: "#fff",
     fontSize: 15,
-    fontFamily: "Roboto",
+    fontFamily: "Playball",
     textShadowColor: "black",
     textShadowOffset: { width: 4, height: 2 },
     textShadowRadius: 10,
@@ -96,8 +108,8 @@ const styles = StyleSheet.create({
   bold_text: {
     color: "#fff",
     fontSize: 20,
-    fontFamily: "Roboto",
-    fontWeight: "bold",
+    fontFamily: "Podkova",
+    // fontWeight: "bold",
     alignSelf: "center",
 
     borderBottomColor: "#fff",
@@ -105,7 +117,7 @@ const styles = StyleSheet.create({
   normal_text: {
     color: "#fff",
     fontSize: 15,
-    fontFamily: "Roboto",
+    fontFamily: "Podkova",
     paddingTop: 3,
   },
 });
