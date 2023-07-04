@@ -33,7 +33,7 @@ export default function StarterPage({ navigation }) {
         <Text style={styles.name_style}>TOURA</Text>
 
         <Image
-          source={require("../assets/toura_land_icon2.png")}
+          source={require("../assets/toura_land_icon1.png")}
           style={styles.image_style}
         />
         <Text style={styles.slogan_style} numberOfLines={1}>
