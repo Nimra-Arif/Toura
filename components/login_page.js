@@ -11,62 +11,67 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { collection, addDoc, setDoc,doc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "./config.jsx";
 import { query, where, getDocs, deleteDoc } from "firebase/firestore";
 async function loadFonts() {
   Font.loadAsync({
-   'Podkova': require("../assets/fonts/Podkova.ttf"),
-   "Playball": require("../assets/fonts/Playball.ttf"),
-   // Add other custom fonts here if needed
- });
+    Podkova: require("../assets/fonts/Podkova.ttf"),
+    Playball: require("../assets/fonts/Playball.ttf"),
+    // Add other custom fonts here if needed
+  });
 }
-
 
 export default function Login({ navigation }) {
   const [email, onchangeemail] = useState("");
   const [password, onchangepassword] = useState("");
-  let iconName;
+  const [username, onchangeusername] = useState(null);
+  useEffect(() => {
+   onchangeemail("");
+    onchangepassword("");
 
- loadFonts();
+  }, []);
+
+  loadFonts();
 
   function loginuser() {
     if (email === "" || password === "") {
-     alert("Please enter all the fields");
- }
-  else{
-    const q = query(collection(db, "users"), where("email", "==", email));
-    getDocs(q).then((querySnapshot) => {
-    
-      querySnapshot.forEach((doc) => {
-        if (doc.data().password === password) {
-          navigation.navigate("MainPage");
-        } else {
-          alert("Invalid email or password");
-        }
+      alert("Please enter all the fields");
+    } else {
+      const q = query(collection(db, "users"), where("email", "==", email));
+      getDocs(q).then((querySnapshot) => {
+       
+        querySnapshot.forEach((doc) => {
+          if (doc.data().password === password) {
+            onchangeusername(doc.data().username);
+            navigation.navigate("MainPage");
+          } else {
+            alert("Invalid email or password");
+          }
+        });
       });
-    })
+    }
+    console.log(email, password);
   }
-}
+ 
   return (
-    <KeyboardAvoidingView 
-    behavior={Platform.OS === "ios" ? "padding" : { height: 10 }}
-    style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : { height: 10 }}
+      style={styles.container}
+    >
       <ImageBackground
         style={{ flex: 1, resizeMode: "contain" }}
         source={require("../assets/back_men.png")}
       >
-        
         <View style={styles.big_container}>
           <View style={styles.previous_icon_style}>
             <Pressable
               color="#01877E"
-            
               onPress={() => navigation.navigate("Starting Page")}
             >
               <Ionicons name="arrow-back-circle" size={47} color="#01877E" />
@@ -77,43 +82,40 @@ export default function Login({ navigation }) {
             <Text style={styles.text_style}>Login</Text>
           </View>
 
-        
-            <View style={styles.container2}>
-              <TextInput
-                value={email}
-                placeholder="Email"
-                onChangeText={(email) => {
-                  onchangeemail(email);
-                }}
-                style={styles.input_style}
-                placeholderTextColor="#Ebe8"
-                clearButtonMode="always"
-              ></TextInput>
-              <TextInput
-                value={password}
-                placeholder="Password"
-                onChangeText={(password) => {
-                  onchangepassword(password);
-                }}
-                style={styles.input_style}
-                placeholderTextColor="#Ebe8"
-                clearButtonMode="always"
-                secureTextEntry={true}  
-              ></TextInput>
-             <Text style={styles.normal_text}>Forgot Password?</Text>
-            </View>
-            
-   
-        
+          <View style={styles.container2}>
+            <TextInput
+              value={email}
+              placeholder="Email"
+              onChangeText={(email) => {
+                onchangeemail(email);
+              }}
+              style={styles.input_style}
+              placeholderTextColor="#Ebe8"
+              clearButtonMode="always"
+            ></TextInput>
+            <TextInput
+              value={password}
+              placeholder="Password"
+              onChangeText={(password) => {
+                onchangepassword(password);
+              }}
+              style={styles.input_style}
+              placeholderTextColor="#Ebe8"
+              clearButtonMode="always"
+              secureTextEntry={true}
+            ></TextInput>
+            <Text style={styles.normal_text}>Forgot Password?</Text>
+          </View>
+
           <View style={styles.icon_style}>
-            <Pressable 
-              onPress={loginuser}
-            >
+           
+            {/* {username && <Text>Selected Option:{username}</Text>} */}
+          
+            <Pressable onPress={loginuser}>
               <Ionicons name="arrow-forward-circle" size={40} color="white" />
             </Pressable>
           </View>
         </View>
-       
       </ImageBackground>
     </KeyboardAvoidingView>
   );
@@ -126,23 +128,22 @@ const styles = StyleSheet.create({
   big_container: {
     // paddingTop: "60%",
     // flexDirection: "column",
-    flex:1,
+    flex: 1,
   },
   container1: {
     flex: 1,
     paddingLeft: "1%",
     justifyContent: "center",
     paddingTop: 60,
-    
   },
   container2: {
-  flex:0.3,
-paddingTop:20,
+    flex: 0.3,
+    paddingTop: 20,
     justifyContent: "center",
     width: "100%",
     height: "50%",
     paddingLeft: "10%",
-    paddingBottom:100,
+    paddingBottom: 100,
   },
   image_style: {
     borderRadius: 50,
@@ -187,7 +188,7 @@ paddingTop:20,
   },
   previous_icon_style: {
     // position: "absolute",
-  
+
     paddingLeft: 10,
     paddingTop: "10%",
   },

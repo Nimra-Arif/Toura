@@ -6,12 +6,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB8qcghB0eKompxFWuBmZzH5s3d5IyF9ZU",
-  authDomain: "tourguide-93718.firebaseapp.com",
-  projectId: "tourguide-93718",
-  storageBucket: "tourguide-93718.appspot.com",
-  messagingSenderId: "946493797982",
-  appId: "1:946493797982:web:b5e142cc765a194f6766cf"
+  apiKey: "AIzaSyCJEX5jyb12RNVmsPlXGdH-ywswS7I0iT0",
+  authDomain: "toura-1a6fb.firebaseapp.com",
+  projectId: "toura-1a6fb",
+  storageBucket: "toura-1a6fb.appspot.com",
+  messagingSenderId: "943306999863",
+  appId: "1:943306999863:web:54b76dd923a2fa912f97b2"
 };
 
 // Initialize Firebase

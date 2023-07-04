@@ -17,12 +17,7 @@ async function loadFonts() {
 
 const LaunchScreen = ({ navigation }) => {
   
-  // useEffect(() => {
-     
-  //   setTimeout(() => {
-  //     navigation.navigate("Starting Page");
-  //   }, 3000);
-  // }, []);
+  
   useEffect(() => {
     async function loadData() {
       await loadFonts();
@@ -32,7 +27,7 @@ const LaunchScreen = ({ navigation }) => {
   
     setTimeout(() => {
       navigation.navigate("Starting Page");
-    }, 3000);
+    }, 4000);
   }, []);
   
 
