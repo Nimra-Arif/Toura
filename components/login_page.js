@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import {
+ import {
   StyleSheet,
   Text,
   View,
@@ -12,13 +11,13 @@ import {
   Platform,
 } from "react-native";
 import * as Font from "expo-font";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "./config.jsx";
 import { query, where, getDocs, deleteDoc } from "firebase/firestore";
+export let exportedId = "";
+
 async function loadFonts() {
   Font.loadAsync({
     Podkova: require("../assets/fonts/Podkova.ttf"),
@@ -30,11 +29,9 @@ async function loadFonts() {
 export default function Login({ navigation }) {
   const [email, onchangeemail] = useState("");
   const [password, onchangepassword] = useState("");
-  const [username, onchangeusername] = useState(null);
   useEffect(() => {
-   onchangeemail("");
+    onchangeemail("");
     onchangepassword("");
-
   }, []);
 
   loadFonts();
@@ -45,10 +42,11 @@ export default function Login({ navigation }) {
     } else {
       const q = query(collection(db, "users"), where("email", "==", email));
       getDocs(q).then((querySnapshot) => {
-       
         querySnapshot.forEach((doc) => {
           if (doc.data().password === password) {
-            onchangeusername(doc.data().username);
+            exportedId = doc;
+            console.log(exportedId.data().username);
+            console.log(doc.id);
             navigation.navigate("MainPage");
           } else {
             alert("Invalid email or password");
@@ -56,9 +54,8 @@ export default function Login({ navigation }) {
         });
       });
     }
-    console.log(email, password);
   }
- 
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : { height: 10 }}
@@ -108,9 +105,6 @@ export default function Login({ navigation }) {
           </View>
 
           <View style={styles.icon_style}>
-           
-            {/* {username && <Text>Selected Option:{username}</Text>} */}
-          
             <Pressable onPress={loginuser}>
               <Ionicons name="arrow-forward-circle" size={40} color="white" />
             </Pressable>

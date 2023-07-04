@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
@@ -18,6 +17,7 @@ import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { collection, addDoc, setDoc,doc } from "firebase/firestore";
 import { db } from "./config.jsx";
+
 
 async function loadFonts() {
   Font.loadAsync({
@@ -43,6 +43,7 @@ export default function SignUp1({ navigation }) {
    }
     else{
       console.log("create user");
+    
       addDoc(collection(db, "users"), {
         username: username,
         email: email,
@@ -55,7 +56,7 @@ export default function SignUp1({ navigation }) {
           onchangeusername("");
           onchangepassword("");
           onchangegender("");
-          navigation.navigate("MainPage");
+          navigation.navigate("Login");
         })
         .catch((error) => {
           console.error("Error writing document: ", error);
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
     flexDirection: "column-reverse",
     paddingLeft: "1%",
     // justifyContent: "center",
-    paddingTop: 40,
+    paddingTop: 30,
   },
   container2: {
     flex: 0.8,

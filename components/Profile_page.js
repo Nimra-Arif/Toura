@@ -12,25 +12,29 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
+import { exportedId } from "./login_page";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc } from "firebase/firestore";
+import { db } from "./config.jsx";
 
+export let username = "";
 async function loadFonts() {
   Font.loadAsync({
-   'Podkova': require("../assets/fonts/Podkova.ttf"),
-   "Playball": require("../assets/fonts/Playball.ttf"),
-   // Add other custom fonts here if needed
- });
+    Podkova: require("../assets/fonts/Podkova.ttf"),
+    Playball: require("../assets/fonts/Playball.ttf"),
+    // Add other custom fonts here if needed
+  });
 }
 export default function Profile({ navigation }) {
- 
- 
- loadFonts();
+
+  loadFonts();
   return (
     <View style={styles.container}>
       <View
@@ -55,70 +59,43 @@ export default function Profile({ navigation }) {
         >
           <View style={styles.inner_container}>
             <View style={styles.inner_container1}>
-              <Text style={styles.header_text}>Username</Text>
+           
+                <Text style={styles.header_text1}>
+                 {exportedId.data().username}
+                </Text>
             </View>
             <View style={styles.inner_container2}>
-              <Ionicons
-                name="person"
-                size={24}
-                color="white"
-               
-              />
-             <Pressable style={styles.pressable_style}>
-              <Text style={styles.text_style}>Edit Profile</Text>
-              </Pressable>
-            </View>
-            <View style={styles.inner_container2}>
-              <Ionicons
-                name="wallet"
-                size={24}
-                color="white"
-               
-              />
+              <Ionicons name="person" size={24} color="white" />
               <Pressable style={styles.pressable_style}>
-              <Text style={styles.text_style}>Currency</Text>
-              <Ionicons  name="caret-down" size={24} color="white" 
-              />
+                <Text style={styles.text_style}>Edit Profile</Text>
               </Pressable>
             </View>
             <View style={styles.inner_container2}>
-              <Ionicons
-                name="wallet"
-                size={24}
-                color="white"
-               
-              />
+              <Ionicons name="wallet" size={24} color="white" />
               <Pressable style={styles.pressable_style}>
-              <Text style={styles.text_style}>Notifications</Text>
-              <Ionicons  name="toggle" size={29} color="white" 
-              />
+                <Text style={styles.text_style}>Currency</Text>
+                <Ionicons name="caret-down" size={24} color="white" />
               </Pressable>
             </View>
             <View style={styles.inner_container2}>
-              <Ionicons
-                name="chatbox-ellipses"
-                size={24}
-                color="white"
-               
-              />
+              <Ionicons name="wallet" size={24} color="white" />
               <Pressable style={styles.pressable_style}>
-              <Text style={styles.text_style}>Leave feedback</Text>
-             
+                <Text style={styles.text_style}>Notifications</Text>
+                <Ionicons name="toggle" size={29} color="white" />
               </Pressable>
             </View>
             <View style={styles.inner_container2}>
-              <Ionicons
-                name="book"
-                size={24}
-                color="white"
-               
-              />
+              <Ionicons name="chatbox-ellipses" size={24} color="white" />
               <Pressable style={styles.pressable_style}>
-              <Text style={styles.text_style}>Privacy Policy </Text>
-             
+                <Text style={styles.text_style}>Leave feedback</Text>
               </Pressable>
             </View>
-            
+            <View style={styles.inner_container2}>
+              <Ionicons name="book" size={24} color="white" />
+              <Pressable style={styles.pressable_style}>
+                <Text style={styles.text_style}>Privacy Policy </Text>
+              </Pressable>
+            </View>
           </View>
         </ImageBackground>
       </View>
@@ -152,6 +129,13 @@ const styles = StyleSheet.create({
     fontFamily: "Podkova",
     marginLeft: 10,
   },
+  header_text1: {
+    color: "white",
+    fontSize: 33,
+    // fontWeight: "bold",
+    fontFamily: "Podkova",
+    marginLeft: 10,
+  },
   large_container: {
     flex: 1,
     marginTop: 90,
@@ -172,7 +156,7 @@ const styles = StyleSheet.create({
   inner_container1: {
     justifyContent: "center",
     alignItems: "center",
-    margin: 70,
+    margin: 60,
   },
   inner_container2: {
     width: "60%",
@@ -185,7 +169,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     // justifyContent: "center",
     alignItems: "center",
- 
   },
   text_style: {
     color: "white",
@@ -195,12 +178,10 @@ const styles = StyleSheet.create({
     fontFamily: "Podkova",
     // marginRight: 100,
   },
- 
-  pressable_style:{
-    flexDirection:"row",justifyContent:"space-between",
-    width:"100%"
-            
-            
+
+  pressable_style: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
-  
 });

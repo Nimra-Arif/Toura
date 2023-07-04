@@ -19,7 +19,6 @@ import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
-import WelcomePage from "./welcome_page";
 async function loadFonts() {
   Font.loadAsync({
    'Podkova': require("../assets/fonts/Podkova.ttf"),

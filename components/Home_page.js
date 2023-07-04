@@ -12,7 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -24,58 +24,50 @@ import WelcomePage from "./welcome_page";
 import Activities from "./page_1";
 import SecondPage from "./page_2";
 
-
 async function loadFonts() {
   Font.loadAsync({
-   'Podkova': require("../assets/fonts/Podkova.ttf"),
-   "Playball": require("../assets/fonts/Playball.ttf"),
-   // Add other custom fonts here if needed
- });
+    Podkova: require("../assets/fonts/Podkova.ttf"),
+    Playball: require("../assets/fonts/Playball.ttf"),
+    // Add other custom fonts here if needed
+  });
 }
 export default function Home({ navigation }) {
   const Stack = createStackNavigator();
-  
- 
- loadFonts();
+
+  loadFonts();
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName="Starting Page">
         <Stack.Screen
           name="WelcomePage"
           component={WelcomePage}
-          options={{ headerShown: false,
-            fontFamily: "Playball", 
-          }}
+          options={{ headerShown: false, fontFamily: "Playball" }}
         />
         <Stack.Screen
           name="Search"
           component={SearchPage}
-               
           options={{
             headerStyle: {
               backgroundColor: "#01877E",
               height: 80,
-           
             },
             headerTitleStyle: {
-              fontFamily: "Podkova", 
+              fontFamily: "Podkova",
               fontSize: 25,
-              },
+            },
           }}
         />
         <Stack.Screen
           name="Activities"
           component={Activities}
-          
           options={{
             headerStyle: {
               backgroundColor: "#01877E",
               height: 80,
-             
             },
-           headerTitleStyle: {
-            fontFamily: "Podkova", 
-            fontSize: 25,
+            headerTitleStyle: {
+              fontFamily: "Podkova",
+              fontSize: 25,
             },
           }}
         />
