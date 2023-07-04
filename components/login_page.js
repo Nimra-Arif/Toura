@@ -105,8 +105,8 @@ export default function Login({ navigation }) {
             
    
         
-          <View>
-            <Pressable style={styles.icon_style}
+          <View style={styles.icon_style}>
+            <Pressable 
               onPress={loginuser}
             >
               <Ionicons name="arrow-forward-circle" size={40} color="white" />

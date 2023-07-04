@@ -135,12 +135,14 @@ export default function SignUp1({ navigation }) {
           
         </View>
       
-        <Pressable style={styles.icon_style}
+      <View  style={styles.icon_container_style}>
+      <Pressable  style={styles.pressable_style}
           onPress={createuser}
           >
               <Text style={styles.normal_text2}>Get Started</Text>
               <Ionicons name="arrow-forward-circle" size={40} color="white" />
             </Pressable>
+      </View>
              
       </ImageBackground>
     </KeyboardAvoidingView>
@@ -214,8 +216,8 @@ const styles = StyleSheet.create({
    paddingRight:"5%",
     paddingTop: "4%",
   },
-  icon_style: {
-    paddingTop: 80,
+  icon_container_style: {
+    paddingTop: 55,
     paddingLeft: "50%",
 flexDirection:"row",
     paddingRight: "5%",
@@ -234,5 +236,7 @@ flexDirection:"row",
     backgroundColor: "black",
     justifyContent: "center",
   },
-});
+  pressable_style:{
+    flexDirection: "row",
+  },});
 
