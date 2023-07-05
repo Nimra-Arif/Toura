@@ -17,7 +17,7 @@ import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "./config.jsx";
 import { query, where, getDocs, deleteDoc } from "firebase/firestore";
 import { TouraProvider, TouraContext } from "../Global/TouraContext";
-export let exportedId = "";
+
 
 async function loadFonts() {
   Font.loadAsync({
@@ -28,7 +28,7 @@ async function loadFonts() {
 }
 
 export default function Login({ navigation }) {
-  const { userId, setUserId } = useContext(TouraContext);
+  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace }= useContext(TouraContext);
 
   const [email, onchangeemail] = useState("");
   const [password, onchangepassword] = useState("");
@@ -47,12 +47,9 @@ export default function Login({ navigation }) {
       getDocs(q).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           if (doc.data().password === password) {
-            setUserId(doc.id);
 
-            exportedId = doc;
-            setUserId(doc.id);
+            setUserId(doc);
             console.log(userId);
-            console.log(doc.id);
             console.log(doc.id);
             navigation.navigate("MainPage");
           } else {

@@ -12,36 +12,49 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
+
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { query, where, getDocs, deleteDoc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
+import { useState, useEffect, useContext } from "react";
 
 async function loadFonts() {
   Font.loadAsync({
-   'Podkova': require("../assets/fonts/Podkova.ttf"),
-   "Playball": require("../assets/fonts/Playball.ttf"),
-   // Add other custom fonts here if needed
- });
+    Podkova: require("../assets/fonts/Podkova.ttf"),
+    Playball: require("../assets/fonts/Playball.ttf"),
+    // Add other custom fonts here if needed
+  });
 }
 
+
+
 export default function SearchPage({ navigation }) {
-  const [tosearch, onchangetosearch] = useState("");
- 
- loadFonts();
+  
+  let [tosearch, onchangetosearch] = useState("");
+  const { userId, setUserId, places, setplaces } = useContext(TouraContext);
+  loadFonts();
+  
+  function search_next_button() {
+    console.log("search next button pressed");
+    //  onchangetosearch(tosearch.toLowerCase().trim());
+    tosearch = tosearch.toLowerCase().trim();
+    onchangetosearch(tosearch);
 
- function search_next_button() {
-  navigation.navigate("Activities");
-  console.log("search next button pressed");
-  console.log(tosearch);
+    console.log("matchplace function called");
+    console.log(tosearch);
+    setplaces([]);
+    const q = query(
+      collection(db, "place"),
 
-    const q = query(collection(db, "place"), where("place_name", "==", tosearch));
+      where("place_name", "==", tosearch)
+    );
     const querySnapshot = getDocs(q);
     querySnapshot.then((doc) => {
       if (doc.empty) {
@@ -49,15 +62,37 @@ export default function SearchPage({ navigation }) {
       } else {
         doc.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().place_name);
+          places.push(doc.data());
         });
       }
-    
     });
-}
-  // function page1button() {
-  
-  //   navigation.navigate("SecondPage");
    
+    setplaces(places);
+    // console.log(places);
+    // console.log("places pasted");
+
+
+
+    navigation.navigate("Activities");
+  }
+
+  // async function fetch() {
+  //   const q = query(collection(db, "user"));
+
+  //   const querySnapshot = await getDocs(q);
+
+  //   const usersData = [];
+  //   querySnapshot.forEach((doc) => {
+
+  //     usersData.push(doc.data());
+  //   });
+
+  //   setUsers(usersData);
+  // }
+  // function page1button() {
+
+  //   navigation.navigate("SecondPage");
+
   //   const q = query(collection(db, "place"), where("place_name", "==", searchplace));
   //   const querySnapshot = getDocs(q);
   //   querySnapshot.then((doc) => {
@@ -68,17 +103,14 @@ export default function SearchPage({ navigation }) {
   //         console.log(doc.id, " => ", doc.data().place_name);
   //       });
   //     }
-    
+
   //   });
   // }
-
 
   return (
     <ScrollView>
       <SafeAreaView>
-     
         <View style={{ paddingTop: 10 }}>
-        
           <Text style={styles.text_style2}>Where do you want to go?</Text>
         </View>
         <View style={styles.search_style}>
@@ -91,11 +123,10 @@ export default function SearchPage({ navigation }) {
             style={styles.input_style}
             placeholderTextColor="#Ebe8"
             clearButtonMode="always"
-           
           ></TextInput>
 
           <Pressable onPress={search_next_button}>
-            <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
+            <Ionicons name="search" size={25} color="#01877E" />
           </Pressable>
         </View>
         <View>
@@ -213,7 +244,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
- 
+
   text_style: {
     fontSize: 23,
     // fontWeight: "bold",
@@ -347,11 +378,9 @@ const styles = StyleSheet.create({
     fontFamily: "Podkova",
   },
   heart_icon_style: {
-    
-      position: "absolute",
-      top: 10,
-      right: 10,
-      opacity: 0.7,
-    
+    position: "absolute",
+    top: 10,
+    right: 10,
+    opacity: 0.7,
   },
 });

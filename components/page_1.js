@@ -11,18 +11,21 @@ import {
   SafeAreaView,
   Modal,
   ViewPropsAndroid,
+  FlatList,
 } from "react-native";
 import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 import SearchPage from "./search_page";
+
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { query, where, getDocs, deleteDoc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
+import { useState, useEffect, useContext } from "react";
 
 async function loadFonts() {
   Font.loadAsync({
@@ -33,6 +36,7 @@ async function loadFonts() {
 }
 
 export default function Activities({ navigation }) {
+  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace }= useContext(TouraContext);
   // let searchplace = "Fairy Meadows";
   const [tosearch, onchangetosearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
@@ -59,47 +63,21 @@ export default function Activities({ navigation }) {
     toggleModal();
   };
 
-  // function page1button() {
-  
-  //   navigation.navigate("SecondPage");
-   
-  //   const q = query(collection(db, "place"), where("place_name", "==", searchplace));
-  //   const querySnapshot = getDocs(q);
-  //   querySnapshot.then((doc) => {
-  //     if (doc.empty) {
-  //       console.log("No such document!");
-  //     } else {
-  //       doc.forEach((doc) => {
-  //         console.log(doc.id, " => ", doc.data().place_name);
-  //       });
-  //     }
-    
-  //   });
-  // }
+  function selectActivity(item) {
+
+
+    setselectedplace(item.item);
+    console.log("selected place is");
+    console.log(item);
+    console.log(item.item.departure_spot);
+    navigation.navigate("SecondPage");
+  }
 
   return (
-    <ScrollView>
+    <View>
       <SafeAreaView>
-        <View style={{ paddingTop: 10 }}>
-          <Text style={styles.text_style2}>Where do you want to go?</Text>
-        </View>
-        <View style={styles.search_style}>
-          <TextInput
-            value={tosearch}
-            placeholder="Search Place"
-            onChangeText={(tosearch) => {
-              onchangetosearch(tosearch);
-            }}
-            style={styles.input_style}
-            placeholderTextColor="#Ebe8"
-            clearButtonMode="always"
-           
-          ></TextInput>
+       
 
-          <Pressable onPress={()=> navigation.navigate("SecondPage")}>
-            <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
-          </Pressable>
-        </View>
         <View style={styles.container2}>
           <Text style={styles.text_style}>Top Activities</Text>
           <Pressable style={{ flexDirection: "row" }} onPress={toggleModal}>
@@ -112,90 +90,102 @@ export default function Activities({ navigation }) {
             </View>
           </Pressable>
         </View>
-        <Modal
-          visible={modalVisible}
-          transparent={true}
-          animationType="fade"
-          onRequestClose={toggleModal}
-        >
-          <View style={styles.modalOverlay} />
-          <View style={styles.modalContent}>
-            {/* Render the options from the array */}
-            {options.map((option) => (
-              <Pressable
-                key={option.option}
-                style={styles.option}
-                onPress={() => handleOptionPress(option.value)}
-              >
-                <Text style={styles.option_text}>{option.option}</Text>
-              </Pressable>
-            ))}
-          </View>
-        </Modal>
+       
         {/* {selectedOption && <Text>Selected Option:{selectedOption}</Text>} */}
-        <ScrollView showsHorizontalScrollIndicator={true}>
-          <View style={styles.button_container}>
-            <Pressable style={styles.button_style}>
+ <FlatList style={{marginBottom:100}}
+          data={places}
+          indicatorStyle="black"
+          renderItem={({ item }) => (
+            <View style={styles.button_container}>
+            <Pressable style={styles.button_style}
+            onPress={() => selectActivity({item})}
+            >
               <View style={styles.small_containers}>
                 <ImageBackground
-                  source={require("../assets/Nangaparbat_fairymedows.jpeg")}
+                  source={require("../assets/topsearch_2.jpeg")}
                   style={styles.image_style}
                 >
                   <Ionicons
                     name="heart-outline"
                     size={25}
                     color="red"
-                    style={{
-                      position: "absolute",
-                      top: 10,
-                      right: 10,
-                      opacity: 0.7,
-                    }}
+                    style={styles.icon_style}
                   />
                 </ImageBackground>
               </View>
               <View style={styles.small_containers}>
                 <Text style={styles.norm_text1}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                 From {item.departure_spot} : {item.place_name} {"\n"} {item.duration}-days Tour
                 </Text>
-                <Text style={styles.norm_text2}>Lorem ipsum</Text>
+                <Text style={styles.norm_text2}>Rating {item.rating}</Text>
                 <Text style={styles.norm_text3}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                 From Rs.{item.price} per person
                 </Text>
               </View>
             </Pressable>
-          </View>
-          <View style={styles.button_container}>
-            <Pressable style={styles.button_style}>
-              <View style={styles.small_containers}>
-                <ImageBackground
-                  source={require("../assets/topsearch_1.jpeg")}
-                  style={styles.image_style}
-                >
-                  <Ionicons
-                    name="heart-outline"
-                    size={25}
-                    color="red"
-                    style={{
-                      position: "absolute",
-                      top: 10,
-                      right: 10,
-                      opacity: 0.7,
-                    }}
-                  />
-                </ImageBackground>
-              </View>
-              <View style={styles.small_containers}>
-                <Text style={styles.norm_text1}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                </Text>
-                <Text style={styles.norm_text2}>Lorem ipsum</Text>
-                <Text style={styles.norm_text3}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                </Text>
-              </View>
+            <Modal
+        
+        visible={modalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={toggleModal}
+      >
+        <View style={styles.modalOverlay} />
+        <View style={styles.modalContent}>
+          {/* Render the options from the array */}
+          {options.map((option) => (
+            <Pressable
+              key={option.option}
+              style={styles.option}
+              onPress={() => handleOptionPress(option.value)}
+            >
+              <Text style={styles.option_text}>{option.option}</Text>
             </Pressable>
+          ))}
+        </View>
+      </Modal>
           </View>
+          )}
+        />
+   
+
+
+        {/* {true && (
+        <FlatList
+          data={places}
+          indicatorStyle="black"
+          renderItem={({ item }) => (
+            <View style={styles.container1}>
+              <View style={{paddingRight:20}}>
+                <Text style={styles.text_style3}>{item.username}</Text>
+                <Text style={styles.text_style3}>{item.email}</Text>
+              </View>
+              <Pressable
+                style={styles.button_style1}
+                onPress={() => edituser({ item })}
+              >
+                <Text>Edit</Text>
+              </Pressable>
+              <Pressable
+                style={styles.button_style1}
+                onPress={() => deleteuser(item.username)}
+              >
+                <Text>Delete</Text>
+              </Pressable>
+            </View>
+          )}
+        />
+      )} */}
+
+
+
+
+
+
+
+        {/* <ScrollView showsHorizontalScrollIndicator={true}>
+        
+       
           <View style={styles.button_container}>
             <Pressable style={styles.button_style}>
               <View style={styles.small_containers}>
@@ -207,12 +197,7 @@ export default function Activities({ navigation }) {
                     name="heart-outline"
                     size={25}
                     color="red"
-                    style={{
-                      position: "absolute",
-                      top: 10,
-                      right: 10,
-                      opacity: 0.7,
-                    }}
+                    style={styles.icon_style}
                   />
                 </ImageBackground>
               </View>
@@ -227,9 +212,9 @@ export default function Activities({ navigation }) {
               </View>
             </Pressable>
           </View>
-        </ScrollView>
+        </ScrollView> */}
       </SafeAreaView>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -276,15 +261,21 @@ const styles = StyleSheet.create({
   small_containers: {
     width: "50%",
     height: 175,
-    borderRadius: 20,
-    margin: 2,
+    // borderColor: "black",
+    // borderRadius: 20,
+   
   },
   image_style: {
-    width: "100%",
-    height: "100%",
-    borderWidth: 1,
-    borderColor: "transparent",
-    borderRadius: 20,
+    margin: 2,
+    width: "95%",
+    height: "95%",
+    borderColor: "black",
+    borderRadius: 50,
+    // borderWidth: 1,
+    // borderColor: "black",
+    // borderRadius: 20,
+
+    // borderRadius: 20,
 
     flexDirection: "column-reverse",
     resizeMode: "contain",
@@ -353,6 +344,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginLeft: 20,
     marginRight: 25,
+    marginTop: 20,
   },
   modalOverlay: {
     flex: 1,
@@ -385,20 +377,49 @@ const styles = StyleSheet.create({
     color: "#01877E",
   },
   norm_text1: {
-    fontSize: 17,
+    fontSize: 20,
     // fontWeight: "bold",
     fontFamily: "Podkova",
     color: "#01877E",
     margin: 0,
   },
   norm_text2: {
-    fontSize: 12,
+    fontSize: 15,
     fontFamily: "Podkova",
     color: "red",
   },
   norm_text3: {
-    fontSize: 14,
+    fontSize: 18,
     fontFamily: "Podkova",
     color: "#01877E",
   },
+  icon_style: {
+    
+      position: "absolute",
+      top: 10,
+      right: 10,
+      opacity: 0.7,
+    
+  },
 });
+
+ {/* <View style={{ paddingTop: 10 }}>
+          <Text style={styles.text_style2}>Where do you want to go?</Text>
+        </View> */}
+        {/* <View style={styles.search_style}>
+          <TextInput
+            value={tosearch}
+            placeholder="Search Place"
+            onChangeText={(tosearch) => {
+              onchangetosearch(tosearch);
+            }}
+            style={styles.input_style}
+            placeholderTextColor="#Ebe8"
+            clearButtonMode="always"
+           
+          ></TextInput>
+
+          <Pressable onPress={()=> navigation.navigate("SecondPage")}>
+            <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
+          </Pressable>
+        </View> */}

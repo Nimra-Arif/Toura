@@ -15,7 +15,11 @@ import {
 import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useState, useEffect } from "react";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
+import { db } from "./config.jsx";
+import { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
@@ -32,8 +36,11 @@ async function loadFonts() {
 }
 export default function SecondPage({ navigation }) {
  
- 
+  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace }= useContext(TouraContext);
  loadFonts();
+//  const handleScrollToHighlights = () => {
+//   ScrollView.scrollTo({ y: 400, animated: true });
+// };
   return (
     <View style={styles.container}>
         <View 
@@ -65,7 +72,7 @@ export default function SecondPage({ navigation }) {
           </ImageBackground>
           <View>
             <Text style={styles.heading_style}>
-              From Islamabad : Fairy Meadows Range 7-Days Tour
+              From {selectedplace.departure_spot} : {selectedplace.place_name}  {"\n"}Range  {selectedplace.duration}-Days Tour
             </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
@@ -81,7 +88,7 @@ export default function SecondPage({ navigation }) {
             </Text>
             <Text
               style={{
-                color: "black",
+                color: "red",
                 fontSize: 15,
                 // fontWeight: "bold",
                 marginBottom: 10,
@@ -89,14 +96,13 @@ export default function SecondPage({ navigation }) {
                 marginTop: 10,
               }}
             >
-              Bedar Travels
+            {selectedplace.activity_provider}
             </Text>
           </View>
 
           <Text style={styles.heading_style}>Description</Text>
           <Text style={styles.norm_text}>
-            Leave Islamabad to see the beautiful Landmarks of Fairy Meadows on
-            the 7-Day tour.
+          {selectedplace.description}
           </Text>
           <View style={{ padding: 2 }}>
             <Text style={styles.heading_style}>About this activity</Text>
@@ -162,7 +168,9 @@ export default function SecondPage({ navigation }) {
           >
             <Text style={styles.heading_style}>Experience</Text>
             <View>
-              <Pressable style={styles.button_style}>
+              <Pressable style={styles.button_style}
+              onPress={() => navigation.navigate("Description")}
+              >
                 <Text style={styles.button_text}>Highlights</Text>
                 <Ionicons
                   name="chevron-forward-circle"
@@ -249,7 +257,7 @@ export default function SecondPage({ navigation }) {
       <View style={styles.footer_style}>
         <Text style={styles.footer_text} numberOfLines={2}>
           From {"\n"}
-          Rs. 30,000 per person
+          Rs.  {selectedplace.price} per person
         </Text>
         <Pressable style={styles.footer_button}>
           <Text style={styles.footer_text}>Book Now</Text>
@@ -258,6 +266,7 @@ export default function SecondPage({ navigation }) {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -303,7 +312,7 @@ const styles = StyleSheet.create({
   },
   image_style: {
     width: 33,
-    height: 35,
+    height: 30,
     marginLeft: 10,
     marginTop: 2,
   },

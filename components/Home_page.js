@@ -23,6 +23,7 @@ import SearchPage from "./search_page";
 import WelcomePage from "./welcome_page";
 import Activities from "./page_1";
 import SecondPage from "./page_2";
+import Description from "./description_page";
 
 async function loadFonts() {
   Font.loadAsync({
@@ -74,6 +75,11 @@ export default function Home({ navigation }) {
         <Stack.Screen
           name="SecondPage"
           component={SecondPage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Description"
+          component={Description}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
