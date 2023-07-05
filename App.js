@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+
 import { StyleSheet, Text, View } from "react-native";
 import StarterPage from "./components/starter_page";
 import { NavigationContainer } from "@react-navigation/native";
@@ -10,9 +10,11 @@ import React, { useEffect } from "react";
 import * as Font from 'expo-font';
 import MainPage from "./components/main_page";
 import LaunchScreen from "./components/landing_page";
+import { TouraProvider ,TouraContext} from "./Global/TouraContext";
+
 
 async function loadFonts() {
-  Font.loadAsync({
+ await Font.loadAsync({
    'Podkova': require('./assets/fonts/Podkova.ttf'),
    "Playball": require('./assets/fonts/Playball.ttf'),
    // Add other custom fonts here if needed
@@ -30,11 +32,12 @@ export default function App() {
     loadFonts();
   }, []);
   return (
-    <NavigationContainer
+   <TouraProvider>
+     <NavigationContainer
     independent={true}
     >
       <Stack.Navigator 
-      initialRouteName="Starting Page"
+      initialRouteName="LaunchScreen"
       screenOptions={
         {headerShown: false}
      
@@ -46,6 +49,7 @@ export default function App() {
         <Stack.Screen name="MainPage" component={MainPage}/>
       </Stack.Navigator>
     </NavigationContainer>
+ </TouraProvider>
   )
 }
 
@@ -54,5 +58,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-// export {loadFonts};

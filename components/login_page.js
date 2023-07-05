@@ -1,4 +1,4 @@
- import {
+import {
   StyleSheet,
   Text,
   View,
@@ -11,11 +11,12 @@
   Platform,
 } from "react-native";
 import * as Font from "expo-font";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "./config.jsx";
 import { query, where, getDocs, deleteDoc } from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
 export let exportedId = "";
 
 async function loadFonts() {
@@ -27,6 +28,8 @@ async function loadFonts() {
 }
 
 export default function Login({ navigation }) {
+  const { userId, setUserId } = useContext(TouraContext);
+
   const [email, onchangeemail] = useState("");
   const [password, onchangepassword] = useState("");
   useEffect(() => {
@@ -44,8 +47,12 @@ export default function Login({ navigation }) {
       getDocs(q).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           if (doc.data().password === password) {
+            setUserId(doc.id);
+
             exportedId = doc;
-            console.log(exportedId.data().username);
+            setUserId(doc.id);
+            console.log(userId);
+            console.log(doc.id);
             console.log(doc.id);
             navigation.navigate("MainPage");
           } else {

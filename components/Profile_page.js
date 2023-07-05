@@ -15,13 +15,14 @@ import {
 import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 import { exportedId } from "./login_page";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { query, where, getDocs, deleteDoc } from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
 
 export let username = "";
@@ -33,7 +34,7 @@ async function loadFonts() {
   });
 }
 export default function Profile({ navigation }) {
-
+  const { userId, setUserId } = useContext(TouraContext);
   loadFonts();
   return (
     <View style={styles.container}>
@@ -59,10 +60,10 @@ export default function Profile({ navigation }) {
         >
           <View style={styles.inner_container}>
             <View style={styles.inner_container1}>
-           
-                <Text style={styles.header_text1}>
-                 {exportedId.data().username}
-                </Text>
+              <Text style={styles.header_text1}>
+                context id:
+                {userId}
+              </Text>
             </View>
             <View style={styles.inner_container2}>
               <Ionicons name="person" size={24} color="white" />

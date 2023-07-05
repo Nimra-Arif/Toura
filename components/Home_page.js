@@ -37,7 +37,7 @@ export default function Home({ navigation }) {
   loadFonts();
   return (
     <NavigationContainer independent={true}>
-      <Stack.Navigator initialRouteName="Starting Page">
+      <Stack.Navigator initialRouteName="WelcomePage">
         <Stack.Screen
           name="WelcomePage"
           component={WelcomePage}

@@ -39,7 +39,7 @@ export default function MainPage({ navigation }) {
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator
-        initialRouteName="Profile"
+        initialRouteName="Home"
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;

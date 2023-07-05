@@ -19,6 +19,10 @@ import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc } from "firebase/firestore";
+import { db } from "./config.jsx";
+
 async function loadFonts() {
   Font.loadAsync({
    'Podkova': require("../assets/fonts/Podkova.ttf"),
@@ -31,6 +35,44 @@ export default function SearchPage({ navigation }) {
   const [tosearch, onchangetosearch] = useState("");
  
  loadFonts();
+
+ function search_next_button() {
+  navigation.navigate("Activities");
+  console.log("search next button pressed");
+  console.log(tosearch);
+
+    const q = query(collection(db, "place"), where("place_name", "==", tosearch));
+    const querySnapshot = getDocs(q);
+    querySnapshot.then((doc) => {
+      if (doc.empty) {
+        console.log("No such document!");
+      } else {
+        doc.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().place_name);
+        });
+      }
+    
+    });
+}
+  // function page1button() {
+  
+  //   navigation.navigate("SecondPage");
+   
+  //   const q = query(collection(db, "place"), where("place_name", "==", searchplace));
+  //   const querySnapshot = getDocs(q);
+  //   querySnapshot.then((doc) => {
+  //     if (doc.empty) {
+  //       console.log("No such document!");
+  //     } else {
+  //       doc.forEach((doc) => {
+  //         console.log(doc.id, " => ", doc.data().place_name);
+  //       });
+  //     }
+    
+  //   });
+  // }
+
+
   return (
     <ScrollView>
       <SafeAreaView>
@@ -49,10 +91,10 @@ export default function SearchPage({ navigation }) {
             style={styles.input_style}
             placeholderTextColor="#Ebe8"
             clearButtonMode="always"
-            secureTextEntry={true}
+           
           ></TextInput>
 
-          <Pressable onPress={() => navigation.navigate("Activities")}>
+          <Pressable onPress={search_next_button}>
             <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
           </Pressable>
         </View>

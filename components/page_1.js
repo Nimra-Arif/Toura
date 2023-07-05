@@ -12,7 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useState, useEffect } from "react";
@@ -20,26 +20,29 @@ import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 import SearchPage from "./search_page";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc } from "firebase/firestore";
+import { db } from "./config.jsx";
 
 async function loadFonts() {
   Font.loadAsync({
-   'Podkova': require("../assets/fonts/Podkova.ttf"),
-   "Playball": require("../assets/fonts/Playball.ttf"),
-   // Add other custom fonts here if needed
- });
+    Podkova: require("../assets/fonts/Podkova.ttf"),
+    Playball: require("../assets/fonts/Playball.ttf"),
+    // Add other custom fonts here if needed
+  });
 }
+
 export default function Activities({ navigation }) {
+  // let searchplace = "Fairy Meadows";
   const [tosearch, onchangetosearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
-
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
-  
- 
- loadFonts();
+
+  loadFonts();
 
   const options = [
     { option: "Recommended", value: "Recommended" },
@@ -56,10 +59,27 @@ export default function Activities({ navigation }) {
     toggleModal();
   };
 
+  // function page1button() {
+  
+  //   navigation.navigate("SecondPage");
+   
+  //   const q = query(collection(db, "place"), where("place_name", "==", searchplace));
+  //   const querySnapshot = getDocs(q);
+  //   querySnapshot.then((doc) => {
+  //     if (doc.empty) {
+  //       console.log("No such document!");
+  //     } else {
+  //       doc.forEach((doc) => {
+  //         console.log(doc.id, " => ", doc.data().place_name);
+  //       });
+  //     }
+    
+  //   });
+  // }
+
   return (
     <ScrollView>
       <SafeAreaView>
-      
         <View style={{ paddingTop: 10 }}>
           <Text style={styles.text_style2}>Where do you want to go?</Text>
         </View>
@@ -73,10 +93,10 @@ export default function Activities({ navigation }) {
             style={styles.input_style}
             placeholderTextColor="#Ebe8"
             clearButtonMode="always"
-            secureTextEntry={true}
+           
           ></TextInput>
 
-          <Pressable onPress={() => navigation.navigate("SecondPage")}>
+          <Pressable onPress={()=> navigation.navigate("SecondPage")}>
             <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
           </Pressable>
         </View>
@@ -138,9 +158,7 @@ export default function Activities({ navigation }) {
                 <Text style={styles.norm_text1}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 </Text>
-                <Text style={styles.norm_text2}>
-                  Lorem ipsum
-                </Text>
+                <Text style={styles.norm_text2}>Lorem ipsum</Text>
                 <Text style={styles.norm_text3}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 </Text>
@@ -171,9 +189,7 @@ export default function Activities({ navigation }) {
                 <Text style={styles.norm_text1}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 </Text>
-                <Text style={styles.norm_text2}>
-                  Lorem ipsum 
-                </Text>
+                <Text style={styles.norm_text2}>Lorem ipsum</Text>
                 <Text style={styles.norm_text3}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
                 </Text>
@@ -232,12 +248,12 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 0.7,
     paddingTop: 30,
-    fontFamily: "Podkova", 
+    fontFamily: "Podkova",
   },
   text_style: {
     fontSize: 20,
     // fontWeight: "bold",
-    fontFamily: "Podkova", 
+    fontFamily: "Podkova",
     color: "#01877E",
     textAlign: "center",
     justifyContent: "center",
@@ -323,14 +339,14 @@ const styles = StyleSheet.create({
     color: "#01877E",
     fontSize: 17,
     // fontWeight: "bold",
-    fontFamily: "Podkova", 
+    fontFamily: "Podkova",
     marginRight: 15,
   },
 
   input_style: {
     fontSize: 18,
     flexDirection: "row",
-    fontFamily: "Podkova", 
+    fontFamily: "Podkova",
   },
   container2: {
     flexDirection: "row",
@@ -365,24 +381,24 @@ const styles = StyleSheet.create({
   option_text: {
     fontSize: 17,
     // fontWeight: "bold",
-    fontFamily: "Podkova", 
+    fontFamily: "Podkova",
     color: "#01877E",
   },
   norm_text1: {
     fontSize: 17,
     // fontWeight: "bold",
-    fontFamily: "Podkova", 
+    fontFamily: "Podkova",
     color: "#01877E",
-    margin:0,
+    margin: 0,
   },
   norm_text2: {
     fontSize: 12,
-    fontFamily: "Podkova", 
+    fontFamily: "Podkova",
     color: "red",
   },
   norm_text3: {
     fontSize: 14,
-    fontFamily: "Podkova", 
+    fontFamily: "Podkova",
     color: "#01877E",
   },
 });
