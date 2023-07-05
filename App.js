@@ -26,33 +26,33 @@ const Stack = createStackNavigator();
 
 export default function App() {
 
-  useEffect(() => {
-    loadFonts();
-  }, []);
-  return (
-    <NavigationContainer
-    independent={true}
-    >
-      <Stack.Navigator 
-      initialRouteName="LaunchScreen"
-      screenOptions={
-        {headerShown: false}
+//   useEffect(() => {
+//     loadFonts();
+//   }, []);
+//   return (
+//     <NavigationContainer
+//     independent={true}
+//     >
+//       <Stack.Navigator 
+//       initialRouteName="LaunchScreen"
+//       screenOptions={
+//         {headerShown: false}
      
-      }>
-        <Stack.Screen name="LaunchScreen" component={LaunchScreen} />
-        <Stack.Screen name="Starting Page" component={StarterPage} />
-        <Stack.Screen name="Login" component={Login}/>
-        <Stack.Screen name="SignUp1" component={SignUp1}/>
-        <Stack.Screen name="MainPage" component={MainPage}/>
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
-}
+//       }>
+//         <Stack.Screen name="LaunchScreen" component={LaunchScreen} />
+//         <Stack.Screen name="Starting Page" component={StarterPage} />
+//         <Stack.Screen name="Login" component={Login}/>
+//         <Stack.Screen name="SignUp1" component={SignUp1}/>
+//         <Stack.Screen name="MainPage" component={MainPage}/>
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   )
+// }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//   },
+// });
 
 // export {loadFonts};
