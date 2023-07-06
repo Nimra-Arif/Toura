@@ -35,77 +35,67 @@ async function loadFonts() {
 
 
 
+
 export default function SearchPage({ navigation }) {
-  
   let [tosearch, onchangetosearch] = useState("");
   const { userId, setUserId, places, setplaces } = useContext(TouraContext);
   loadFonts();
+
   
   function search_next_button() {
-    console.log("search next button pressed");
+    // console.log("search next button pressed");
+    // //  onchangetosearch(tosearch.toLowerCase().trim());
+    // tosearch = tosearch.toLowerCase().trim();
+    // onchangetosearch(tosearch);
+
+    // console.log("matchplace function called");
+    // console.log(tosearch);
+
+    // const q = query(
+    //   collection(db, "place"),
+
+    //   where("place_name", "==", tosearch)
+    // );
+    // const querySnapshot = getDocs(q);
+    // querySnapshot.then((doc) => {
+    //   if (doc.empty) {
+    //     console.log("No such document!");
+    //   } else {
+    //     doc.forEach((doc) => {
+    //       console.log(doc.id, " => ", doc.data().place_name);
+    //       places.push(doc.data());
+    //     });
+    //   }
+    // });
+    // setplaces([]);
+    // setplaces(places);
+    // // console.log(places);
+    // // console.log("places pasted");
+
+    // navigation.navigate("Activities");
+
+
+       console.log("search next button pressed");
     //  onchangetosearch(tosearch.toLowerCase().trim());
     tosearch = tosearch.toLowerCase().trim();
     onchangetosearch(tosearch);
-
-    console.log("matchplace function called");
-    console.log(tosearch);
-    setplaces([]);
-    const q = query(
-      collection(db, "place"),
-
-      where("place_name", "==", tosearch)
-    );
-    const querySnapshot = getDocs(q);
-    querySnapshot.then((doc) => {
-      if (doc.empty) {
-        console.log("No such document!");
-      } else {
-        doc.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().place_name);
-          places.push(doc.data());
-        });
-      }
-    });
-   
-    setplaces(places);
-    // console.log(places);
-    // console.log("places pasted");
-
-
-
-    navigation.navigate("Activities");
+    const q = query(collection(db, "place"), where("place_name", "==", tosearch));
+  const querySnapshot = getDocs(q);
+  querySnapshot.then((doc) => {
+    if (doc.empty) {
+      console.log("No such document!");
+    } else {
+      const newPlaces = [];
+      doc.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data().place_name);
+        newPlaces.push(doc.data());
+      });
+      setplaces(newPlaces);
+      navigation.navigate("Activities");
+    }
+  });
+ 
   }
-
-  // async function fetch() {
-  //   const q = query(collection(db, "user"));
-
-  //   const querySnapshot = await getDocs(q);
-
-  //   const usersData = [];
-  //   querySnapshot.forEach((doc) => {
-
-  //     usersData.push(doc.data());
-  //   });
-
-  //   setUsers(usersData);
-  // }
-  // function page1button() {
-
-  //   navigation.navigate("SecondPage");
-
-  //   const q = query(collection(db, "place"), where("place_name", "==", searchplace));
-  //   const querySnapshot = getDocs(q);
-  //   querySnapshot.then((doc) => {
-  //     if (doc.empty) {
-  //       console.log("No such document!");
-  //     } else {
-  //       doc.forEach((doc) => {
-  //         console.log(doc.id, " => ", doc.data().place_name);
-  //       });
-  //     }
-
-  //   });
-  // }
 
   return (
     <ScrollView>
