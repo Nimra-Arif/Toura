@@ -32,6 +32,10 @@ export default function Login({ navigation }) {
 
   const [email, onchangeemail] = useState("");
   const [password, onchangepassword] = useState("");
+  const [secureTextEntry, setsecureTextEntry] = useState(true);
+
+  let [iconName, seticonName] = useState("eye");
+
   useEffect(() => {
     onchangeemail("");
     onchangepassword("");
@@ -59,7 +63,19 @@ export default function Login({ navigation }) {
       });
     }
   }
-
+  async function showPassword() {
+    if (iconName === "eye") {
+      console.log("show password");
+      iconName = "eye-off";
+      seticonName("eye-off");
+      setsecureTextEntry(false);
+    } else {
+      console.log("show password2");
+      iconName = "eye";
+      seticonName("eye");
+      setsecureTextEntry(true);
+    }
+  }
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : { height: 10 }}
@@ -94,17 +110,28 @@ export default function Login({ navigation }) {
               placeholderTextColor="#Ebe8"
               clearButtonMode="always"
             ></TextInput>
-            <TextInput
-              value={password}
-              placeholder="Password"
-              onChangeText={(password) => {
-                onchangepassword(password);
-              }}
-              style={styles.input_style}
-              placeholderTextColor="#Ebe8"
-              clearButtonMode="always"
-              secureTextEntry={true}
-            ></TextInput>
+            <View style={styles.Pressable_container}>
+              <TextInput
+                value={password}
+                placeholder="Password"
+                onChangeText={(password) => {
+                  onchangepassword(password);
+                }}
+                style={styles.input_style1}
+                placeholderTextColor="#Ebe8"
+                secureTextEntry={secureTextEntry}
+                clearButtonMode="always"
+              ></TextInput>
+              <Pressable onPress={showPassword}>
+                <Ionicons
+                  name={iconName}
+                  size={23}
+                  color="#ebe8"
+                  margin={9}
+                  marginRight={25}
+                />
+              </Pressable>
+            </View>
             <Text style={styles.normal_text}>Forgot Password?</Text>
           </View>
 
@@ -189,5 +216,33 @@ const styles = StyleSheet.create({
 
     paddingLeft: 10,
     paddingTop: "10%",
+  },
+  input_style1: {
+    height: 40,
+    width: "70%",
+    color: "white",
+    borderWidth: 1,
+    // padding: 10,
+    fontSize: 18,
+    borderColor: "transparent",
+    // borderBottomColor: "white",
+    // marginTop: 13,
+    fontFamily: "Podkova",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  Pressable_container: {
+    height: 40,
+    width: "70%",
+    color: "white",
+    borderWidth: 1,
+    // padding: 10,
+    fontSize: 22,
+    borderColor: "transparent",
+    borderBottomColor: "white",
+    marginTop: 13,
+    fontFamily: "Podkova",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
