@@ -34,7 +34,7 @@ export default function Login({ navigation }) {
   const [password, onchangepassword] = useState("");
   const [secureTextEntry, setsecureTextEntry] = useState(true);
 
-  let [iconName, seticonName] = useState("eye");
+  let [iconName, seticonName] = useState("eye-off");
 
   useEffect(() => {
     onchangeemail("");
@@ -66,14 +66,14 @@ export default function Login({ navigation }) {
   async function showPassword() {
     if (iconName === "eye") {
    
-      iconName = "eye-off";
+      
       seticonName("eye-off");
-      setsecureTextEntry(false);
+      setsecureTextEntry(true);
     } else {
    
-      iconName = "eye";
+      
       seticonName("eye");
-      setsecureTextEntry(true);
+      setsecureTextEntry(false);
     }
   }
   return (
