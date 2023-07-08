@@ -29,30 +29,15 @@ import Bookings from "./booking_page.js";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 export default function MainPage({ navigation }) {
-  const {
-    userId,
-    setUserId,
-    places,
-    setplaces,
-    selectedplace,
-    setselectedplace,
-    cartedplaces,
-    setcartedplaces,
+  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,
+    cartitems,setcart_items
   } = useContext(TouraContext);
   
-  let [cart_items,setcart_items]=useState(0);
- useEffect(()=>{
-  if(cartedplaces.length>0){
-    cart_items=cartedplaces.length;
-   setcart_items(cart_items);
-   }
-   
+
+ useEffect(() => {
+  setcart_items(cartedplaces.length)
  })
  
- 
-
-
-  cart_items=cartedplaces.length;
   const Tab = createBottomTabNavigator();
   async function loadFonts() {
     Font.loadAsync({
@@ -98,7 +83,7 @@ export default function MainPage({ navigation }) {
 
         <Tab.Screen name="Home" component={Home} headerShown={false} />
         <Tab.Screen name="Cart" component={Cart} 
-        options={{ tabBarBadge: cart_items }} 
+        options={{ tabBarBadge: cartitems }} 
         />
         <Tab.Screen name="Bookings" component={Bookings} />
 

@@ -34,24 +34,26 @@ async function loadFonts() {
   });
 }
 export default function Cart({ navigation }) {
-  const {
-    userId,
-    setUserId,
-    places,
-    setplaces,
-    selectedplace,
-    setselectedplace,
-    cartedplaces,
-    setcartedplaces,
+  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,
+    cartitems,setcart_items
   } = useContext(TouraContext);
 
-  console.log("cartedplaces", cartedplaces);
+  // console.log("cartedplaces", cartedplaces);
+  useEffect(() => {
+    loadFonts();
+    setcartedplaces(cartedplaces);
+    setcart_items(cartedplaces.length);
+   
 
-  loadFonts();
+  });
+
+
  let cart_price = 0;
 
   for (let i = 0; i < cartedplaces.length; i++) {
+  
     cart_price = cart_price + cartedplaces[i].price;
+
   }
 
  function  cartout(item) {

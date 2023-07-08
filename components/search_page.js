@@ -61,8 +61,9 @@ export default function SearchPage({ navigation }) {
           console.log(doc.id, " => ", doc.data().place_name);
           newPlaces.push(doc.data());
         }); 
-        setplaces(newPlaces);
         navigation.navigate("Activities");
+        setplaces(newPlaces);
+        
        
       }
     });

@@ -11,11 +11,17 @@ import {
   SafeAreaView,
   Modal,
   ViewPropsAndroid,
+  FlatList,
 } from "react-native";
 import * as Font from 'expo-font';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useState, useEffect } from "react";
+
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
+import { db } from "./config.jsx";
+import { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
@@ -28,10 +34,23 @@ async function loadFonts() {
  });
 }
 export default function Bookings({ navigation }) {
+  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,
+    cartitems,setcart_items
+  } = useContext(TouraContext);
   const Stack = createStackNavigator();
+  useEffect(() => {
+    loadFonts();
+    setcartedplaces(cartedplaces);
+    setcart_items(cartedplaces.length);
+   
 
- 
- loadFonts();
+  });
+  function  cancelbooking(item) {
+    console.log("item", item.place_name);
+    const updatedCart = cartedplaces.filter((cartItem) => cartItem !== item);
+    setcartedplaces(updatedCart);
+  
+    }
   return (
     <View style={styles.container}>
       <View
@@ -49,102 +68,71 @@ export default function Bookings({ navigation }) {
           Bookings
         </Text>
       </View>
-      <ScrollView style={{ flex: 1 }}>
-        <View style={{ flex: 1, marginTop: 90, marginBottom: 90 }}>
-        <View style={styles.small_container}>
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            ></View>
-            <View style={styles.inner_container1}>
-              <Image
-                source={require("../assets/Nangaparbat_fairymedows.jpeg")}
-                style={styles.image_style}
-              />
-
-              <View style={styles.text_container}>
-                <Text style={styles.text_style2}>
-                  From Islamabad: 7 Days Tour of Fairy Meadows
-                </Text>
-              </View>
-            </View>
-            <View style={styles.inner_container2}>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Ionicons name="calendar" style={styles.icon_style} />
-                <Text style={styles.text_style3}>28 Feb 2024</Text>
-              </View>
-
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Ionicons name="time" style={styles.icon_style} />
-                <Text style={styles.text_style3}>Opening hours: 8:30-9:30</Text>
-              </View>
+     
+      
+      <FlatList
+        style={{ marginTop: 90 ,flex:1}}
+        data={cartedplaces}
+        indicatorStyle="black"
+        renderItem={({ item }) => (
+          <View style={{ flex: 1 }}>
+        
+        
+            <View style={styles.small_container}>
               <View
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
                   justifyContent: "center",
-                  marginTop: 10,
-                }}
-              >
-                <Pressable style={styles.button_style}>
-                  <Text style={styles.text_style}>View Details</Text>
-                </Pressable>
-                <Pressable style={styles.button_style2}>
-                  <Text style={styles.text_style}>Cancel Booking</Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
-          <View style={styles.small_container}>
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            ></View>
-            <View style={styles.inner_container1}>
-              <Image
-                source={require("../assets/topsearch_1.jpeg")}
-                style={styles.image_style}
-              />
-
-              <View style={styles.text_container}>
-                <Text style={styles.text_style2}>
-                  From Islamabad: 7 Days Tour of Fairy Meadows
-                </Text>
-              </View>
-            </View>
-            <View style={styles.inner_container2}>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Ionicons name="calendar" style={styles.icon_style} />
-                <Text style={styles.text_style3}>28 Feb 2024</Text>
-              </View>
-
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Ionicons name="time" style={styles.icon_style} />
-                <Text style={styles.text_style3}>Opening hours: 8:30-9:30</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
                   alignItems: "center",
-                  justifyContent: "center",
-                  marginTop: 10,
                 }}
-              >
-                <Pressable style={styles.button_style}>
-                  <Text style={styles.text_style}>View Details</Text>
-                </Pressable>
-                <Pressable style={styles.button_style2}>
-                  <Text style={styles.text_style}>Cancel Booking</Text>
-                </Pressable>
+              ></View>
+              <View style={styles.inner_container1}>
+                <Image
+                  source={require("../assets/topsearch_1.jpeg")}
+                  style={styles.image_style}
+                />
+  
+                <View style={styles.text_container}>
+                  <Text style={styles.text_style2}>
+                  From {item.departure_spot} :  {"\n"}{item.duration}-days Tour of {item.place_name}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.inner_container2}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Ionicons name="calendar" style={styles.icon_style} />
+                  <Text style={styles.text_style3}>{item.date}</Text>
+                </View>
+  
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Ionicons name="time" style={styles.icon_style} />
+                  <Text style={styles.text_style3}> Opening hours: {item.opening_timings}</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginTop: 10,
+                  }}
+                >
+                  <Pressable style={styles.button_style}>
+                    <Text style={styles.text_style}>View Details</Text>
+                  </Pressable>
+                  <Pressable style={styles.button_style2}
+                  onPress={() => {
+                    cancelbooking(item);
+                  }}
+                  
+                  >
+                    <Text style={styles.text_style}>Cancel Booking</Text>
+                  </Pressable>
+                </View>
               </View>
             </View>
-          </View>
+        
         </View>
-      </ScrollView>
+        )}
+      />
     </View>
   );
 }
@@ -203,15 +191,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   small_container: {
-    margin: 2,
+    margin: 7,
     alignSelf: "center",
     // marginTop: 90,
-    width: "100%",
+    width: "99%",
 
-    padding: 25,
+    padding: 15,
 
     backgroundColor: "#01877e",
-    borderRadius: 10,
+    borderRadius: 20,
   },
 
   text_style: {
@@ -224,7 +212,7 @@ const styles = StyleSheet.create({
   },
   text_style2: {
     color: "white",
-    fontSize: 18,
+    fontSize: 23,
     // fontWeight: "bold",
     margin: 15,
     marginRight: 2,

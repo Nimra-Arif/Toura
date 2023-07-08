@@ -44,7 +44,7 @@ export default function StarterPage({ navigation }) {
           loop={false}
 
           speed={100}
-          delay={100}
+          delay={90}
           
           
           

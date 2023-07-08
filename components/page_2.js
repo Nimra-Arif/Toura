@@ -51,7 +51,7 @@ export default function SecondPage({ navigation }) {
 
     cartedplaces.push(selectedplace);
     setcartedplaces(cartedplaces);
-    console.log(cartedplaces);
+    // console.log(cartedplaces);
    navigation.navigate("Cart");
    
   }
