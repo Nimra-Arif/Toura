@@ -87,18 +87,14 @@ export default function SignUp1({ navigation }) {
   }
   async function showPassword() {
     if (iconName === "eye") {
-      console.log("show password");
-      iconName = "eye-off";
       seticonName("eye-off");
-      setsecureTextEntry(false);
-    } else {
-      console.log("show password2");
-      iconName = "eye";
-      seticonName("eye");
       setsecureTextEntry(true);
+    } else {
+      seticonName("eye");
+      setsecureTextEntry(false);
     }
   }
-
+  
   return (
     <KeyboardAvoidingView
       style={styles.container}
