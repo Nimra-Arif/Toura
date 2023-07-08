@@ -190,7 +190,9 @@ export default function SecondPage({ navigation }) {
                   color="#01877E"
                 />
               </Pressable>
-              <Pressable style={styles.button_style}>
+              <Pressable style={styles.button_style}
+               onPress={() => navigation.navigate("Description")}
+              >
                 <Text style={styles.button_text}>Full description</Text>
                 <Ionicons
                   name="chevron-forward-circle"
@@ -198,7 +200,9 @@ export default function SecondPage({ navigation }) {
                   color="#01877E"
                 />
               </Pressable>
-              <Pressable style={styles.button_style}>
+              <Pressable style={styles.button_style}
+               onPress={() => navigation.navigate("Description")}
+              >
                 <Text style={styles.button_text}>Includes</Text>
                 <Ionicons
                   name="chevron-forward-circle"
@@ -206,7 +210,8 @@ export default function SecondPage({ navigation }) {
                   color="#01877E"
                 />
               </Pressable>
-              <Pressable style={styles.button_style}>
+              <Pressable style={styles.button_style}
+               onPress={() => navigation.navigate("Description")}>
                 <Text style={styles.button_text}>Not Suitable for</Text>
                 <Ionicons
                   name="chevron-forward-circle"
@@ -226,7 +231,9 @@ export default function SecondPage({ navigation }) {
           >
             <Text style={styles.heading_style}>Prepare for the activity</Text>
             <View>
-              <Pressable style={styles.button_style}>
+              <Pressable style={styles.button_style}
+               onPress={() => navigation.navigate("Description")}
+              >
                 <Text style={styles.button_text}>What to bring</Text>
                 <Ionicons
                   name="chevron-forward-circle"
@@ -234,7 +241,9 @@ export default function SecondPage({ navigation }) {
                   color="#01877E"
                 />
               </Pressable>
-              <Pressable style={styles.button_style}>
+              <Pressable style={styles.button_style}
+               onPress={() => navigation.navigate("Description")}
+              >
                 <Text style={styles.button_text}>Know before you go</Text>
                 <Ionicons
                   name="chevron-forward-circle"

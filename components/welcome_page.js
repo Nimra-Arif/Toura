@@ -12,10 +12,15 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useState, useEffect } from "react";
+
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
+import { db } from "./config.jsx";
+import { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
@@ -23,148 +28,213 @@ import SearchPage from "./search_page";
 
 async function loadFonts() {
   Font.loadAsync({
-   'Podkova': require("../assets/fonts/Podkova.ttf"),
-   "Playball": require("../assets/fonts/Playball.ttf"),
-   // Add other custom fonts here if needed
- });
+    Podkova: require("../assets/fonts/Podkova.ttf"),
+    Playball: require("../assets/fonts/Playball.ttf"),
+    // Add other custom fonts here if needed
+  });
 }
 export default function WelcomePage({ navigation }) {
- 
- 
- loadFonts();
+  const {
+    userId,
+    setUserId,
+    places,
+    setplaces,
+    selectedplace,
+    setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+    bookedplaces,
+    setbookedplaces,
+    placetype,
+    setplacetype,
+    cartitems,
+    setcart_items,
+  } = useContext(TouraContext);
+
+  function welcomebutton(type) {
+
+   let placetype = type;
+    setplacetype(placetype);
+    
+    console.log(placetype);
+    navigation.navigate("Search");
+  }
+  loadFonts();
   return (
     <View>
-        <View 
-      style={{
-        backgroundColor: "#01877E",
-        height: 35,
-        position: "absolute",
-        top: 0,
-        width: "100%",
-        zIndex:1
+      <View
+        style={{
+          backgroundColor: "#01877E",
+          height: 35,
+          position: "absolute",
+          top: 0,
+          width: "100%",
+          zIndex: 1,
+        }}
+      ></View>
 
-      }}
-      >
- 
-      </View>
-   
-    <ScrollView>
-      <SafeAreaView>
-    
-        <ImageBackground
-          style={styles.home_image}
-          source={require("../assets/home_page_img.png")}
-        >
-          <Text style={styles.text_style}>Hi, Welcome to Toura</Text>
-        </ImageBackground>
-        <View>
-          <Text style={styles.text_style2}>Top Searches</Text>
-        </View>
-        <ScrollView horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        >
-
-           <View style={styles.small_containers}>
-            <ImageBackground source={require("../assets/topsearch_1.jpeg")}
-              style={styles.image_style}
-              >
-                <Ionicons name="heart" size={25} color="white"    
-                style={{position:"absolute",top:10,right:10,opacity:0.7,
-               
-              }}
-                />
-      <Text style={styles.norm_text}>Fairy Meadows</Text>
-            </ImageBackground>
-          </View>
-          <View style={styles.small_containers}>
-            <ImageBackground source={require("../assets/topsearch_2.jpeg")}
-              style={styles.image_style}
-              >
-                <Ionicons name="heart" size={25} color="white" 
-                style={{position:"absolute",top:10,right:10,opacity:0.7,
-              }}
-                />
-       <Text style={styles.norm_text}>Mushk Pori Top</Text>
-            </ImageBackground>
-          </View>
-          <View style={styles.small_containers}>
-            <ImageBackground source={require("../assets/land_page_toura.jpeg")}
-             style={styles.image_style}>
-              <Ionicons name="heart" size={25} color="white"  
-                style={{position:"absolute",top:10,right:10,opacity:0.7
-              }}
-                />
-             <Text style={styles.norm_text}>Hunza Valley</Text>
-            </ImageBackground>
-          </View>
-           <View style={styles.small_containers}>
-            <ImageBackground source={require("../assets/topsearch_1.jpeg")}
-              style={styles.image_style}
-              >
-                <Ionicons name="heart" size={25} color="white" 
-                style={{position:"absolute",top:10,right:10,opacity:0.7
-              }}
-                />
-      <Text style={styles.norm_text}>Fairy Meadows</Text>
-            </ImageBackground>
-          </View>
-          <View style={styles.small_containers}>
-            <ImageBackground source={require("../assets/topsearch_2.jpeg")}
-              style={styles.image_style}
-              >
-                <Ionicons name="heart" size={25} color="white" 
-                style={{position:"absolute",top:10,right:10,opacity:0.7
-              }}
-                />
-       <Text style={styles.norm_text}>Mushk Pori Top</Text>
-            </ImageBackground>
-          </View>
-          <View style={styles.small_containers}>
-            <ImageBackground source={require("../assets/land_page_toura.jpeg")}
-             style={styles.image_style}>
-              <Ionicons name="heart" size={25} color="white" 
-                style={{position:"absolute",top:10,right:10,opacity:0.7
-              }}
-                />
-             <Text style={styles.norm_text}>Hunza Valley</Text>
-            </ImageBackground>
-          </View>
-          
-        
-        
-        </ScrollView>
-        <View>
-          <Text style={styles.text_style2}>Browse Categories</Text>
-        </View>
-        <View style={styles.button_container}>
-          <Pressable style={styles.button_style}
-          onPress={() => navigation.navigate("Search")}
+      <ScrollView>
+        <SafeAreaView>
+          <ImageBackground
+            style={styles.home_image}
+            source={require("../assets/home_page_img.png")}
           >
-        
-            <Text style={styles.button_text}
-            >Camping</Text>
-               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
-          </Pressable>
-          <Pressable style={styles.button_style}>
-            <Text style={styles.button_text}
-            >Hiking</Text>
-               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
-          </Pressable>
-          <Pressable style={styles.button_style}>
-         
-            <Text style={styles.button_text}
-            >Climbing</Text>
-               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
-          </Pressable>
-          <Pressable style={styles.button_style}>
-         
-            <Text style={styles.button_text}
-            >Forest</Text>
-               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
-          </Pressable>
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+            <Text style={styles.text_style}>Hi, Welcome to Toura</Text>
+          </ImageBackground>
+          <View>
+            <Text style={styles.text_style2}>Top Searches</Text>
+          </View>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={styles.small_containers}>
+              <ImageBackground
+                source={require("../assets/topsearch_1.jpeg")}
+                style={styles.image_style}
+              >
+                <Ionicons
+                  name="heart"
+                  size={25}
+                  color="white"
+                  style={{
+                    position: "absolute",
+                    top: 10,
+                    right: 10,
+                    opacity: 0.7,
+                  }}
+                />
+                <Text style={styles.norm_text}>Fairy Meadows</Text>
+              </ImageBackground>
+            </View>
+            <View style={styles.small_containers}>
+              <ImageBackground
+                source={require("../assets/topsearch_2.jpeg")}
+                style={styles.image_style}
+              >
+                <Ionicons
+                  name="heart"
+                  size={25}
+                  color="white"
+                  style={{
+                    position: "absolute",
+                    top: 10,
+                    right: 10,
+                    opacity: 0.7,
+                  }}
+                />
+                <Text style={styles.norm_text}>Mushk Pori Top</Text>
+              </ImageBackground>
+            </View>
+            <View style={styles.small_containers}>
+              <ImageBackground
+                source={require("../assets/land_page_toura.jpeg")}
+                style={styles.image_style}
+              >
+                <Ionicons
+                  name="heart"
+                  size={25}
+                  color="white"
+                  style={{
+                    position: "absolute",
+                    top: 10,
+                    right: 10,
+                    opacity: 0.7,
+                  }}
+                />
+                <Text style={styles.norm_text}>Hunza Valley</Text>
+              </ImageBackground>
+            </View>
+            <View style={styles.small_containers}>
+              <ImageBackground
+                source={require("../assets/topsearch_1.jpeg")}
+                style={styles.image_style}
+              >
+                <Ionicons
+                  name="heart"
+                  size={25}
+                  color="white"
+                  style={{
+                    position: "absolute",
+                    top: 10,
+                    right: 10,
+                    opacity: 0.7,
+                  }}
+                />
+                <Text style={styles.norm_text}>Fairy Meadows</Text>
+              </ImageBackground>
+            </View>
+            <View style={styles.small_containers}>
+              <ImageBackground
+                source={require("../assets/topsearch_2.jpeg")}
+                style={styles.image_style}
+              >
+                <Ionicons
+                  name="heart"
+                  size={25}
+                  color="white"
+                  style={{
+                    position: "absolute",
+                    top: 10,
+                    right: 10,
+                    opacity: 0.7,
+                  }}
+                />
+                <Text style={styles.norm_text}>Mushk Pori Top</Text>
+              </ImageBackground>
+            </View>
+            <View style={styles.small_containers}>
+              <ImageBackground
+                source={require("../assets/land_page_toura.jpeg")}
+                style={styles.image_style}
+              >
+                <Ionicons
+                  name="heart"
+                  size={25}
+                  color="white"
+                  style={{
+                    position: "absolute",
+                    top: 10,
+                    right: 10,
+                    opacity: 0.7,
+                  }}
+                />
+                <Text style={styles.norm_text}>Hunza Valley</Text>
+              </ImageBackground>
+            </View>
+          </ScrollView>
+          <View>
+            <Text style={styles.text_style2}>Browse Categories</Text>
+          </View>
+          <View style={styles.button_container}>
+            <Pressable
+              style={styles.button_style}
+              onPress={()=>{welcomebutton("Camping")}}
+            >
+              <Text style={styles.button_text}>Camping</Text>
+              <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
+            </Pressable>
+            <Pressable
+              style={styles.button_style}
+              onPress={()=>{welcomebutton("Hiking")}}
+            >
+              <Text style={styles.button_text}>Hiking</Text>
+              <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
+            </Pressable>
+            <Pressable
+              style={styles.button_style}
+              onPress={()=>{welcomebutton("Climbing")}}
+            >
+              <Text style={styles.button_text}>Climbing</Text>
+              <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
+            </Pressable>
+            <Pressable
+              style={styles.button_style}
+              onPress={()=>{welcomebutton("Forest")}}
+            >
+              <Text style={styles.button_text}>Forest</Text>
+              <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
+            </Pressable>
+          </View>
+        </SafeAreaView>
+      </ScrollView>
     </View>
   );
 }
@@ -214,18 +284,14 @@ const styles = StyleSheet.create({
     // shadowOpacity: 0.4,
     // elevation: 5,
     // borderRadius: 2,
-
-
-
-
   },
   small_containers: {
     marginTop: 30,
-marginBottom: 30,
+    marginBottom: 30,
     width: 140,
     height: 140,
     margin: 20,
-    shadowColor: 'black',
+    shadowColor: "black",
     shadowOffset: { width: 5, height: 5 },
     shadowRadius: 5,
     shadowOpacity: 0.4,
@@ -236,10 +302,9 @@ marginBottom: 30,
     width: "100%",
     height: "100%",
     borderWidth: 1,
-    borderColor:"white",
+    borderColor: "white",
     borderRadius: 20,
     flexDirection: "column-reverse",
-   
   },
   button_style: {
     backgroundColor: "white",
@@ -250,25 +315,20 @@ marginBottom: 30,
     alignItems: "center",
     flexDirection: "row",
     padding: 10,
-    shadowColor: 'black',
+    shadowColor: "black",
     shadowOffset: { width: 5, height: 5 },
     shadowRadius: 5,
     shadowOpacity: 0.4,
     elevation: 5,
     marginBottom: 20,
-    borderColor:"13313D",
+    borderColor: "13313D",
     borderWidth: 1,
-
-
-
   },
   button_container: {
     marginTop: 20,
     marginBottom: 20,
     justifyContent: "center",
     alignItems: "center",
-
-
   },
 
   button_text: {
@@ -284,7 +344,5 @@ marginBottom: 30,
     // fontWeight: "bold",
     margin: 10,
     fontFamily: "Podkova",
-
-  
   },
 });

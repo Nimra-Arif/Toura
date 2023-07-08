@@ -29,6 +29,7 @@ import Description from "./description_page";
 import Cart from "./cart_page";
 import Bookings from "./booking_page";
 import Billing from "./Billings";
+import PlaceGuidlines from "./place_guidlines";
 
 async function loadFonts() {
   Font.loadAsync({
@@ -116,6 +117,11 @@ export default function Home({ navigation }) {
       <Stack.Screen
         name="Bookings"
         component={Bookings}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PlaceGuidlines"
+        component={PlaceGuidlines}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

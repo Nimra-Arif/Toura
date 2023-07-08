@@ -35,8 +35,23 @@ async function loadFonts() {
 
 export default function SearchPage({ navigation }) {
   let [tosearch, onchangetosearch] = useState("");
-  const { userId, setUserId, places, setplaces } = useContext(TouraContext);
-  loadFonts();
+  const {
+    userId,
+    setUserId,
+    places,
+    setplaces,
+    selectedplace,
+    setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+    bookedplaces,
+    setbookedplaces,
+    placetype,
+    setplacetype,
+    cartitems,
+    setcart_items,
+  } = useContext(TouraContext);
+
 
 
 
@@ -181,10 +196,12 @@ export default function SearchPage({ navigation }) {
           </View>
         </ScrollView>
         <View>
-          <Text style={styles.text_style2}>Hiking Guidlines</Text>
+          <Text style={styles.text_style2}>{placetype} Guidlines</Text>
         </View>
         <View style={styles.button_container}>
-          <Pressable style={styles.button_style}>
+          <Pressable style={styles.button_style}
+          onPress={() => {navigation.navigate("PlaceGuidlines")}}
+          >
             <View style={styles.small_containers}>
               <ImageBackground
                 source={require("../assets/hiking_guide_toura.jpeg")}
