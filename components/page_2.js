@@ -12,7 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
 } from "react-native";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
@@ -26,36 +26,48 @@ import { ScrollView } from "react-native";
 import SearchPage from "./search_page";
 
 
-
 async function loadFonts() {
   Font.loadAsync({
-   'Podkova': require("../assets/fonts/Podkova.ttf"),
-   "Playball": require("../assets/fonts/Playball.ttf"),
-   // Add other custom fonts here if needed
- });
+    Podkova: require("../assets/fonts/Podkova.ttf"),
+    Playball: require("../assets/fonts/Playball.ttf"),
+    // Add other custom fonts here if needed
+  });
 }
 export default function SecondPage({ navigation }) {
- 
-  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace }= useContext(TouraContext);
- loadFonts();
-//  const handleScrollToHighlights = () => {
-//   ScrollView.scrollTo({ y: 400, animated: true });
-// };
+  const {
+    userId,
+    setUserId,
+    places,
+    setplaces,
+    selectedplace,
+    setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+  } = useContext(TouraContext);
+  loadFonts();
+
+  function book_place() {
+    console.log("booked");
+
+    cartedplaces.push(selectedplace);
+    setcartedplaces(cartedplaces);
+    console.log(cartedplaces);
+   navigation.navigate("Cart");
+   
+  }
+
   return (
     <View style={styles.container}>
-        <View 
-      style={{
-        backgroundColor: "#01877E",
-        height: 35,
-        position: "absolute",
-        top: 0,
-        width: "100%",
-        zIndex:1
-
-      }}
-      >
- 
-      </View>
+      <View
+        style={{
+          backgroundColor: "#01877E",
+          height: 35,
+          position: "absolute",
+          top: 0,
+          width: "100%",
+          zIndex: 1,
+        }}
+      ></View>
       <ScrollView>
         <SafeAreaView>
           <ImageBackground
@@ -72,17 +84,15 @@ export default function SecondPage({ navigation }) {
           </ImageBackground>
           <View>
             <Text style={styles.heading_style}>
-              From {selectedplace.departure_spot} : {selectedplace.place_name}  {"\n"}Range  {selectedplace.duration}-Days Tour
+              From {selectedplace.departure_spot} : {selectedplace.place_name}{" "}
+              {"\n"}Range {selectedplace.duration}-Days Tour
             </Text>
           </View>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row" ,
+        margin:10,marginBottom:1
+        }}>
             <Text
-              style={{
-                color: "#01877E",
-                fontSize: 15,
-                // fontWeight: "bold",
-                margin: 10,
-              }}
+              style={styles.small_text}
             >
               Activity Provider:
             </Text>
@@ -90,20 +100,32 @@ export default function SecondPage({ navigation }) {
               style={{
                 color: "red",
                 fontSize: 15,
-                // fontWeight: "bold",
-                marginBottom: 10,
-                marginRight: 10,
-                marginTop: 10,
+             
+            
               }}
             >
-            {selectedplace.activity_provider}
+              {selectedplace.activity_provider}
+            </Text>
+          </View>
+          <View style={{ flexDirection: "row",   margin:10 }}>
+            <Text
+              style={styles.small_text}
+            >
+              Date:
+            </Text>
+            <Text
+              style={{
+                color: "red",
+                fontSize: 15,
+           
+              }}
+            >
+              {selectedplace.date}
             </Text>
           </View>
 
           <Text style={styles.heading_style}>Description</Text>
-          <Text style={styles.norm_text}>
-          {selectedplace.description}
-          </Text>
+          <Text style={styles.norm_text}>{selectedplace.description}</Text>
           <View style={{ padding: 2 }}>
             <Text style={styles.heading_style}>About this activity</Text>
 
@@ -168,8 +190,9 @@ export default function SecondPage({ navigation }) {
           >
             <Text style={styles.heading_style}>Experience</Text>
             <View>
-              <Pressable style={styles.button_style}
-              onPress={() => navigation.navigate("Description")}
+              <Pressable
+                style={styles.button_style}
+                onPress={() => navigation.navigate("Description")}
               >
                 <Text style={styles.button_text}>Highlights</Text>
                 <Ionicons
@@ -257,16 +280,15 @@ export default function SecondPage({ navigation }) {
       <View style={styles.footer_style}>
         <Text style={styles.footer_text} numberOfLines={2}>
           From {"\n"}
-          Rs.  {selectedplace.price} per person
+          Rs. {selectedplace.price} per person
         </Text>
-        <Pressable style={styles.footer_button}>
+        <Pressable style={styles.footer_button} onPress={book_place}>
           <Text style={styles.footer_text}>Book Now</Text>
         </Pressable>
       </View>
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -276,7 +298,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     // fontWeight: "bold",
     color: "#01877E",
-    fontFamily: "Podkova", 
+    fontFamily: "Podkova",
     // textAlign: "center",
     justifyContent: "center",
     marginTop: 7,
@@ -307,8 +329,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginRight: 10,
     marginLeft: 10,
-    fontFamily: "Podkova", 
-    
+    fontFamily: "Podkova",
   },
   image_style: {
     width: 33,
@@ -331,7 +352,7 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 17,
     // fontWeight: "bold",
-    fontFamily: "Podkova", 
+    fontFamily: "Podkova",
     color: "#01877E",
   },
   customer_container: {
@@ -353,7 +374,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     // fontWeight: "bold",
-    fontFamily: "Podkova", 
+    fontFamily: "Podkova",
     marginLeft: 10,
   },
   footer_button: {
@@ -367,5 +388,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
     borderColor: "white",
     borderWidth: 1,
+  },
+  small_text:{
+    color: "#01877E",
+    fontSize: 15,
+    paddingRight: 5,
+
   },
 });

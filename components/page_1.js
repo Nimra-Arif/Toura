@@ -68,7 +68,7 @@ export default function Activities({ navigation }) {
 
     setselectedplace(item.item);
     console.log("selected place is");
-    console.log(item);
+    // console.log(item);
     console.log(item.item.departure_spot);
     navigation.navigate("SecondPage");
   }
@@ -117,13 +117,20 @@ export default function Activities({ navigation }) {
                 <Text style={styles.norm_text1}>
                  From {item.departure_spot} : {item.place_name} {"\n"} {item.duration}-days Tour
                 </Text>
+                
+                <Text style={styles.norm_text2}>Date: {item.date}</Text>
                 <Text style={styles.norm_text2}>Rating {item.rating}</Text>
                 <Text style={styles.norm_text3}>
                  From Rs.{item.price} per person
                 </Text>
               </View>
             </Pressable>
-            <Modal
+            
+          </View>
+          )}
+        />
+   
+   <Modal
         
         visible={modalVisible}
         transparent={true}
@@ -144,75 +151,13 @@ export default function Activities({ navigation }) {
           ))}
         </View>
       </Modal>
-          </View>
-          )}
-        />
-   
 
-
-        {/* {true && (
-        <FlatList
-          data={places}
-          indicatorStyle="black"
-          renderItem={({ item }) => (
-            <View style={styles.container1}>
-              <View style={{paddingRight:20}}>
-                <Text style={styles.text_style3}>{item.username}</Text>
-                <Text style={styles.text_style3}>{item.email}</Text>
-              </View>
-              <Pressable
-                style={styles.button_style1}
-                onPress={() => edituser({ item })}
-              >
-                <Text>Edit</Text>
-              </Pressable>
-              <Pressable
-                style={styles.button_style1}
-                onPress={() => deleteuser(item.username)}
-              >
-                <Text>Delete</Text>
-              </Pressable>
-            </View>
-          )}
-        />
-      )} */}
+      
 
 
 
 
-
-
-
-        {/* <ScrollView showsHorizontalScrollIndicator={true}>
-        
-       
-          <View style={styles.button_container}>
-            <Pressable style={styles.button_style}>
-              <View style={styles.small_containers}>
-                <ImageBackground
-                  source={require("../assets/topsearch_2.jpeg")}
-                  style={styles.image_style}
-                >
-                  <Ionicons
-                    name="heart-outline"
-                    size={25}
-                    color="red"
-                    style={styles.icon_style}
-                  />
-                </ImageBackground>
-              </View>
-              <View style={styles.small_containers}>
-                <Text style={styles.norm_text1}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                </Text>
-                <Text style={styles.norm_text2}>Lorem ipsum</Text>
-                <Text style={styles.norm_text3}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                </Text>
-              </View>
-            </Pressable>
-          </View>
-        </ScrollView> */}
+      
       </SafeAreaView>
     </View>
   );

@@ -33,68 +33,39 @@ async function loadFonts() {
   });
 }
 
-
-
-
 export default function SearchPage({ navigation }) {
   let [tosearch, onchangetosearch] = useState("");
   const { userId, setUserId, places, setplaces } = useContext(TouraContext);
   loadFonts();
 
-  
+
+
+
   function search_next_button() {
-    // console.log("search next button pressed");
-    // //  onchangetosearch(tosearch.toLowerCase().trim());
-    // tosearch = tosearch.toLowerCase().trim();
-    // onchangetosearch(tosearch);
-
-    // console.log("matchplace function called");
-    // console.log(tosearch);
-
-    // const q = query(
-    //   collection(db, "place"),
-
-    //   where("place_name", "==", tosearch)
-    // );
-    // const querySnapshot = getDocs(q);
-    // querySnapshot.then((doc) => {
-    //   if (doc.empty) {
-    //     console.log("No such document!");
-    //   } else {
-    //     doc.forEach((doc) => {
-    //       console.log(doc.id, " => ", doc.data().place_name);
-    //       places.push(doc.data());
-    //     });
-    //   }
-    // });
-    // setplaces([]);
-    // setplaces(places);
-    // // console.log(places);
-    // // console.log("places pasted");
-
-    // navigation.navigate("Activities");
-
-
-       console.log("search next button pressed");
-    //  onchangetosearch(tosearch.toLowerCase().trim());
+    console.log("search next button pressed");
+   
     tosearch = tosearch.toLowerCase().trim();
     onchangetosearch(tosearch);
-    const q = query(collection(db, "place"), where("place_name", "==", tosearch));
-  const querySnapshot = getDocs(q);
-  querySnapshot.then((doc) => {
-    if (doc.empty) {
-      console.log("No such document!");
-    } else {
-      const newPlaces = [];
-      doc.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data().place_name);
-        newPlaces.push(doc.data());
-      });
-      setplaces(newPlaces);
-      navigation.navigate("Activities");
-    }
-  });
- 
+   
+    const q = query(
+      collection(db, "place"),
+      where("place_name", "==", tosearch)
+    );
+    const querySnapshot = getDocs(q);
+    querySnapshot.then((doc) => {
+      if (doc.empty) {
+        console.log("No such document!");
+      } else {
+        const newPlaces = [];
+        doc.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().place_name);
+          newPlaces.push(doc.data());
+        }); 
+        setplaces(newPlaces);
+        navigation.navigate("Activities");
+       
+      }
+    });
   }
 
   return (
@@ -116,7 +87,7 @@ export default function SearchPage({ navigation }) {
           ></TextInput>
 
           <Pressable onPress={search_next_button}>
-            <Ionicons name="search" size={25} color="#01877E" />
+            <Ionicons name="search" style={styles.search_icon_style} />
           </Pressable>
         </View>
         <View>
@@ -372,5 +343,11 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     opacity: 0.7,
+  },
+  search_icon_style: {
+   fontSize: 25,
+    color:"#01877E",
+    paddingLeft: 10,
+  // padding: 10,
   },
 });

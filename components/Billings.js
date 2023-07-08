@@ -1,0 +1,356 @@
+import { StatusBar } from "expo-status-bar";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TextInput,
+  Pressable,
+  Image,
+  KeyboardAvoidingView,
+  SafeAreaView,
+  FlatList,
+  Modal,
+  ViewPropsAndroid,
+} from "react-native";
+import * as Font from "expo-font";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
+import { db } from "./config.jsx";
+import { useState, useEffect, useContext } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { sending_data } from "./signup_page1";
+import { ScrollView } from "react-native";
+import CountryPicker from 'react-native-country-picker-modal';
+
+async function loadFonts() {
+  Font.loadAsync({
+    Podkova: require("../assets/fonts/Podkova.ttf"),
+    Playball: require("../assets/fonts/Playball.ttf"),
+    // Add other custom fonts here if needed
+  });
+}
+export default function Billing({ navigation }) {
+  const [name, onchangename] = useState("");
+    const [email, onchangeemail] = useState("");
+    const [phone, onchangephone] = useState("");
+    const [country, onchangecountry] = useState("Select Country");
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleCountrySelect = (selectedCountry) => {
+        onchangecountry(selectedCountry.name);
+        setModalVisible(false);
+    };
+
+
+
+  const {
+    userId,
+    setUserId,
+    places,
+    setplaces,
+    selectedplace,
+    setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+  } = useContext(TouraContext);
+
+  console.log("cartedplaces", cartedplaces);
+
+  loadFonts();
+  let cart_price = 0;
+
+  for (let i = 0; i < cartedplaces.length; i++) {
+    cart_price = cart_price + cartedplaces[i].price;
+  }
+
+  
+  return (
+    <ScrollView style={styles.container}>
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Pressable style={styles.waiting_button}>
+          <Text style={styles.text_style}>
+            We'll hold your spot for 60 minutes
+          </Text>
+        </Pressable>
+      </View>
+
+      <View>
+        <Text style={styles.header_text}>Billing Details</Text>
+      </View>
+
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : { height: 100 }}
+      >
+        <View style={styles.small_container}>
+          <TextInput
+            value={name}
+            placeholder="Name"
+            onChangeText={(name) => {
+              onchangename(name);
+            }}
+            style={styles.input_style}
+            placeholderTextColor="#Ebe8"
+            clearButtonMode="always"
+          ></TextInput>
+        </View>
+        <View style={styles.small_container}>
+          <TextInput
+            value={email}
+            placeholder="Email"
+            onChangeText={(email) => {
+              onchangeemail(email);
+            }}
+            style={styles.input_style}
+            placeholderTextColor="#Ebe8"
+            keyboardType="email-address"
+            clearButtonMode="always"
+          ></TextInput>
+        </View>
+        <View style={styles.small_container}>
+          <TextInput
+            value={phone}
+            placeholder="Phone number"
+            onChangeText={(phone) => {
+              onchangephone(phone);
+            }}
+            style={styles.input_style}
+            placeholderTextColor="#Ebe8"
+            clearButtonMode="always"
+           keyboardType="phone-pad"
+          ></TextInput>
+        </View>
+        <View style={styles.picker_container}>
+        <CountryPicker
+      
+        visible={modalVisible}
+       
+        placeholder={country}
+        theme={{color: '#018773',
+         fontFamily: 'Podkova', textStyle: { color: 'white' }, textColor: '#018773', primaryColor: '#018773',fontSize: 20
+    }}
+  
+        withFilter
+        onSelect={handleCountrySelect}
+        
+        onClose={() => setModalVisible(false)}
+       
+      />
+          
+        </View>
+      </KeyboardAvoidingView>
+
+        <View>
+            <Text style={styles.header_text}>Payment Method</Text>
+
+        </View>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+
+    // backgroundColor: "black",
+  },
+
+  header_style: {
+    // flex: 0.2,
+    borderColor: "#13313D",
+    borderWidth: 2,
+    borderRadius: 1,
+    backgroundColor: "#01877E",
+    height: 55,
+    position: "absolute",
+    // top: 0,
+    marginTop: 35,
+    width: "100%",
+    // alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1,
+  },
+  header_text: {
+    color: "#01877E",
+    fontSize: 25,
+    // fontWeight: "bold",
+    marginLeft: 10,
+    fontFamily: "Podkova",
+    marginBottom: 15,
+  },
+  footer_style: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderColor: "#13313D",
+    borderWidth: 2,
+    borderRadius: 3,
+    backgroundColor: "#01877E",
+    height: 60,
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+  },
+  footer_text: {
+    color: "white",
+    fontSize: 19,
+    // fontWeight: "bold",
+    marginLeft: 10,
+    fontFamily: "Podkova",
+  },
+  footer_button: {
+    backgroundColor: "#13313D",
+    width: 120,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    alignSelf: "center",
+    marginRight: 10,
+    borderColor: "white",
+    borderWidth: 1,
+  },
+  small_container: {
+    // flex:1,
+    margin: 2,
+    alignSelf: "center",
+    // marginTop: 90,
+    width: "80%",
+    height: 50,
+    borderColor: "transparent",
+
+    justifyContent: "center",
+
+    borderWidth: 2,
+  },
+  picker_container: {
+    // flex:1,
+    margin: 2,
+    alignSelf: "center",
+    // marginTop: 90,
+    width: "80%",
+    height: 40,
+    borderColor: "transparent",
+    color: "#01877e",
+
+    justifyContent: "center",
+    borderColor: "transparent",
+    borderColor: "#01877E",
+    marginTop: 13,
+    marginBottom: 30,
+    paddingLeft: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  input_style: {
+    width: "100%",
+    height: 40,
+
+    color: "#13313D",
+    borderWidth: 1,
+    // padding: 10,
+    fontSize: 20,
+    borderColor: "transparent",
+    borderColor: "#01877E",
+    marginTop: 13,
+    paddingLeft: 10,
+    borderRadius: 10,
+
+    fontFamily: "Podkova",
+  },
+
+  waiting_button: {
+    backgroundColor: "#13313D",
+    width: "100%",
+    alignSelf: "center",
+    justifyContent: "center",
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    alignSelf: "center",
+    marginRight: 10,
+    marginTop: 4,
+    borderColor: "white",
+    borderWidth: 1,
+    marginLeft: 10,
+    marginBottom: 7,
+    shadowColor: "black",
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 10,
+    opacity: 0.9,
+  },
+  text_style: {
+    color: "white",
+    fontSize: 18,
+    // fontWeight: "bold",
+    marginLeft: 10,
+    fontFamily: "Podkova",
+  },
+  text_style2: {
+    color: "#01877E",
+    fontSize: 19,
+    // fontWeight: "bold",
+    margin: 10,
+    marginRight: 2,
+    fontFamily: "Podkova",
+  },
+  text_style3: {
+    color: "#01877E",
+    fontSize: 17,
+    // fontWeight: "bold",
+    // margin: 10,
+    fontFamily: "Podkova",
+    marginTop: 5,
+    marginLeft: 9,
+  },
+  text_style4: {
+    color: "#01877E",
+    fontSize: 10,
+    // fontWeight: "bold",
+    // margin: 10,
+    fontFamily: "Podkova",
+    // marginTop: 5,
+    paddingLeft: 15,
+  },
+  text_container: {
+    width: "50%",
+  },
+  image_style: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+    marginLeft: 7,
+  },
+  inner_container1: {
+    flexDirection: "row",
+  },
+  inner_container2: {
+    flexDirection: "column",
+  },
+  icon_style: {
+    color: "#01877E",
+    fontSize: 27,
+    marginTop: 5,
+    marginLeft: 5,
+  },
+  price_style: {
+    color: "red",
+    fontSize: 23,
+    marginTop: 5,
+    marginLeft: 220,
+    fontFamily: "Podkova",
+  },
+  inner_container3: { flexDirection: "row", alignItems: "center" },
+});

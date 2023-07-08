@@ -9,28 +9,57 @@ import {
   Image,
   KeyboardAvoidingView,
   SafeAreaView,
+  FlatList,
   Modal,
   ViewPropsAndroid,
 } from "react-native";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useState, useEffect } from "react";
+
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
+import { db } from "./config.jsx";
+import { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 
 async function loadFonts() {
   Font.loadAsync({
-   'Podkova': require("../assets/fonts/Podkova.ttf"),
-   "Playball": require("../assets/fonts/Playball.ttf"),
-   // Add other custom fonts here if needed
- });
+    Podkova: require("../assets/fonts/Podkova.ttf"),
+    Playball: require("../assets/fonts/Playball.ttf"),
+    // Add other custom fonts here if needed
+  });
 }
 export default function Cart({ navigation }) {
- 
- 
- loadFonts();
+  const {
+    userId,
+    setUserId,
+    places,
+    setplaces,
+    selectedplace,
+    setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+  } = useContext(TouraContext);
+
+  console.log("cartedplaces", cartedplaces);
+
+  loadFonts();
+ let cart_price = 0;
+
+  for (let i = 0; i < cartedplaces.length; i++) {
+    cart_price = cart_price + cartedplaces[i].price;
+  }
+
+ function  cartout(item) {
+  console.log("item", item.place_name);
+  const updatedCart = cartedplaces.filter((cartItem) => cartItem !== item);
+  setcartedplaces(updatedCart);
+
+  }
   return (
     <View style={styles.container}>
       <View
@@ -43,109 +72,122 @@ export default function Cart({ navigation }) {
           zIndex: 1,
         }}
       ></View>
- <View style={styles.header_style}>
+      <View style={styles.header_style}>
         <Text style={styles.header_text} numberOfLines={2}>
           Shopping Cart
         </Text>
       </View>
-      <ScrollView 
-       style={{flex:1}}
-      >
-       <View
-       
-       style={{flex:1, marginTop:90,marginBottom:90
-        
-       }}>
-       
-        <View style={styles.small_container}>
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Pressable style={styles.waiting_button}>
-              <Text style={styles.text_style}>
-                We'll hold your spot for 60 minutes
-              </Text>
-            </Pressable>
-          </View>
-          <View style={styles.inner_container1}>
-            <Image
-              source={require("../assets/topsearch_2.jpeg")}
-              style={styles.image_style}
-            />
 
-            <View style={styles.text_container}>
-              <Text style={styles.text_style2}>
-                From Islamabad: 7 Days Tour of Fairy Meadows
-              </Text>
-            </View>
-            <Pressable>
-              <Ionicons
-                name="trash"
-                size={30}
-                color="red"
-                marginTop={15}
-                marginLeft={17}
-              />
-            </Pressable>
-          </View>
-          <View style={styles.inner_container2}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="calendar" style={styles.icon_style} />
-              <Text style={styles.text_style3}>28 Feb 2024</Text>
-            </View>
+      <FlatList
+        style={{ marginBottom: 60, marginTop: 90 ,flex:1}}
+        data={cartedplaces}
+        indicatorStyle="black"
+        renderItem={({ item }) => (
+          <View>
+            <View
 
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="time" style={styles.icon_style} />
-              <Text style={styles.text_style3}>Opening hours: 8:30-9:30</Text>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="timer" style={styles.icon_style} />
-              <Text style={styles.text_style3}>Duration: 7 days</Text>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="person-circle" style={styles.icon_style} />
-              <Text style={styles.text_style3}>1 Adult</Text>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="globe-outline" style={styles.icon_style} />
-              <Text style={styles.text_style3}>Language : English</Text>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="wallet" style={styles.icon_style} />
-              <View style={{ flexDirection: "column", alignItems: "center" }}>
-                <Text style={styles.text_style3}>Pay nothing today</Text>
-                <Text style={styles.text_style4}>
-                  Book now and pay on 26 Feb
-                </Text>
-              </View>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="checkmark" size={30} color="#00FF00" />
-              <View style={{ flexDirection: "column", alignItems: "center" }}>
-                <Text style={styles.text_style3}>Free Cancellation</Text>
-                <Text style={styles.text_style4}>Until 12:00 AM on 27 Feb</Text>
-              </View>
-            </View>
-            <Text
-              style={styles.price_style}
+            // style={{ flex: 1, marginTop: 90, marginBottom: 90 }}
             >
-              Rs 30,000</Text>
+              <View style={styles.small_container}>
+                <View
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Pressable style={styles.waiting_button}>
+                    <Text style={styles.text_style}>
+                      We'll hold your spot for 60 minutes
+                    </Text>
+                  </Pressable>
+                </View>
+                <View style={styles.inner_container1}>
+                  <Image
+                    source={require("../assets/topsearch_2.jpeg")}
+                    style={styles.image_style}
+                  />
+
+                  <View style={styles.text_container}>
+                    <Text style={styles.text_style2}>
+                      From {item.departure_spot} :{item.duration}-days Tour of
+                      {"\n"}
+                      {item.place_name}
+                    </Text>
+                  </View>
+                  <Pressable
+                  onPress={() => { cartout(item)}}
+                  >
+                    <Ionicons
+                      name="trash"
+                      size={30}
+                      color="red"
+                      marginTop={15}
+                      marginLeft={17}
+                    />
+                  </Pressable>
+                </View>
+                <View style={styles.inner_container2}>
+                  <View style={styles.inner_container3}>
+                    <Ionicons name="calendar" style={styles.icon_style} />
+                    <Text style={styles.text_style3}>{item.date}</Text>
+                  </View>
+
+                  <View style={styles.inner_container3}>
+                    <Ionicons name="time" style={styles.icon_style} />
+                    <Text style={styles.text_style3}>
+                      Opening hours: {item.opening_timings}
+                    </Text>
+                  </View>
+                  <View style={styles.inner_container3}>
+                    <Ionicons name="timer" style={styles.icon_style} />
+                    <Text style={styles.text_style3}>
+                      Duration: {item.duration} days
+                    </Text>
+                  </View>
+                  <View style={styles.inner_container3}>
+                    <Ionicons name="person-circle" style={styles.icon_style} />
+                    <Text style={styles.text_style3}>1 Adult</Text>
+                  </View>
+                  <View style={styles.inner_container3}>
+                    <Ionicons name="globe-outline" style={styles.icon_style} />
+                    <Text style={styles.text_style3}>Language : English</Text>
+                  </View>
+                  {/* <View style={styles.inner_container3}>
+                    <Ionicons name="wallet" style={styles.icon_style} />
+                    <View style={{ flexDirection: "column" }}>
+                      <Text style={styles.text_style3}>Pay nothing today</Text>
+                      <Text style={styles.text_style4}>
+                        Book now and pay three days before your tour
+                      </Text>
+                    </View>
+                  </View> */}
+                  <View style={styles.inner_container3}>
+                    <Ionicons name="checkmark" size={30} color="#00FF00" />
+                    <View style={{ flexDirection: "column" }}>
+                      <Text style={styles.text_style3}>Free Cancellation</Text>
+                      <Text style={styles.text_style4}>
+                        Until 12:00 AM one day before your tour
+                      </Text>
+                    </View>
+                  </View>
+                  <Text style={styles.price_style}>Rs {item.price}</Text>
+                </View>
+              </View>
+            </View>
           </View>
-        </View>
-       </View>
-      </ScrollView>
+        )}
+      />
       <View style={styles.footer_style}>
         <Text style={styles.footer_text} numberOfLines={2}>
-          Rs. 30,000 {"\n"} Subtotal
+          Rs. {cart_price} {"\n"} Subtotal
         </Text>
-        <Pressable style={styles.footer_button}>
+        <Pressable style={styles.footer_button}
+        // disabled={cartedplaces.length==0?true:false}
+        onPress={() => {navigation.navigate("Billing")}}
+        >
           <Text style={styles.footer_text}>Check out</Text>
         </Pressable>
       </View>
-     
     </View>
   );
 }
@@ -153,10 +195,12 @@ export default function Cart({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
+    // backgroundColor: "black",
   },
 
   header_style: {
-    flex:0.2,
+    // flex: 0.2,
     borderColor: "#13313D",
     borderWidth: 2,
     borderRadius: 1,
@@ -169,7 +213,6 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     justifyContent: "center",
     zIndex: 1,
-   
   },
   header_text: {
     color: "white",
@@ -211,17 +254,16 @@ const styles = StyleSheet.create({
   },
   small_container: {
     // flex:1,
-    margin:2,
-  alignSelf: "center",
+    margin: 2,
+    alignSelf: "center",
     // marginTop: 90,
     width: "97%",
-   borderColor: "transparent",
-   borderBottomColor: "#13313D",
+    borderColor: "transparent",
+    borderBottomColor: "#13313D",
 
     borderWidth: 2,
-    
-
   },
+
   waiting_button: {
     backgroundColor: "#13313D",
     width: "100%",
@@ -275,7 +317,7 @@ const styles = StyleSheet.create({
     // margin: 10,
     fontFamily: "Podkova",
     // marginTop: 5,
-    // marginLeft: 9,
+    paddingLeft: 15,
   },
   text_container: {
     width: "50%",
@@ -299,12 +341,11 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   price_style: {
-    
-      color: "red",
-      fontSize: 23,
-      marginTop: 5,
-      marginLeft: 220,
-      fontFamily: "Podkova",
-    
+    color: "red",
+    fontSize: 23,
+    marginTop: 5,
+    marginLeft: 220,
+    fontFamily: "Podkova",
   },
+  inner_container3: { flexDirection: "row", alignItems: "center" },
 });

@@ -65,12 +65,12 @@ export default function Login({ navigation }) {
   }
   async function showPassword() {
     if (iconName === "eye") {
-      console.log("show password");
+   
       iconName = "eye-off";
       seticonName("eye-off");
       setsecureTextEntry(false);
     } else {
-      console.log("show password2");
+   
       iconName = "eye";
       seticonName("eye");
       setsecureTextEntry(true);
@@ -108,6 +108,7 @@ export default function Login({ navigation }) {
               }}
               style={styles.input_style}
               placeholderTextColor="#Ebe8"
+              keyboardType="email-address"
               clearButtonMode="always"
             ></TextInput>
             <View style={styles.Pressable_container}>
@@ -180,8 +181,8 @@ const styles = StyleSheet.create({
     width: "70%",
     color: "white",
     borderWidth: 1,
-    padding: 10,
-    fontSize: 16,
+    // padding: 10,
+    fontSize: 18,
     borderColor: "transparent",
     borderBottomColor: "white",
     marginTop: 13,

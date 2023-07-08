@@ -142,6 +142,7 @@ export default function SignUp1({ navigation }) {
               }}
               style={styles.input_style}
               placeholderTextColor="#Ebe8"
+              keyboardType="email-address"
               clearButtonMode="always"
             ></TextInput>
             <View style={styles.Pressable_container}>
