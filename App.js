@@ -37,7 +37,7 @@ export default function App() {
     independent={true}
     >
       <Stack.Navigator 
-      initialRouteName="MainPage"
+      initialRouteName="LaunchScreen"
       screenOptions={
         {headerShown: false}
      

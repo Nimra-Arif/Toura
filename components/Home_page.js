@@ -47,7 +47,7 @@ export default function Home({ navigation }) {
   loadFonts();
   return (
   
-      <Stack.Navigator initialRouteName="Cart">
+      <Stack.Navigator initialRouteName="WelcomePage">
         <Stack.Screen
           name="WelcomePage"
           component={WelcomePage}

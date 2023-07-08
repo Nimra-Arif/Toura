@@ -182,7 +182,7 @@ export default function Cart({ navigation }) {
           Rs. {cart_price} {"\n"} Subtotal
         </Text>
         <Pressable style={styles.footer_button}
-        // disabled={cartedplaces.length==0?true:false}
+        disabled={cartedplaces.length==0?true:false}
         onPress={() => {navigation.navigate("Billing")}}
         >
           <Text style={styles.footer_text}>Check out</Text>
