@@ -25,7 +25,7 @@ import { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
-import CountryPicker from 'react-native-country-picker-modal';
+import CountryPicker from "react-native-country-picker-modal";
 
 async function loadFonts() {
   Font.loadAsync({
@@ -36,17 +36,15 @@ async function loadFonts() {
 }
 export default function Billing({ navigation }) {
   const [name, onchangename] = useState("");
-    const [email, onchangeemail] = useState("");
-    const [phone, onchangephone] = useState("");
-    const [country, onchangecountry] = useState("Select Country");
-    const [modalVisible, setModalVisible] = useState(false);
+  const [email, onchangeemail] = useState("");
+  const [phone, onchangephone] = useState("");
+  const [country, onchangecountry] = useState("Select Country");
+  const [modalVisible, setModalVisible] = useState(false);
 
-    const handleCountrySelect = (selectedCountry) => {
-        onchangecountry(selectedCountry.name);
-        setModalVisible(false);
-    };
-
-
+  const handleCountrySelect = (selectedCountry) => {
+    onchangecountry(selectedCountry.name);
+    setModalVisible(false);
+  };
 
   const {
     userId,
@@ -59,8 +57,6 @@ export default function Billing({ navigation }) {
     setcartedplaces,
   } = useContext(TouraContext);
 
-  console.log("cartedplaces", cartedplaces);
-
   loadFonts();
   let cart_price = 0;
 
@@ -68,7 +64,6 @@ export default function Billing({ navigation }) {
     cart_price = cart_price + cartedplaces[i].price;
   }
 
-  
   return (
     <ScrollView style={styles.container}>
       <View
@@ -94,7 +89,7 @@ export default function Billing({ navigation }) {
       >
         <View style={styles.small_container}>
           <TextInput
-            value={name}
+            value={userId.data().username}
             placeholder="Name"
             onChangeText={(name) => {
               onchangename(name);
@@ -106,7 +101,7 @@ export default function Billing({ navigation }) {
         </View>
         <View style={styles.small_container}>
           <TextInput
-            value={email}
+            value={userId.data().email}
             placeholder="Email"
             onChangeText={(email) => {
               onchangeemail(email);
@@ -127,33 +122,92 @@ export default function Billing({ navigation }) {
             style={styles.input_style}
             placeholderTextColor="#Ebe8"
             clearButtonMode="always"
-           keyboardType="phone-pad"
+            keyboardType="phone-pad"
           ></TextInput>
         </View>
         <View style={styles.picker_container}>
-        <CountryPicker
-      
-        visible={modalVisible}
-       
-        placeholder={country}
-        theme={{color: '#018773',
-         fontFamily: 'Podkova', textStyle: { color: 'white' }, textColor: '#018773', primaryColor: '#018773',fontSize: 20
-    }}
-  
-        withFilter
-        onSelect={handleCountrySelect}
-        
-        onClose={() => setModalVisible(false)}
-       
-      />
-          
+          <CountryPicker
+            visible={modalVisible}
+            placeholder={country}
+            theme={{
+              color: "#018773",
+              fontFamily: "Podkova",
+              textStyle: { color: "white" },
+              textColor: "#018773",
+              primaryColor: "#018773",
+              fontSize: 20,
+            }}
+            withFilter
+            onSelect={handleCountrySelect}
+            onClose={() => setModalVisible(false)}
+          />
         </View>
       </KeyboardAvoidingView>
 
-        <View>
-            <Text style={styles.header_text}>Payment Method</Text>
-
+      <View>
+        <Text style={styles.header_text}>Payment Method</Text>
+       <View  style={{borderColor:"#01877e",borderWidth:1,margin:10,borderRadius:10,width:"80%",alignSelf:"center"
+      
+      }}>
+       <View style={styles.small_container2}>
+          <Text style={styles.text_style2}>PayPal</Text>
+          <Pressable style={styles.button_style}
+          onPress={()=>{navigation.navigate("Bookings")}}
+          >
+            <Image
+              style={styles.image_style}
+              source={require("../assets/paypal.png")}
+            ></Image>
+          </Pressable>
         </View>
+        <View style={styles.small_container2}>
+          <Text style={styles.text_style2}>Credit Card</Text>
+         
+        </View>
+        <View style={styles.small_container3}><Pressable style={styles.button_style}>
+            <Image
+              style={styles.image_style}
+              source={require("../assets/visa.jpeg")}
+            ></Image>
+          </Pressable>
+          <Pressable style={styles.button_style}>
+            <Image
+              style={styles.image_style}
+              source={require("../assets/jazzcash.png")}
+            ></Image>
+          </Pressable>
+        </View>
+       </View>
+      </View>
+
+     <View   style={{flexDirection:"row"  ,justifyContent:"space-between"}}>
+     <Text style={styles.header_text}>Total</Text>
+      <Text style={styles.header_text}>Rs {cart_price}</Text>
+     </View>
+    <View
+    style={styles.small_container2}
+    >
+       <View style={styles.inner_container3}>
+                    <Ionicons name="checkmark" size={30} color="#00FF00" />
+                    <View style={{ flexDirection: "column" }}>
+                      <Text style={styles.text_style3}>Free Cancellation</Text>
+                      <Text style={styles.text_style4}>
+                        Until 12:00 AM one day before your tour
+                      </Text>
+                    </View>
+                  </View>
+
+                 
+    </View>
+
+       
+    <View style={styles.inner_container2}>
+                    <Text style={styles.text_style5}>
+                      By continuing, you agree to our Terms of Use and Privacy and your activity provider's terms and conditions.
+                      
+                    </Text>
+                  </View>
+
     </ScrollView>
   );
 }
@@ -187,6 +241,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontFamily: "Podkova",
     marginBottom: 15,
+    marginRight: 95,
   },
   footer_style: {
     flexDirection: "row",
@@ -229,6 +284,30 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
 
     justifyContent: "center",
+
+    borderWidth: 2,
+  },
+  small_container2: {
+    flexDirection: "row",
+    margin: 2,
+    alignSelf: "center",
+    justifyContent: "space-between",
+    width: "80%",
+    height: 50,
+    alignItems: "center",
+    borderColor: "transparent",
+
+    borderWidth: 2,
+  },
+  small_container3: {
+    flexDirection: "row",
+    margin: 2,
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "80%",
+    height: 50,
+    alignItems: "center",
+    borderColor: "transparent",
 
     borderWidth: 2,
   },
@@ -293,18 +372,28 @@ const styles = StyleSheet.create({
   },
   text_style: {
     color: "white",
-    fontSize: 18,
+    fontSize: 20,
     // fontWeight: "bold",
     marginLeft: 10,
     fontFamily: "Podkova",
   },
-  text_style2: {
+  text_style5: {
     color: "#01877E",
-    fontSize: 19,
+    fontSize: 12,
     // fontWeight: "bold",
-    margin: 10,
+    marginLeft: 10,
+    fontFamily: "Podkova",
+    marginBottom: 15,
+    marginTop : 15,
+  },
+
+  button_style: {
+    color: "#13313D",
+    width: 90,
+    height: 40,
     marginRight: 2,
     fontFamily: "Podkova",
+    marginRight: 15,
   },
   text_style3: {
     color: "#01877E",
@@ -317,7 +406,7 @@ const styles = StyleSheet.create({
   },
   text_style4: {
     color: "#01877E",
-    fontSize: 10,
+    fontSize: 12,
     // fontWeight: "bold",
     // margin: 10,
     fontFamily: "Podkova",
@@ -328,10 +417,25 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   image_style: {
-    width: 100,
-    height: 100,
+    zIndex: 1,
+    width: "100%",
+    height: "100%",
+    // margin: 10,
+    resizeMode: "contain",
+    alignSelf: "center",
+    backgroundColor: "white",
     borderRadius: 10,
-    marginLeft: 7,
+    borderColor: "#13313D",
+    borderWidth: 2,
+  },
+
+  text_style2: {
+    color: "#13313D",
+    fontSize: 20,
+    // fontWeight: "bold",
+    margin: 10,
+    marginRight: 2,
+    fontFamily: "Podkova",
   },
   inner_container1: {
     flexDirection: "row",
@@ -352,5 +456,17 @@ const styles = StyleSheet.create({
     marginLeft: 220,
     fontFamily: "Podkova",
   },
-  inner_container3: { flexDirection: "row", alignItems: "center" },
+  inner_container3: { flexDirection: "row",
+   alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+    marginBottom: 20,
+    borderColor: "#13313D",
+    borderWidth: 2,
+    borderRadius: 10,
+    width: "100%",
+    height: 50,
+  
+  
+  },
 });
