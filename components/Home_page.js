@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
@@ -15,7 +14,10 @@ import {
 import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useState, useEffect } from "react";
+import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
+import { db } from "./config.jsx";
+import { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
@@ -24,6 +26,9 @@ import WelcomePage from "./welcome_page";
 import Activities from "./page_1";
 import SecondPage from "./page_2";
 import Description from "./description_page";
+import Cart from "./cart_page";
+import Bookings from "./booking_page";
+import Billing from "./Billings";
 
 async function loadFonts() {
   Font.loadAsync({
@@ -33,57 +38,90 @@ async function loadFonts() {
   });
 }
 export default function Home({ navigation }) {
+  const {
+    userId,
+    setUserId,
+    places,
+    setplaces,
+    selectedplace,
+    setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+  } = useContext(TouraContext);
   const Stack = createStackNavigator();
 
   loadFonts();
   return (
-    <NavigationContainer independent={true}>
-      <Stack.Navigator initialRouteName="WelcomePage">
-        <Stack.Screen
-          name="WelcomePage"
-          component={WelcomePage}
-          options={{ headerShown: false, fontFamily: "Playball" }}
-        />
-        <Stack.Screen
-          name="Search"
-          component={SearchPage}
-          options={{
-            headerStyle: {
-              backgroundColor: "#01877E",
-              height: 80,
-            },
-            headerTitleStyle: {
-              fontFamily: "Podkova",
-              fontSize: 25,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Activities"
-          component={Activities}
-          options={{
-            headerStyle: {
-              backgroundColor: "#01877E",
-              height: 80,
-            },
-            headerTitleStyle: {
-              fontFamily: "Podkova",
-              fontSize: 25,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="SecondPage"
-          component={SecondPage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Description"
-          component={Description}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator initialRouteName="WelcomePage">
+      <Stack.Screen
+        name="WelcomePage"
+        component={WelcomePage}
+        options={{ headerShown: false, fontFamily: "Playball" }}
+      />
+      <Stack.Screen
+        name="Search"
+        component={SearchPage}
+        options={{
+          headerStyle: {
+            backgroundColor: "#01877E",
+            height: 80,
+          },
+          headerTitleStyle: {
+            fontFamily: "Podkova",
+            fontSize: 25,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Activities"
+        component={Activities}
+        options={{
+          headerStyle: {
+            backgroundColor: "#01877E",
+            height: 80,
+          },
+          headerTitleStyle: {
+            fontFamily: "Podkova",
+            fontSize: 25,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="SecondPage"
+        component={SecondPage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Description"
+        component={Description}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="Cart"
+        component={Cart}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Billing"
+        component={Billing}
+        options={{
+          headerStyle: {
+            backgroundColor: "#01877E",
+            height: 80,
+          },
+          headerTitleStyle: {
+            fontFamily: "Podkova",
+            fontSize: 25,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Bookings"
+        component={Bookings}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
   );
 }
 

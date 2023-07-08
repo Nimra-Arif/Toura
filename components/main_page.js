@@ -15,7 +15,10 @@ import {
 import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useState, useEffect } from "react";
+import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
+import { db } from "./config.jsx";
+import { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
@@ -26,6 +29,30 @@ import Bookings from "./booking_page.js";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 export default function MainPage({ navigation }) {
+  const {
+    userId,
+    setUserId,
+    places,
+    setplaces,
+    selectedplace,
+    setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+  } = useContext(TouraContext);
+  
+  let [cart_items,setcart_items]=useState(0);
+ useEffect(()=>{
+  if(cartedplaces.length>0){
+    cart_items=cartedplaces.length;
+   setcart_items(cart_items);
+   }
+   
+ })
+ 
+ 
+
+
+  cart_items=cartedplaces.length;
   const Tab = createBottomTabNavigator();
   async function loadFonts() {
     Font.loadAsync({
@@ -68,8 +95,11 @@ export default function MainPage({ navigation }) {
           },
         })}
       >
+
         <Tab.Screen name="Home" component={Home} headerShown={false} />
-        <Tab.Screen name="Cart" component={Cart} options={{ tabBarBadge: 0 }} />
+        <Tab.Screen name="Cart" component={Cart} 
+        options={{ tabBarBadge: cart_items }} 
+        />
         <Tab.Screen name="Bookings" component={Bookings} />
 
         <Tab.Screen name="Profile" component={Profile} />
