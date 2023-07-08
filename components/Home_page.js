@@ -38,20 +38,17 @@ async function loadFonts() {
   });
 }
 export default function Home({ navigation }) {
-  const {
-    userId,
-    setUserId,
-    places,
-    setplaces,
-    selectedplace,
-    setselectedplace,
-    cartedplaces,
-    setcartedplaces,
-  } = useContext(TouraContext);
+
+
+  const { userId, setUserId,places,setplaces,selectedplace,
+    setselectedplace,cartedplaces,setcartedplaces }= useContext(TouraContext);
+
   const Stack = createStackNavigator();
+
 
   loadFonts();
   return (
+
     <Stack.Navigator initialRouteName="WelcomePage">
       <Stack.Screen
         name="WelcomePage"
@@ -122,6 +119,7 @@ export default function Home({ navigation }) {
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
+
   );
 }
 
@@ -228,3 +226,4 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
+
