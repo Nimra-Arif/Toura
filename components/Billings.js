@@ -46,15 +46,8 @@ export default function Billing({ navigation }) {
     setModalVisible(false);
   };
 
-  const {
-    userId,
-    setUserId,
-    places,
-    setplaces,
-    selectedplace,
-    setselectedplace,
-    cartedplaces,
-    setcartedplaces,
+  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,bookedplaces, setbookedplaces,
+    cartitems,setcart_items
   } = useContext(TouraContext);
 
   loadFonts();
@@ -64,6 +57,15 @@ export default function Billing({ navigation }) {
     cart_price = cart_price + cartedplaces[i].price;
   }
 
+  function book_place() {
+    console.log("bookedplace");
+    setbookedplaces([])
+    setbookedplaces(cartedplaces);
+    navigation.navigate("Bookings");
+    setcartedplaces([]);
+    setcart_items(0);
+   
+  }
   return (
     <ScrollView style={styles.container}>
       <View
@@ -152,7 +154,7 @@ export default function Billing({ navigation }) {
        <View style={styles.small_container2}>
           <Text style={styles.text_style2}>PayPal</Text>
           <Pressable style={styles.button_style}
-          onPress={()=>{navigation.navigate("Bookings")}}
+          onPress={book_place}
           >
             <Image
               style={styles.image_style}
@@ -405,6 +407,7 @@ const styles = StyleSheet.create({
     marginLeft: 9,
   },
   text_style4: {
+
     color: "#01877E",
     fontSize: 12,
     // fontWeight: "bold",
@@ -417,12 +420,13 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   image_style: {
-    zIndex: 1,
+    // zIndex: 1,
     width: "100%",
     height: "100%",
     // margin: 10,
     resizeMode: "contain",
     alignSelf: "center",
+
     backgroundColor: "white",
     borderRadius: 10,
     borderColor: "#13313D",

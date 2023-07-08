@@ -25,7 +25,6 @@ import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 import SearchPage from "./search_page";
 
-
 async function loadFonts() {
   Font.loadAsync({
     Podkova: require("../assets/fonts/Podkova.ttf"),
@@ -43,6 +42,10 @@ export default function SecondPage({ navigation }) {
     setselectedplace,
     cartedplaces,
     setcartedplaces,
+    bookedplaces,
+    setbookedplaces,
+    cartitems,
+    setcart_items,
   } = useContext(TouraContext);
   loadFonts();
 
@@ -51,9 +54,8 @@ export default function SecondPage({ navigation }) {
 
     cartedplaces.push(selectedplace);
     setcartedplaces(cartedplaces);
-    // console.log(cartedplaces);
-   navigation.navigate("Cart");
-   
+    
+    navigation.navigate("Cart");
   }
 
   return (
@@ -88,36 +90,23 @@ export default function SecondPage({ navigation }) {
               {"\n"}Range {selectedplace.duration}-Days Tour
             </Text>
           </View>
-          <View style={{ flexDirection: "row" ,
-        margin:10,marginBottom:1
-        }}>
-            <Text
-              style={styles.small_text}
-            >
-              Activity Provider:
-            </Text>
+          <View style={{ flexDirection: "row", margin: 10, marginBottom: 1 }}>
+            <Text style={styles.small_text}>Activity Provider:</Text>
             <Text
               style={{
                 color: "red",
                 fontSize: 15,
-             
-            
               }}
             >
               {selectedplace.activity_provider}
             </Text>
           </View>
-          <View style={{ flexDirection: "row",   margin:10 }}>
-            <Text
-              style={styles.small_text}
-            >
-              Date:
-            </Text>
+          <View style={{ flexDirection: "row", margin: 10 }}>
+            <Text style={styles.small_text}>Date:</Text>
             <Text
               style={{
                 color: "red",
                 fontSize: 15,
-           
               }}
             >
               {selectedplace.date}
@@ -389,10 +378,9 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderWidth: 1,
   },
-  small_text:{
+  small_text: {
     color: "#01877E",
     fontSize: 15,
     paddingRight: 5,
-
   },
 });

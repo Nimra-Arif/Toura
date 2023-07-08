@@ -13,7 +13,7 @@ import {
   ViewPropsAndroid,
   FlatList,
 } from "react-native";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -28,29 +28,40 @@ import { ScrollView } from "react-native";
 
 async function loadFonts() {
   Font.loadAsync({
-   'Podkova': require("../assets/fonts/Podkova.ttf"),
-   "Playball": require("../assets/fonts/Playball.ttf"),
-   // Add other custom fonts here if needed
- });
+    Podkova: require("../assets/fonts/Podkova.ttf"),
+    Playball: require("../assets/fonts/Playball.ttf"),
+    // Add other custom fonts here if needed
+  });
 }
 export default function Bookings({ navigation }) {
-  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,
-    cartitems,setcart_items
+  const {
+    userId,
+    setUserId,
+    places,
+    setplaces,
+    selectedplace,
+    setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+    bookedplaces,
+    setbookedplaces,
+    cartitems,
+    setcart_items,
   } = useContext(TouraContext);
   const Stack = createStackNavigator();
   useEffect(() => {
     loadFonts();
-    setcartedplaces(cartedplaces);
+    // setcartedplaces(cartedplaces);
     setcart_items(cartedplaces.length);
-   
-
   });
-  function  cancelbooking(item) {
-    console.log("item", item.place_name);
-    const updatedCart = cartedplaces.filter((cartItem) => cartItem !== item);
-    setcartedplaces(updatedCart);
-  
-    }
+  function cancelbooking(item) {
+    console.log("item......", item.place_name);
+    const updatedbookings = bookedplaces.filter(
+      (booking) => booking.place_name !== item.place_name
+    )
+    setbookedplaces(updatedbookings);
+    console.log("updated cart");
+  }
   return (
     <View style={styles.container}>
       <View
@@ -68,16 +79,13 @@ export default function Bookings({ navigation }) {
           Bookings
         </Text>
       </View>
-     
-      
+
       <FlatList
-        style={{ marginTop: 90 ,flex:1}}
-        data={cartedplaces}
+        style={{ marginTop: 90, flex: 1 }}
+        data={bookedplaces}
         indicatorStyle="black"
         renderItem={({ item }) => (
           <View style={{ flex: 1 }}>
-        
-        
             <View style={styles.small_container}>
               <View
                 style={{
@@ -90,10 +98,11 @@ export default function Bookings({ navigation }) {
                   source={require("../assets/topsearch_1.jpeg")}
                   style={styles.image_style}
                 />
-  
+
                 <View style={styles.text_container}>
                   <Text style={styles.text_style2}>
-                  From {item.departure_spot} :  {"\n"}{item.duration}-days Tour of {item.place_name}
+                    From {item.departure_spot} : {"\n"}
+                    {item.duration}-days Tour of {item.place_name}
                   </Text>
                 </View>
               </View>
@@ -102,10 +111,13 @@ export default function Bookings({ navigation }) {
                   <Ionicons name="calendar" style={styles.icon_style} />
                   <Text style={styles.text_style3}>{item.date}</Text>
                 </View>
-  
+
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Ionicons name="time" style={styles.icon_style} />
-                  <Text style={styles.text_style3}> Opening hours: {item.opening_timings}</Text>
+                  <Text style={styles.text_style3}>
+                    {" "}
+                    Opening hours: {item.opening_timings}
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -118,19 +130,18 @@ export default function Bookings({ navigation }) {
                   <Pressable style={styles.button_style}>
                     <Text style={styles.text_style}>View Details</Text>
                   </Pressable>
-                  <Pressable style={styles.button_style2}
-                  onPress={() => {
-                    cancelbooking(item);
-                  }}
-                  
+                  <Pressable
+                    style={styles.button_style2}
+                    onPress={() => {
+                      cancelbooking(item);
+                    }}
                   >
                     <Text style={styles.text_style}>Cancel Booking</Text>
                   </Pressable>
                 </View>
               </View>
             </View>
-        
-        </View>
+          </View>
         )}
       />
     </View>
@@ -191,7 +202,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   small_container: {
-    margin: 7,
+    margin: 8,
     alignSelf: "center",
     // marginTop: 90,
     width: "99%",

@@ -34,33 +34,37 @@ async function loadFonts() {
   });
 }
 export default function Cart({ navigation }) {
-  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,
-    cartitems,setcart_items
+  const {
+    userId,
+    setUserId,
+    places,
+    setplaces,
+    selectedplace,
+    setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+    bookedplaces,
+    setbookedplaces,
+    cartitems,
+    setcart_items,
   } = useContext(TouraContext);
 
-  // console.log("cartedplaces", cartedplaces);
   useEffect(() => {
     loadFonts();
     setcartedplaces(cartedplaces);
     setcart_items(cartedplaces.length);
-   
-
   });
 
-
- let cart_price = 0;
+  let cart_price = 0;
 
   for (let i = 0; i < cartedplaces.length; i++) {
-  
     cart_price = cart_price + cartedplaces[i].price;
-
   }
 
- function  cartout(item) {
-  console.log("item", item.place_name);
-  const updatedCart = cartedplaces.filter((cartItem) => cartItem !== item);
-  setcartedplaces(updatedCart);
-
+  function cartout(item) {
+    console.log("item", item.place_name);
+    const updatedCart = cartedplaces.filter((cartItem) => cartItem !== item);
+    setcartedplaces(updatedCart);
   }
   return (
     <View style={styles.container}>
@@ -81,7 +85,7 @@ export default function Cart({ navigation }) {
       </View>
 
       <FlatList
-        style={{ marginBottom: 60, marginTop: 90 ,flex:1}}
+        style={{ marginBottom: 60, marginTop: 90, flex: 1 }}
         data={cartedplaces}
         indicatorStyle="black"
         renderItem={({ item }) => (
@@ -117,7 +121,9 @@ export default function Cart({ navigation }) {
                     </Text>
                   </View>
                   <Pressable
-                  onPress={() => { cartout(item)}}
+                    onPress={() => {
+                      cartout(item);
+                    }}
                   >
                     <Ionicons
                       name="trash"
@@ -183,9 +189,12 @@ export default function Cart({ navigation }) {
         <Text style={styles.footer_text} numberOfLines={2}>
           Rs. {cart_price} {"\n"} Subtotal
         </Text>
-        <Pressable style={styles.footer_button}
-        // disabled={cartedplaces.length==0?true:false}
-        onPress={() => {navigation.navigate("Billing")}}
+        <Pressable
+          style={styles.footer_button}
+          disabled={cartedplaces.length == 0 ? true : false}
+          onPress={() => {
+            navigation.navigate("Billing");
+          }}
         >
           <Text style={styles.footer_text}>Check out</Text>
         </Pressable>

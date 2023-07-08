@@ -19,6 +19,7 @@ import { query, where, getDocs, deleteDoc } from "firebase/firestore";
 import { TouraProvider, TouraContext } from "../Global/TouraContext";
 
 
+
 async function loadFonts() {
   Font.loadAsync({
     Podkova: require("../assets/fonts/Podkova.ttf"),

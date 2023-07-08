@@ -41,6 +41,8 @@ export default function Description({ navigation }) {
     setplaces,
     selectedplace,
     setselectedplace,
+    cartedplaces,
+    setcartedplaces,
   } = useContext(TouraContext);
   loadFonts();
   let numofdays = selectedplace.duration;
@@ -58,6 +60,16 @@ export default function Description({ navigation }) {
 
  }
    getdetails();
+   function book_place() {
+    console.log("booked");
+
+    cartedplaces.push(selectedplace);
+    setcartedplaces(cartedplaces);
+    // console.log(cartedplaces);
+   navigation.navigate("Cart");
+   
+  }
+
    
   return (
     <View style={styles.container}>
@@ -125,7 +137,7 @@ export default function Description({ navigation }) {
           From {"\n"}
           Rs. {selectedplace.price} per person
         </Text>
-        <Pressable style={styles.footer_button}>
+        <Pressable style={styles.footer_button}onPress={book_place}>
           <Text style={styles.footer_text}>Book Now</Text>
         </Pressable>
       </View>
