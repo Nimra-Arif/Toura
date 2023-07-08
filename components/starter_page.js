@@ -15,6 +15,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Login from "./login_page.js";
 import SignUp1 from "./signup_page1.js";
+import * as Animatable from "react-native-animatable";
+import TypeWriter from "@sucho/react-native-typewriter";
 
 async function loadFonts() {
   Font.loadAsync({
@@ -33,29 +35,50 @@ export default function StarterPage({ navigation }) {
         <Text style={styles.name_style}>TOURA</Text>
 
         <Image
-          source={require("../assets/toura_land_icon1.png")}
+          source={require("../assets/MyProj.png")}
           style={styles.image_style}
         />
-        <Text style={styles.slogan_style} numberOfLines={1}>
-          Embrace the Journey, Embrace the World
-        </Text>
+        <View style={{ paddingLeft:25}}>
+        <TypeWriter
+          textArray={["Embrace the Journey, Embrace the World "]}
+          loop={false}
+
+          speed={100}
+          delay={100}
+          
+          
+          
+          textStyle={styles.slogan_style}
+          cursorStyle={styles.slogan_style}
+        />
+        </View>
       </View>
 
       <View style={styles.container2}>
-        <Pressable 
-        style={{borderBottomColor:"#fff",borderBottomWidth:1,marginBottom  : 10}}
-        onPress={() => navigation.navigate("SignUp1")}>
-          <Text style={styles.bold_text}>Create Account</Text>
+      <View style={styles.small_container}
+      >
+        <Text style={styles.normal_text}> New to Toura? </Text>
+
+        <Pressable
+          style={{
+            borderBottomColor: "#fff",
+            borderBottomWidth: 1,
+            marginBottom: 10,
+          }}
+          onPress={() => navigation.navigate("SignUp1")}
+        >
+          <Text style={styles.bold_text}>Sign Up</Text>
         </Pressable>
+        </View>
         <View style={styles.small_container}>
-          <Text style={styles.normal_text}> Already Have An Account</Text>
-        
-         <Pressable onPress={() => navigation.navigate("Login")}
-            style={{borderBottomColor:"#fff",borderBottomWidth:1,}}
+          <Text style={styles.normal_text}> Already Have An Account? </Text>
+
+          <Pressable
+            onPress={() => navigation.navigate("Login")}
+            style={{ borderBottomColor: "#fff", borderBottomWidth: 1 }}
           >
-            <Text style={styles.bold_text}> Login</Text>
+            <Text style={styles.bold_text}>Sign in</Text>
           </Pressable>
-        
         </View>
       </View>
     </View>
@@ -65,7 +88,7 @@ export default function StarterPage({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#01877E",
+    backgroundColor: "#00A693",
     alignItems: "center",
     flexDirection: "column",
   },
@@ -78,24 +101,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
     paddingTop: 310,
-   
   },
   name_style: {
     color: "#fff",
     fontSize: 45,
+
     fontFamily: "Podkova",
-    // fontWeight: "bold",
-    textShadowColor: "black",
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 10,
+    textShadowColor: "#899499",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   slogan_style: {
     color: "#fff",
-    fontSize: 15,
+    fontSize: 18,
     fontFamily: "Playball",
-    textShadowColor: "black",
-    textShadowOffset: { width: 4, height: 2 },
-    textShadowRadius: 10,
   },
   image_style: {
     width: 130,
@@ -116,7 +135,7 @@ const styles = StyleSheet.create({
   },
   normal_text: {
     color: "#fff",
-    fontSize: 15,
+    fontSize: 18 ,
     fontFamily: "Podkova",
     paddingTop: 3,
   },

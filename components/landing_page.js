@@ -4,6 +4,8 @@ import * as Font from "expo-font";
 import React, { useEffect } from "react";
 import { View, Image, Text } from "react-native";
 import * as Animatable from "react-native-animatable";
+
+const BGcolor="#00A693";
 // import { loadFonts } from "../App";
 
 async function loadFonts() {
@@ -27,24 +29,23 @@ const LaunchScreen = ({ navigation }) => {
   
     setTimeout(() => {
       navigation.navigate("Starting Page");
-    }, 4000);
+    }, 3000);
   }, []);
   
 
   return (
-    <View style={{ backgroundColor: "#01877e", flex: 1 }}>
+    <View style={{ backgroundColor: "#00A693", flex: 1 }}>
       <Animatable.View
         animation="bounceIn"
         iterationCount={1}
-        duration={1500}
-        delay={100}
+        duration={1000}
+        delay={200}
         style={styles.container}
       >
         <Animatable.Image
           source={require("../assets/logo_toura.png")}
           style={styles.image_style}
         />
-       
       </Animatable.View>
     </View>
   );
@@ -53,7 +54,7 @@ const LaunchScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#01877E",
+    backgroundColor: "#00A693",
     alignItems: "center",
   },
   text_style: {
