@@ -15,51 +15,43 @@ import {
 import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
-import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
-import { TouraProvider, TouraContext } from "../Global/TouraContext";
-import { db } from "./config.jsx";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 import SearchPage from "./search_page";
+import Swiper from "react-native-swiper";
 
-async function loadFonts() {
-  Font.loadAsync({
-    Podkova: require("../assets/fonts/Podkova.ttf"),
-    Playball: require("../assets/fonts/Playball.ttf"),
-    // Add other custom fonts here if needed
-  });
-}
-export default function WelcomePage({ navigation }) {
-  const {
-    userId,
-    setUserId,
-    places,
-    setplaces,
-    selectedplace,
-    setselectedplace,
-    cartedplaces,
-    setcartedplaces,
-    bookedplaces,
-    setbookedplaces,
-    placetype,
-    setplacetype,
-    cartitems,
-    setcart_items,
-  } = useContext(TouraContext);
-
-  function welcomebutton(type) {
-
-   let placetype = type;
-    setplacetype(placetype);
-    
-    console.log(placetype);
-    navigation.navigate("Search");
+function showtext(step) {
+  if (step == 0) {
+    return <Text style={styles.text_style}>Welcome to Toura</Text>;
   }
-  loadFonts();
+  if (step == 1) {
+    return <Text style={styles.text_style}>Your travel guide</Text>;
+  }
+}
+
+export default function WelcomePage({ navigation }) {
+  //array to store image addresses from assets folder
+
+  const images = [
+    require("../assets/home_page_img.png"),
+    require("../assets/hiking_guide_toura.jpeg"),
+    require("../assets/hiking_guide_toura.jpeg"),
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        Podkova: require("../assets/fonts/Podkova.ttf"),
+        Playball: require("../assets/fonts/Playball.ttf"),
+      });
+    };
+
+    loadFonts();
+  }, []);
   return (
     <View>
       <View
@@ -72,15 +64,32 @@ export default function WelcomePage({ navigation }) {
           zIndex: 1,
         }}
       ></View>
-
       <ScrollView>
         <SafeAreaView>
-          <ImageBackground
-            style={styles.home_image}
-            source={require("../assets/home_page_img.png")}
-          >
-            <Text style={styles.text_style}>Hi, Welcome to Toura</Text>
-          </ImageBackground>
+          <View>
+            <Swiper
+              style={(style = { height: 420 })}
+              autoplay={true}
+              autoplayTimeout={3}
+              loop={false}
+              dotColor="grey"
+              activeDotColor="#00A693"
+              step={1}
+              minimumValue={0}
+              maximumValue={2}
+            >
+              {images.map((image, index) => (
+                <ImageBackground
+                  source={image}
+                  style={styles.home_image}
+                  resizeMode="cover"
+                  key={index}
+                >
+                  {showtext(index)}
+                </ImageBackground>
+              ))}
+            </Swiper>
+          </View>
           <View>
             <Text style={styles.text_style2}>Top Searches</Text>
           </View>
@@ -206,29 +215,20 @@ export default function WelcomePage({ navigation }) {
           <View style={styles.button_container}>
             <Pressable
               style={styles.button_style}
-              onPress={()=>{welcomebutton("Camping")}}
+              onPress={() => navigation.navigate("Search")}
             >
               <Text style={styles.button_text}>Camping</Text>
               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
             </Pressable>
-            <Pressable
-              style={styles.button_style}
-              onPress={()=>{welcomebutton("Hiking")}}
-            >
+            <Pressable style={styles.button_style}>
               <Text style={styles.button_text}>Hiking</Text>
               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
             </Pressable>
-            <Pressable
-              style={styles.button_style}
-              onPress={()=>{welcomebutton("Climbing")}}
-            >
+            <Pressable style={styles.button_style}>
               <Text style={styles.button_text}>Climbing</Text>
               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
             </Pressable>
-            <Pressable
-              style={styles.button_style}
-              onPress={()=>{welcomebutton("Forest")}}
-            >
+            <Pressable style={styles.button_style}>
               <Text style={styles.button_text}>Forest</Text>
               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
             </Pressable>
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     color: "#01877E",
     textAlign: "center",
     justifyContent: "center",
-    paddingTop: 70,
+    paddingTop: 10,
     textShadowColor: "black",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
