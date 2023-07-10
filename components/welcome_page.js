@@ -71,7 +71,7 @@ export default function WelcomePage({ navigation }) {
               style={(style = { height: 420 })}
               autoplay={true}
               autoplayTimeout={3}
-              loop={false}
+              loop={true}
               dotColor="grey"
               activeDotColor="#00A693"
               step={1}
