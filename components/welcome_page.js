@@ -15,7 +15,12 @@ import {
 import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useState, useEffect } from "react";
+
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
+import { db } from "./config.jsx";
+import { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
@@ -32,7 +37,24 @@ function showtext(step) {
 }
 
 export default function WelcomePage({ navigation }) {
-  //array to store image addresses from assets folder
+  let [tosearch, onchangetosearch] = useState("");
+  const {
+    userId,
+    setUserId,
+    places,
+    setplaces,
+    selectedplace,
+    setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+    bookedplaces,
+    setbookedplaces,
+    placetype,
+    setplacetype,
+    cartitems,
+    setcart_items,
+  } = useContext(TouraContext);
+  
 
   const images = [
     require("../assets/home_page_img.png"),
@@ -52,6 +74,15 @@ export default function WelcomePage({ navigation }) {
 
     loadFonts();
   }, []);
+
+function welcomeButton(type){
+  setplacetype(type);
+  navigation.navigate("Search");
+
+  
+}
+
+
   return (
     <View>
       <View
@@ -215,20 +246,25 @@ export default function WelcomePage({ navigation }) {
           <View style={styles.button_container}>
             <Pressable
               style={styles.button_style}
-              onPress={() => navigation.navigate("Search")}
+              onPress={()=>{welcomeButton("Camping")}}
             >
               <Text style={styles.button_text}>Camping</Text>
               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
             </Pressable>
-            <Pressable style={styles.button_style}>
+            <Pressable style={styles.button_style}
+             onPress={()=>{welcomeButton("Hiking")}}
+            >
               <Text style={styles.button_text}>Hiking</Text>
               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
             </Pressable>
-            <Pressable style={styles.button_style}>
+            <Pressable style={styles.button_style}
+             onPress={()=>{welcomeButton("Climbing")}}>
               <Text style={styles.button_text}>Climbing</Text>
               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
             </Pressable>
-            <Pressable style={styles.button_style}>
+            <Pressable style={styles.button_style}
+             onPress={()=>{welcomeButton("Forest")}}
+            >
               <Text style={styles.button_text}>Forest</Text>
               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
             </Pressable>

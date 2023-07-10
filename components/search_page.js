@@ -141,7 +141,7 @@ export default function SearchPage({ navigation }) {
   }
 
   return (
-    <ScrollView>
+    <View>
       <SafeAreaView>
         <View style={{ paddingTop: 10 }}>
           <Text style={styles.text_style2}>Where do you want to go?</Text>
@@ -309,7 +309,7 @@ export default function SearchPage({ navigation }) {
           </Pressable>
         </View>
       </SafeAreaView>
-    </ScrollView>
+    </View>
   );
 }
 
