@@ -44,21 +44,57 @@ const DATA = [
   { id: "shangrila", name: "Shangrila" },
 ];
 
+async function loadFonts() {
+  Font.loadAsync({
+    Podkova: require("../assets/fonts/Podkova.ttf"),
+    Playball: require("../assets/fonts/Playball.ttf"),
+    // Add other custom fonts here if needed
+  });
+}
+
+
 
 
 
 export default function SearchPage({ navigation }) {
 
-  useEffect(() => {
-    const loadFonts = async () => {
-      await Font.loadAsync({
-        Podkova: require("../assets/fonts/Podkova.ttf"),
-        Playball: require("../assets/fonts/Playball.ttf"),
-      });
-    };
+  const [isSearchButtonPressed, setIsSearchButtonPressed] = useState(false);
 
+  useEffect(() => {
     loadFonts();
-  }, []);
+    if (isSearchButtonPressed) {
+      const searchAndNavigate = async () => {
+        const q = query(
+          collection(db, "place"),
+          where("place_name", "==", tosearch)
+        );
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+          console.log("No such document!");
+        } else {
+          const newPlaces = [];
+          querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data().place_name);
+            newPlaces.push(doc.data());
+          });
+          setplaces(newPlaces);
+          navigation.navigate("Activities");
+        }
+      };
+
+      searchAndNavigate();
+      setIsSearchButtonPressed(false);
+    }
+  }, [isSearchButtonPressed]);
+
+  function search_next_button() {
+    console.log("search next button pressed");
+    tosearch = tosearch.toLowerCase().trim();
+    console.log(tosearch);
+    onchangetosearch(tosearch);
+    setIsSearchButtonPressed(true);
+  }
+
   let [tosearch, onchangetosearch] = useState("");
   const {
     userId,
@@ -141,7 +177,7 @@ export default function SearchPage({ navigation }) {
   }
 
   return (
-    <View>
+    
       <SafeAreaView>
         <View style={{ paddingTop: 10 }}>
           <Text style={styles.text_style2}>Where do you want to go?</Text>
@@ -286,6 +322,8 @@ export default function SearchPage({ navigation }) {
             </ImageBackground>
           </View>
         </ScrollView>
+        
+          
         <View>
           <Text style={styles.text_style2}>{placetype} Guidlines</Text>
         </View>
@@ -308,8 +346,9 @@ export default function SearchPage({ navigation }) {
             </View>
           </Pressable>
         </View>
+      
       </SafeAreaView>
-    </View>
+      
   );
 }
 

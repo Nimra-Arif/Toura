@@ -7,12 +7,14 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCJEX5jyb12RNVmsPlXGdH-ywswS7I0iT0",
-  authDomain: "toura-1a6fb.firebaseapp.com",
-  projectId: "toura-1a6fb",
-  storageBucket: "toura-1a6fb.appspot.com",
-  messagingSenderId: "943306999863",
-  appId: "1:943306999863:web:54b76dd923a2fa912f97b2"
+  
+  apiKey: "AIzaSyAkmAOW594Exn0ZiK78fdOUzfv3VCn_5xw",
+  authDomain: "toura-470c7.firebaseapp.com",
+  projectId: "toura-470c7",
+  storageBucket: "toura-470c7.appspot.com",
+  messagingSenderId: "897632893476",
+  appId: "1:897632893476:web:7fbfd864337397c52d36b1",
+  measurementId: "G-Z57FC2Z8NG"
 };
 
 // Initialize Firebase

@@ -39,7 +39,7 @@ const LaunchScreen = ({ navigation }) => {
         animation="bounceIn"
         iterationCount={1}
         duration={1000}
-        delay={300}
+        delay={400}
         style={styles.container}
       >
         <Animatable.Image

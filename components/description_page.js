@@ -70,78 +70,81 @@ export default function Description({ navigation }) {
    
   }
 
+
    
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          backgroundColor: "#01877E",
-          height: 35,
-          position: "absolute",
-          top: 0,
-          width: "100%",
-          zIndex: 1,
-        }}
-      ></View>
-      <Pressable
-        color="black"
-        style={{ position: "absolute", top: 40, left: 10, opacity: 0.9 }}
-        onPress={() => navigation.navigate("SecondPage")}
-      >
-        <Ionicons name="arrow-back-circle-outline" size={44} color="#01877E" />
-      </Pressable>
-      <ScrollView style={{ marginTop: 90 }}>
-        <View>
-          <Text style={styles.heading_style}>Highlights</Text>
-          <Text style={styles.norm_text}>{selectedplace.highlights}</Text>
-        </View>
-        <View>
-          <Text style={styles.heading_style}>Full Description</Text>
-        <Text  style={styles.norm_text}>  {selectedplace.full_description[0]}</Text>
-          <Text style={styles.norm_text}>{details}</Text>
-        </View>
-        <View>
-          <Text style={styles.heading_style}>Cancellation Policy</Text>
-          <Text style={styles.norm_text}>Cancel up yo 24 hours in advance for a full refund</Text>
-        </View>
-        <View>
-          <Text style={styles.heading_style}>Includes</Text>
-          <Text style={styles.norm_text}>{selectedplace.includes}</Text>
-        </View>
-        <View>
-          <Text style={styles.heading_style}>Not suitable for</Text>
-          <Text style={styles.norm_text}>{selectedplace.not_suitable_for}</Text>
-        </View>
-        <View>
-          <Text style={styles.heading_style}>What to bring</Text>
-          <Text style={styles.norm_text}>{selectedplace.what_to_bring[0]}</Text>
-          <Text style={styles.norm_text}>{selectedplace.what_to_bring[1]}</Text>
-        <Text style={styles.norm_text}>{selectedplace.what_to_bring[2]}</Text>
-        <Text style={styles.norm_text}>{selectedplace.what_to_bring[3]}</Text>
-        <Text style={styles.norm_text}>{selectedplace.what_to_bring[4]}</Text>
-        <Text style={styles.norm_text}>{selectedplace.what_to_bring[5]}</Text>
+  
+<View style={styles.container}>
+<View
+  style={{
+    backgroundColor: "#01877E",
+    height: 35,
+    position: "absolute",
+    top: 0,
+    width: "100%",
+    zIndex: 1,
+  }}
+></View>
+<Pressable
+  color="black"
+  style={{ position: "absolute", top: 40, left: 10, opacity: 0.9 }}
+  onPress={() => navigation.navigate("SecondPage")}
+>
+  <Ionicons name="arrow-back-circle-outline" size={44} color="#01877E" />
+</Pressable>
 
 
+<ScrollView style={{ marginTop: 90 }}>
+  <View>
+    <Text style={styles.heading_style}>Highlights</Text>
+    <Text style={styles.norm_text}>{selectedplace.highlights}</Text>
+  </View>
+  <View>
+    <Text style={styles.heading_style}>Full Description</Text>
+  <Text  style={styles.norm_text}>  {selectedplace.full_description[0]}</Text>
+    <Text style={styles.norm_text}>{details}</Text>
+  </View>
+  <View>
+    <Text style={styles.heading_style}>Cancellation Policy</Text>
+    <Text style={styles.norm_text}>Cancel up yo 24 hours in advance for a full refund</Text>
+  </View>
+  <View>
+    <Text style={styles.heading_style}>Includes</Text>
+    <Text style={styles.norm_text}>{selectedplace.includes}</Text>
+  </View>
+  <View>
+    <Text style={styles.heading_style}>Not suitable for</Text>
+    <Text style={styles.norm_text}>{selectedplace.not_suitable_for}</Text>
+  </View>
+ 
+  <View>
+    <Text style={styles.heading_style}>Know before you go</Text>
+    <Text style={styles.norm_text}>{selectedplace.know_before_you_go[0]}</Text>
+      <Text style={styles.norm_text}>{selectedplace.know_before_you_go[1]}</Text>
+       <Text style={styles.norm_text}>{selectedplace.know_before_you_go}{"\n"}</Text> 
+  </View>
+  <View>
+    <Text style={styles.heading_style}>What to bring</Text>
+    <Text style={styles.norm_text}>{selectedplace.what_to_bring}</Text>
+
+    
+    
 
 
-        </View>
-        <View>
-          <Text style={styles.heading_style}>Know before you go</Text>
-          <Text style={styles.norm_text}>{selectedplace.know_before_you_go[0]}</Text>
-            <Text style={styles.norm_text}>{selectedplace.know_before_you_go[1]}</Text>
-            {/* <Text style={styles.norm_text}>{selectedplace.know_before_you_go}{"\n"}</Text> */}
-        </View>
-      </ScrollView>
-      <View style={styles.footer_style}>
-        <Text style={styles.footer_text} numberOfLines={2}>
-          From {"\n"}
-          Rs. {selectedplace.price} per person
-        </Text>
-        <Pressable style={styles.footer_button}onPress={book_place}>
-          <Text style={styles.footer_text}>Book Now</Text>
-        </Pressable>
-      </View>
-    </View>
+  </View>
+</ScrollView>
+<View style={styles.footer_style}>
+  <Text style={styles.footer_text} numberOfLines={2}>
+    From {"\n"}
+    Rs. {selectedplace.price} per person
+  </Text>
+  <Pressable style={styles.footer_button}onPress={book_place}>
+    <Text style={styles.footer_text}>Book Now</Text>
+  </Pressable>
+</View>
+</View> 
+
+
   );
 }
 
