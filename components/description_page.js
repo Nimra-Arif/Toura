@@ -125,9 +125,17 @@ export default function Description({ navigation }) {
   </View>
   <View>
     <Text style={styles.heading_style}>What to bring</Text>
-    <Text style={styles.norm_text}>{selectedplace.what_to_bring}</Text>
+  
+    <Text style={styles.norm_text}>{selectedplace.what_to_bring[0]}</Text>
+    <Text style={styles.norm_text}>{selectedplace.what_to_bring[1]}</Text>
+    <Text style={styles.norm_text}>{selectedplace.what_to_bring[2]}</Text>
+    <Text style={styles.norm_text}>{selectedplace.what_to_bring[3]}</Text>
+    <Text style={styles.norm_text}>{selectedplace.what_to_bring[4]}</Text>
+    <Text style={styles.norm_text}>{selectedplace.what_to_bring[5]}</Text>
 
-    
+
+
+
     
 
 
