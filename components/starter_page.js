@@ -43,8 +43,8 @@ export default function StarterPage({ navigation }) {
           textArray={["Embrace the Journey, Embrace the World "]}
           loop={false}
 
-          speed={100}
-          delay={90}
+          speed={90}
+          delay={80}
           
           
           

@@ -34,6 +34,10 @@ function showtext(step) {
   if (step == 1) {
     return <Text style={styles.text_style}>Your travel guide</Text>;
   }
+  if (step == 2) {
+    return <Text style={styles.text_style}>
+      Unlock the World with Toura</Text>;
+  }
 }
 
 export default function WelcomePage({ navigation }) {
@@ -59,7 +63,7 @@ export default function WelcomePage({ navigation }) {
   const images = [
     require("../assets/home_page_img.png"),
     require("../assets/hiking_guide_toura.jpeg"),
-    require("../assets/hiking_guide_toura.jpeg"),
+    require("../assets/welcome3.png"),
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -99,9 +103,9 @@ function welcomeButton(type){
         <SafeAreaView>
           <View>
             <Swiper
-              style={(style = { height: 420 })}
+              style={{height:420}}
               autoplay={true}
-              autoplayTimeout={3}
+              autoplayTimeout={2}
               loop={true}
               dotColor="grey"
               activeDotColor="#00A693"

@@ -57,7 +57,8 @@ export default function MainPage({ navigation }) {
             let iconName;
 
             if (route.name === "Home") {
-              iconName = "search";
+              iconName = "home";
+              
             } else if (route.name === "Bookings") {
               iconName = "bookmarks";
             } else if (route.name === "Cart") {

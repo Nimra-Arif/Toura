@@ -192,6 +192,7 @@ export default function Cart({ navigation }) {
         <Pressable
           style={styles.footer_button}
           disabled={cartedplaces.length == 0 ? true : false}
+          opacity={cartedplaces.length == 0 ? 0.3 : 1}
           onPress={() => {
             navigation.navigate("Billing");
           }}
