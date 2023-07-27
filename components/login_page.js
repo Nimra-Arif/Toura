@@ -88,6 +88,9 @@ export default function Login({ navigation }) {
 
           if (user.emailVerified) {
             navigation.navigate("MainPage");
+            setUserId(user.uid);
+            console.log("User logged in successfully");
+            console.log(user.uid);
           } else {
             alert("Please verify your email before logging in.");
           }
@@ -180,7 +183,7 @@ export default function Login({ navigation }) {
               style={styles.normal_text}
               onPress={() => handleResetPassword()}
             >
-              <Text style={{color:"#ebe8"}}>Forgot Password?</Text>
+              <Text style={{color:"white"}}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>
 
@@ -250,7 +253,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     // fontFamily: "Roboto",
     // fontStyle: "italic",
-    paddingLeft: "33%",
+    // paddingLeft: "33%",
     paddingTop: "2%",
     fontFamily: "Podkova",
   },

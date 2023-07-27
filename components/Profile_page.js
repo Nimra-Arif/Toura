@@ -35,11 +35,26 @@ async function loadFonts() {
   });
 }
 export default function Profile({ navigation }) {
-  let username="";
-  const { userId, setUserId,places,setplaces }= useContext(TouraContext);
-  loadFonts();
-
   
+const [username,setusername]=useState("");
+  const { userId, setUserId,places,setplaces }= useContext(TouraContext);
+ 
+  const q= query(collection(db, "users"),where("uid","==",userId));
+  getDocs(q).then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+    let  profileName=doc.data().username;
+      setusername(profileName);
+      console.log(username);
+    });
+  })
+
+useEffect(() => {
+  loadFonts();
+  console.log("Profile page");
+  console.log(userId);
+ 
+
+}, []);
 
   return (
     <View style={styles.container}>
@@ -67,7 +82,9 @@ export default function Profile({ navigation }) {
             <View style={styles.inner_container1}>
               <Text style={styles.header_text1}>
               
-                {userId.data().username}
+                {/* {userId} */}
+
+              {username}
               </Text>
             </View>
             <View style={styles.inner_container2}>
