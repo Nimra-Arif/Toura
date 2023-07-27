@@ -19,9 +19,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "./config.jsx";
 import { auth } from "./config.jsx";
+
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  setCustomUserClaims,
 } from "firebase/auth";
 
 async function loadFonts() {
@@ -74,6 +76,8 @@ export default function SignUp1({ navigation }) {
             console.error("Error sending verification email:", error);
           });
         alert("Verify your email to login");
+     
+        console.log("Creating user...");
 
         onchangeemail("");
         onchangeusername("");

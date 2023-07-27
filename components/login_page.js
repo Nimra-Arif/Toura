@@ -17,8 +17,14 @@ import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "./config.jsx";
 import { query, where, getDocs, deleteDoc } from "firebase/firestore";
 import { TouraProvider, TouraContext } from "../Global/TouraContext";
-
-
+import {
+  emailVerified,
+  currentUser,
+  signInWithEmailAndPassword,
+  getAuth,
+} from "firebase/auth";
+import { auth } from "./config.jsx";
+import { sendPasswordResetEmail, confirmPasswordReset } from "firebase/auth";
 
 async function loadFonts() {
   Font.loadAsync({
@@ -29,13 +35,41 @@ async function loadFonts() {
 }
 
 export default function Login({ navigation }) {
-  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace }= useContext(TouraContext);
+  const {
+    userId,
+    setUserId,
+    places,
+    setplaces,
+    selectedplace,
+    setselectedplace,
+  } = useContext(TouraContext);
 
-  const [email, onchangeemail] = useState("");
+  let [email, onchangeemail] = useState("");
   const [password, onchangepassword] = useState("");
   const [secureTextEntry, setsecureTextEntry] = useState(true);
 
   let [iconName, seticonName] = useState("eye-off");
+
+  async function handleResetPassword() {
+    email = email.trim();
+    if (email === "") {
+      alert("Please enter your email address");
+      return;
+    }
+
+    try {
+      // Step 1: Send password reset email
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset email sent! Please check your email inbox.");
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      alert(
+        "An error occurred while resetting the password. Please try again later."
+      );
+    }
+  }
+
+
 
   useEffect(() => {
     onchangeemail("");
@@ -48,31 +82,39 @@ export default function Login({ navigation }) {
     if (email === "" || password === "") {
       alert("Please enter all the fields");
     } else {
-      const q = query(collection(db, "users"), where("email", "==", email));
-      getDocs(q).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          if (doc.data().password === password) {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
 
-            setUserId(doc);
-            console.log(userId);
-            console.log(doc.id);
+          if (user.emailVerified) {
             navigation.navigate("MainPage");
           } else {
+            alert("Please verify your email before logging in.");
+          }
+        })
+        .catch((error) => {
+          if (
+            error.code === "auth/invalid-email" ||
+            error.code === "auth/user-not-found"
+          ) {
             alert("Invalid email or password");
+          } else if (error.code === "auth/wrong-password") {
+            alert("Invalid password");
+          } else {
+            console.error("Error signing in:", error);
+            alert(
+              "An error occurred while signing in. Please try again later."
+            );
           }
         });
-      });
     }
   }
+
   async function showPassword() {
     if (iconName === "eye") {
-   
-      
       seticonName("eye-off");
       setsecureTextEntry(true);
     } else {
-   
-      
       seticonName("eye");
       setsecureTextEntry(false);
     }
@@ -134,7 +176,12 @@ export default function Login({ navigation }) {
                 />
               </Pressable>
             </View>
-            <Text style={styles.normal_text}>Forgot Password?</Text>
+            <TouchableOpacity
+              style={styles.normal_text}
+              onPress={() => handleResetPassword()}
+            >
+              <Text style={{color:"#ebe8"}}>Forgot Password?</Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.icon_style}>
