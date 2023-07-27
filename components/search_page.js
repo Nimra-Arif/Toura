@@ -26,212 +26,120 @@ import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
 import { useState, useEffect, useContext } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { SelectList } from "react-native-dropdown-select-list";
 
-
-
-const DATA = [
-  { id: "hunza", name: "Hunza" },
-  { id: "fairy meadows", name: "Fairy Meadows" },
-  { id: "mushkporitop", name: "Mushk Pori Top" },
-  { id: "shogran", name: "Shogran" },
-  { id: "naltar", name: "Naltar" },
-  { id: "gilgit", name: "Gilgit" },
-  { id: "khunjerab", name: "Khunjerab" },
-  { id: "k2", name: "K2" },
-  { id: "nanga", name: "Nanga Parbat" },
-  { id: "deosai", name: "Deosai" },
-  { id: "shandur", name: "Shandur" },
-  { id: "shangrila", name: "Shangrila" },
+const data = [
+  { key: "hunza", value: "Hunza" },
+  { key: "fairy meadows", value: "Fairy Meadows" },
+  { key: "mushkporitop", value: "Mushk Pori Top" },
+  { key: "shogran", value: "Shogran" },
+  { key: "gilgit", value: "Gilgit" },
+  { key: "naltar", value: "Naltar" },
+  { key: "khunjerab", value: "Khunjerab" },
+  { key: "k2", value: "K2" },
+  { key: "nanga", value: "Nanga Parbat" },
+  { key: "deosai", value: "Deosai" },
+  { key: "shandur", value: "Shandur" },
+  { key: "shangrila", value: "Shangrila" },
 ];
-
-async function loadFonts() {
-  Font.loadAsync({
-    Podkova: require("../assets/fonts/Podkova.ttf"),
-    Playball: require("../assets/fonts/Playball.ttf"),
-    // Add other custom fonts here if needed
-  });
-}
-
-
 
 
 
 export default function SearchPage({ navigation }) {
-
-  const [isSearchButtonPressed, setIsSearchButtonPressed] = useState(false);
-
-  useEffect(() => {
-    loadFonts();
-    if (isSearchButtonPressed) {
-      const searchAndNavigate = async () => {
-        const q = query(
-          collection(db, "place"),
-          where("place_name", "==", tosearch)
-        );
-        const querySnapshot = await getDocs(q);
-        if (querySnapshot.empty) {
-          console.log("No such document!");
-        } else {
-          const newPlaces = [];
-          querySnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data().place_name);
-            newPlaces.push(doc.data());
-          });
-          setplaces(newPlaces);
-          navigation.navigate("Activities");
-        }
-      };
-
-      searchAndNavigate();
-      setIsSearchButtonPressed(false);
-    }
-  }, [isSearchButtonPressed]);
-
-  function search_next_button() {
-    console.log("search next button pressed");
-    tosearch = tosearch.toLowerCase().trim();
-    console.log(tosearch);
-    onchangetosearch(tosearch);
-    setIsSearchButtonPressed(true);
-  }
-
   let [tosearch, onchangetosearch] = useState("");
   const {
-    userId,
-    setUserId,
-    places,
+
     setplaces,
-    selectedplace,
-    setselectedplace,
-    cartedplaces,
-    setcartedplaces,
-    bookedplaces,
-    setbookedplaces,
     placetype,
-    setplacetype,
-    cartitems,
-    setcart_items,
+  
   } = useContext(TouraContext);
 
-  const[isFocus,setisFocus]=useState(false);
-
-  const [onsuggestion, setonsuggestion] = useState(false);
-
-  function search_on_click(item) {
-    console.log("search in progress");
-    console.log(item);
-    onchangetosearch(item);
-    const q = query(
-      collection(db, "place"),
-      where("place_name", "==", item)
-    );
-    const querySnapshot = getDocs(q);
-    querySnapshot.then((doc) => {
-      if (doc.empty) {
-        console.log("No such document!");
-      } else {
-        const newPlaces = [];
-        doc.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().place_name);
-          newPlaces.push(doc.data());
-        });
-        setplaces(newPlaces);
-        navigation.navigate("Activities");
-      }
-    });
-  }
-
-
-
-
-
-
-  function search_next_button() {
+  async function search_next_button(val) {
     console.log("search next button pressed");
-   
-    tosearch = tosearch.toLowerCase().trim();
+    tosearch = val.toLowerCase().trim();
     console.log(tosearch);
-    onchangetosearch(tosearch);
+    onchangetosearch(val);
 
-   
     const q = query(
       collection(db, "place"),
       where("place_name", "==", tosearch)
     );
-    const querySnapshot = getDocs(q);
-    querySnapshot.then((doc) => {
-      if (doc.empty) {
+    try {
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
         console.log("No such document!");
       } else {
         const newPlaces = [];
-        doc.forEach((doc) => {
+        querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().place_name);
           newPlaces.push(doc.data());
-        }); 
+        });
         navigation.navigate("Activities");
         setplaces(newPlaces);
-        
-       
       }
-    });
+    } catch (error) {
+      console.log("Error getting documents: ", error);
+    }
   }
 
   return (
-    
+    <KeyboardAvoidingView style={styles.container}>
       <SafeAreaView>
         <View style={{ paddingTop: 10 }}>
           <Text style={styles.text_style2}>Where do you want to go?</Text>
         </View>
-        <View style={styles.search_style}>
-          {isFocus && (
-            <Pressable onPress={() => setisFocus(false)}>
-              <Ionicons name="arrow-back" style={styles.back_icon_style} />
-            </Pressable>
-          )}
 
-          <TextInput
-            value={tosearch}
-            placeholder={isFocus ? "" : "Search for a place"}
-            onFocus={() => setisFocus(true)}
-            onBlur={() => setisFocus(false)}
+       <View 
+       >
+       <SelectList
+          setSelected={(val)=>search_next_button(val)}
+          data={data}
+          save="value"
+          // style={styles.search_style}
+          search={true}
+          maxHeight={200}
+          inputStyles={styles.input_style}
+          placeholder="Search"
+          boxStyles={
+            {
+              
+              width: "85%",
+              height: 45,
+              borderRadius: 50,
+              justifyContent: "center",
+              alignItems: "center",
+              alignSelf: "center",
+              marginTop: 20,
+              backgroundColor: "white",
+              shadowColor: "black",
+              shadowOffset: { width: 5, height: 5 },
+              shadowRadius: 5,
+              shadowOpacity: 0.4,
+              elevation: 5,
+        
 
-            onSubmitEditing={search_next_button}
-            onChangeText={(tosearch) => {
-              onchangetosearch(tosearch);
-            }}
-            style={[styles.input_style, {flex:1}]}
-            placeholderTextColor="grey"
-            clearButtonMode="always"
-          ></TextInput>
+            }
+          }
+          dropdownStyles={{
+            width: "85%",
+              borderRadius: 20,
+              justifyContent: "center",
+              // alignItems: "center",
+              alignSelf: "center",
+              backgroundColor: "white",
+              shadowColor: "black",
+              shadowOffset: { width: 5, height: 5 },
+              shadowRadius: 5,
+              shadowOpacity: 0.4,
+              elevation: 5,
+              zIndex: 1,
 
-          <Pressable onPress={search_next_button}>
-            <Ionicons name="search" style={styles.search_icon_style} />
-          </Pressable>
-        </View>
-      
-
-        {isFocus && (
-          
-            <View style={styles.search_suggestion}>
-              <FlatList
-                data={DATA}
-                keyExtractor={(item) => item.id}
-                
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPressIn={setonsuggestion(true)}
-                    
-                    onPress={() => search_on_click(item.id)}
-                    style={styles.searchItem}
-                  >
-                    <Text style={styles.searchItemText}>{item.name}</Text>
-                  </TouchableOpacity>
-                )}
-              />
-            </View>
-          
-        )}
+          }}
+         dropdownTextStyles={
+        styles.input_style 
+        }
+        />
+       </View>
 
         <View>
           <Text style={styles.text_style2}>Recommended Places</Text>
@@ -322,33 +230,32 @@ export default function SearchPage({ navigation }) {
             </ImageBackground>
           </View>
         </ScrollView>
-        
-          
-        <View>
-          <Text style={styles.text_style2}>{placetype} Guidlines</Text>
-        </View>
-        <View style={styles.button_container}>
-          <Pressable
-            style={styles.button_style}
-            onPress={() => {
-              navigation.navigate("PlaceGuidlines");
-            }}
-          >
-            <View style={styles.small_containers}>
-              <ImageBackground
-                source={require("../assets/hiking_guide_toura.jpeg")}
-                style={styles.image_style}
-              >
-                <Text style={styles.norm_text2}>
-                  Important Things You Need To Know
-                </Text>
-              </ImageBackground>
-            </View>
-          </Pressable>
-        </View>
-      
+        <ScrollView>
+          <View>
+            <Text style={styles.text_style2}>{placetype} Guidlines</Text>
+          </View>
+          <View style={styles.button_container}>
+            <Pressable
+              style={styles.button_style}
+              onPress={() => {
+                navigation.navigate("PlaceGuidlines");
+              }}
+            >
+              <View style={styles.small_containers}>
+                <ImageBackground
+                  source={require("../assets/hiking_guide_toura.jpeg")}
+                  style={styles.image_style}
+                >
+                  <Text style={styles.norm_text2}>
+                    Important Things You Need To Know
+                  </Text>
+                </ImageBackground>
+              </View>
+            </Pressable>
+          </View>
+        </ScrollView>
       </SafeAreaView>
-      
+    </KeyboardAvoidingView>
   );
 }
 
@@ -464,11 +371,13 @@ const styles = StyleSheet.create({
     fontFamily: "Podkova",
   },
   input_style: {
-    fontSize: 18,
+    width: "100%",
+    fontSize: 17,
     flexDirection: "row",
     fontFamily: "Podkova",
-
+color: "#01877e",
     textAlign: "left",
+   
   },
   heart_icon_style: {
     position: "absolute",
@@ -486,7 +395,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: "#01877E",
     paddingLeft: 0,
-    paddingRight:0,
+    paddingRight: 0,
     // padding: 10,
   },
 
@@ -501,6 +410,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     flexDirection: "row",
+    zIndex: 1,
 
     margin: 20,
     shadowColor: "black",
@@ -509,30 +419,27 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     elevation: 5,
     marginBottom: 20,
-    borderColor: "13313D",
-    borderWidth: 1,
-    
+    // borderColor: "13313D",
+    // borderWidth: 1,
+  
   },
   search_suggestion: {
     marginTop: 0,
     paddingHorizontal: 20,
   },
- 
 
   searchItem: {
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#E5E5E5",
     backgroundColor: "#00A693",
-  borderRadius:7
-}
-  ,
+    borderRadius: 7,
+  },
   searchItemText: {
     fontSize: 16,
     color: "#333333",
-    paddingLeft:20,
+    paddingLeft: 20,
     color: "white",
     fontFamily: "Podkova",
-  }
-  ,
+  },
 });
