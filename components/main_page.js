@@ -63,6 +63,7 @@ export default function MainPage({ navigation }) {
               iconName = "bookmarks";
             } else if (route.name === "Cart") {
               iconName = "cart";
+              
             } else if (route.name === "Profile") {
               iconName = "person";
             }

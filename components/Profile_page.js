@@ -1,3 +1,4 @@
+
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
@@ -11,6 +12,7 @@ import {
   SafeAreaView,
   Modal,
   ViewPropsAndroid,
+  Button,
 } from "react-native";
 import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
@@ -20,13 +22,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 
-import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc,updateDoc } from "firebase/firestore";
 import { query, where, getDocs, deleteDoc } from "firebase/firestore";
 import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
-import { useState, useEffect,useContext } from "react";
-
-
+import { storage } from "./config.jsx";
+import { useState, useEffect, useContext,useLayoutEffect } from "react";
+import DocumentPicker from "expo-document-picker";
+import * as ImagePicker from "expo-image-picker";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 async function loadFonts() {
   Font.loadAsync({
     Podkova: require("../assets/fonts/Podkova.ttf"),
@@ -35,26 +39,143 @@ async function loadFonts() {
   });
 }
 export default function Profile({ navigation }) {
-  
-const [username,setusername]=useState("");
-  const { userId, setUserId,places,setplaces }= useContext(TouraContext);
- 
-  const q= query(collection(db, "users"),where("uid","==",userId));
-  getDocs(q).then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-    let  profileName=doc.data().username;
-      setusername(profileName);
-      console.log(username);
+  const [username, setusername] = useState("");
+  const { userId, setUserId, places, setplaces } = useContext(TouraContext);
+  const [profimg,setprofimg]=useState("");
+
+
+  const uploadImage = async (img) => {
+    console.log("uploadImage");
+    const blobImage = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = () => {
+        resolve(xhr.response);
+      };
+      xhr.onerror = () => {
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", img, true);
+      xhr.send(null);
     });
-  })
 
-useEffect(() => {
-  loadFonts();
-  console.log("Profile page");
-  console.log(userId);
- 
+    const metadata = {
+      contentType: "image/jpeg" || "image/png",
+    };
 
-}, []);
+    // Upload file and metadata to the object 'images/mountains.jpg'
+    const storageRef = ref(storage, "ProfilePictures/" + Date.now());
+    const uploadTask = uploadBytesResumable(storageRef, blobImage, metadata);
+
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/unauthorized":
+            // User doesn't have permission to access the object
+            break;
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+
+          // ...
+
+          case "storage/unknown":
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+        }
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref)
+        .then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          setprofimg(downloadURL);
+          console.log("profimg",profimg)
+
+      
+          const q1 = query(collection(db, "users"), where("uid", "==", userId));
+          getDocs(q1).then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              doc.data().profile_pic=downloadURL;
+              updateDoc(doc.ref, {profile_pic:downloadURL})
+            })
+          })
+        })
+      
+      }
+    );
+  };
+
+  useEffect(() => {
+    const q = query(collection(db, "users"), where("uid", "==", userId));
+    getDocs(q).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        let profileName = doc.data().username;
+        setusername(profileName);
+        let profilePic = doc.data().profile_pic;
+        setprofimg(profilePic);
+
+       
+       
+      });
+    });
+    loadFonts();
+  
+  }, []);
+  const [image, setImage] = useState(null);
+const [data,setData]=useState([])
+  // useLayoutEffect(() => {
+
+  //   const ref=db.collection("ProfilePictures");
+  //   onSnapshot(ref, (querySnapshot) => {
+  //     setData(ProfilePictures.docs.map((doc) => ({
+  //       id: doc.id,
+  //       data: doc.data()
+  //     })));
+  //   })
+
+  // })
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      console.log("result", result.uri);
+      setImage(result.uri);
+      console.log("result", result.uri);
+      console.log("image", image);
+      console.log("image", image);
+      uploadImage(result.uri);
+    }
+  };
+
+
 
   return (
     <View style={styles.container}>
@@ -73,20 +194,102 @@ useEffect(() => {
           Profile
         </Text>
       </View>
-      <View style={styles.large_container}>
+      <ScrollView style={styles.large_container}>
         <ImageBackground
-          source={require("../assets/profile_pic.png")}
+          // source={require("../assets/profile_pic.png")}
           style={styles.background_image_style}
         >
           <View style={styles.inner_container}>
-            <View style={styles.inner_container1}>
-              <Text style={styles.header_text1}>
-              
-                {/* {userId} */}
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                // marginTop: 20,
+              }}
+            >
+              {profimg && (
+                <View
+                  style={{
+                    width: 120,
+                    height: 120,
+                   
+                    borderRadius: 100,
+                    marginTop: 20,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Image
+                    source={{ uri: profimg }}
+                    style={{
+                      width: 120,
+                      height: 120,
+                      color: "white",
+                      borderRadius: 100,
+                    }}
+                  />
+                </View>
+              )}
+              {!profimg && (
+                <View
+                  style={{
+                    width: 120,
+                    height: 120,
+                  
+                    borderRadius: 100,
+                    marginTop: 20,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Image
+                    source={require("../assets/profile_pic1.png")}
+                    style={{
+                      width: 120,
+                      height: 120,
 
-              {username}
-              </Text>
+                      borderRadius: 100,
+                    }}
+                  />
+                </View>
+              )}
+              <Pressable
+                style={{
+                  marginTop: -30,
+                  marginLeft: 80,
+                }}
+                onPress={pickImage}
+              >
+                <Ionicons name="camera-outline" size={34} color="#13313D" />
+              </Pressable>
             </View>
+            <View style={
+              {
+                alignItems: "center",
+                justifyContent: "center",
+                margin: 20,
+              }
+            }>
+              <Text style={styles.header_text1}>
+                {/* {userId} */}
+                {username}
+              </Text>
+
+            </View>
+           {/* {
+            profimg && (
+               <Image
+             source={{uri: profimg}}
+             style={{
+               width: 120,
+               height: 120,
+
+               borderRadius: 100,
+             }}
+            />
+            )
+           } */}
+
             <View style={styles.inner_container2}>
               <Ionicons name="person" size={24} color="white" />
               <Pressable style={styles.pressable_style}>
@@ -121,7 +324,7 @@ useEffect(() => {
             </View>
           </View>
         </ImageBackground>
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -157,7 +360,7 @@ const styles = StyleSheet.create({
     fontSize: 33,
     // fontWeight: "bold",
     fontFamily: "Podkova",
-    marginLeft: 10,
+   
   },
   large_container: {
     flex: 1,
@@ -179,7 +382,7 @@ const styles = StyleSheet.create({
   inner_container1: {
     justifyContent: "center",
     alignItems: "center",
-    margin: 60,
+    margin: 30,
   },
   inner_container2: {
     width: "60%",

@@ -17,7 +17,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc} from "firebase/firestore";
 import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
 import { useState, useEffect, useContext } from "react";
@@ -35,8 +35,7 @@ function showtext(step) {
     return <Text style={styles.text_style}>Your travel guide</Text>;
   }
   if (step == 2) {
-    return <Text style={styles.text_style}>
-      Unlock the World with Toura</Text>;
+    return <Text style={styles.text_style}>Unlock the World with Toura</Text>;
   }
 }
 
@@ -58,7 +57,7 @@ export default function WelcomePage({ navigation }) {
     cartitems,
     setcart_items,
   } = useContext(TouraContext);
-  
+
 
   const images = [
     require("../assets/home_page_img.png"),
@@ -68,7 +67,61 @@ export default function WelcomePage({ navigation }) {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
+
+
+
+async function add(){
+
+ const q=  query(collection(db, "place"), where("place_name", "==", "fairy meadows"));
+  const querySnapshot =   getDocs(q);
+  querySnapshot.then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+      
+      let existingPlace = doc.data();
+      
+      console.log(existingPlace);
+      console.log("existing place id");
+      
+     addDoc(collection(db, "place"), {
+
+      place_name: existingPlace.place_name,
+    
+        place_name: existingPlace.place_name,
+        activity_provider: existingPlace.activity_provider,
+        date: existingPlace.date,
+        description: existingPlace.description,
+        departure_spot: existingPlace.departure_spot,
+        duration: existingPlace.duration,
+        full_description: existingPlace.full_description,
+        highlights: existingPlace.highlights, 
+        includes: existingPlace.includes,
+        know_before_you_go: existingPlace.know_before_you_go,
+        not_suitable_for: existingPlace.not_suitable_for,
+        opening_timings: existingPlace.opening_timings,
+        pickup: existingPlace.pickup,
+        price: existingPlace.price,
+        rating: existingPlace.rating,
+        what_to_bring: existingPlace.what_to_bring,
+ 
+
+     })
+    
+    });
+  })
+ 
+
+
+
+}
+
+
+
+
+  
   useEffect(() => {
+// add();
     const loadFonts = async () => {
       await Font.loadAsync({
         Podkova: require("../assets/fonts/Podkova.ttf"),
@@ -79,13 +132,10 @@ export default function WelcomePage({ navigation }) {
     loadFonts();
   }, []);
 
-function welcomeButton(type){
-  setplacetype(type);
-  navigation.navigate("Search");
-
-  
-}
-
+  function welcomeButton(type) {
+    setplacetype(type);
+    navigation.navigate("Search");
+  }
 
   return (
     <View>
@@ -103,7 +153,7 @@ function welcomeButton(type){
         <SafeAreaView>
           <View>
             <Swiper
-              style={{height:420}}
+              style={{ height: 420 }}
               autoplay={true}
               autoplayTimeout={2}
               loop={true}
@@ -250,24 +300,36 @@ function welcomeButton(type){
           <View style={styles.button_container}>
             <Pressable
               style={styles.button_style}
-              onPress={()=>{welcomeButton("Camping")}}
+              onPress={() => {
+                welcomeButton("Camping");
+              }}
             >
               <Text style={styles.button_text}>Camping</Text>
               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
             </Pressable>
-            <Pressable style={styles.button_style}
-             onPress={()=>{welcomeButton("Hiking")}}
+            <Pressable
+              style={styles.button_style}
+              onPress={() => {
+                welcomeButton("Hiking");
+              }}
             >
               <Text style={styles.button_text}>Hiking</Text>
               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
             </Pressable>
-            <Pressable style={styles.button_style}
-             onPress={()=>{welcomeButton("Climbing")}}>
+            <Pressable
+              style={styles.button_style}
+              onPress={() => {
+                welcomeButton("Climbing");
+              }}
+            >
               <Text style={styles.button_text}>Climbing</Text>
               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
             </Pressable>
-            <Pressable style={styles.button_style}
-             onPress={()=>{welcomeButton("Forest")}}
+            <Pressable
+              style={styles.button_style}
+              onPress={() => {
+                welcomeButton("Forest");
+              }}
             >
               <Text style={styles.button_text}>Forest</Text>
               <Ionicons name="arrow-forward-circle" size={30} color="#01877E" />
