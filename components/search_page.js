@@ -45,6 +45,7 @@ const data = [
 
 
 
+
 export default function SearchPage({ navigation }) {
   let [tosearch, onchangetosearch] = useState("");
   const {

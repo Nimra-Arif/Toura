@@ -11,6 +11,7 @@ import {
   SafeAreaView,
   Modal,
   ViewPropsAndroid,
+  FlatList,
 } from "react-native";
 import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
@@ -70,6 +71,7 @@ export default function WelcomePage({ navigation }) {
 
 
 
+
 async function add(){
 
  const q=  query(collection(db, "place"), where("place_name", "==", "fairy meadows"));
@@ -117,20 +119,39 @@ async function add(){
 }
 
 
+const [Allplaces, setAllplaces] = useState([]);
+useEffect(() => {
 
-
+  const loadFonts = async () => {
+    await Font.loadAsync({
+      Podkova: require("../assets/fonts/Podkova.ttf"),
+      Playball: require("../assets/fonts/Playball.ttf"),
+    });
+  };
   
-  useEffect(() => {
-// add();
-    const loadFonts = async () => {
-      await Font.loadAsync({
-        Podkova: require("../assets/fonts/Podkova.ttf"),
-        Playball: require("../assets/fonts/Playball.ttf"),
-      });
-    };
+  loadFonts();
+  const getTop7Places = async () => {
+    const placesRef = collection(db, 'place');
+    const querySnapshot = await getDocs(placesRef);
+    const placesData = querySnapshot.docs.map((doc) => doc.data());
 
-    loadFonts();
-  }, []);
+    // Sort the placesData array in descending order based on ratings
+    placesData.sort((a, b) => b.rating - a.rating);
+
+    // Select the top 7 places from the sorted array
+    const top7Places = placesData.slice(0, 7);
+
+    setAllplaces(top7Places);
+  };
+
+  getTop7Places();
+}, []);
+
+
+
+
+
+
 
   function welcomeButton(type) {
     setplacetype(type);
@@ -178,122 +199,42 @@ async function add(){
           <View>
             <Text style={styles.text_style2}>Top Searches</Text>
           </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <FlatList horizontal={true} showsHorizontalScrollIndicator={false}
+           data={Allplaces}
+           indicatorStyle="black"
+           renderItem={({ item }) => (
             <View style={styles.small_containers}>
-              <ImageBackground
-                source={require("../assets/topsearch_1.jpeg")}
-                style={styles.image_style}
-              >
-                <Ionicons
-                  name="heart"
-                  size={25}
-                  color="white"
-                  style={{
-                    position: "absolute",
-                    top: 10,
-                    right: 10,
-                    opacity: 0.7,
-                  }}
-                />
-                <Text style={styles.norm_text}>Fairy Meadows</Text>
-              </ImageBackground>
-            </View>
-            <View style={styles.small_containers}>
-              <ImageBackground
-                source={require("../assets/topsearch_2.jpeg")}
-                style={styles.image_style}
-              >
-                <Ionicons
-                  name="heart"
-                  size={25}
-                  color="white"
-                  style={{
-                    position: "absolute",
-                    top: 10,
-                    right: 10,
-                    opacity: 0.7,
-                  }}
-                />
-                <Text style={styles.norm_text}>Mushk Pori Top</Text>
-              </ImageBackground>
-            </View>
-            <View style={styles.small_containers}>
-              <ImageBackground
-                source={require("../assets/land_page_toura.jpeg")}
-                style={styles.image_style}
-              >
-                <Ionicons
-                  name="heart"
-                  size={25}
-                  color="white"
-                  style={{
-                    position: "absolute",
-                    top: 10,
-                    right: 10,
-                    opacity: 0.7,
-                  }}
-                />
-                <Text style={styles.norm_text}>Hunza Valley</Text>
-              </ImageBackground>
-            </View>
-            <View style={styles.small_containers}>
-              <ImageBackground
-                source={require("../assets/topsearch_1.jpeg")}
-                style={styles.image_style}
-              >
-                <Ionicons
-                  name="heart"
-                  size={25}
-                  color="white"
-                  style={{
-                    position: "absolute",
-                    top: 10,
-                    right: 10,
-                    opacity: 0.7,
-                  }}
-                />
-                <Text style={styles.norm_text}>Fairy Meadows</Text>
-              </ImageBackground>
-            </View>
-            <View style={styles.small_containers}>
-              <ImageBackground
-                source={require("../assets/topsearch_2.jpeg")}
-                style={styles.image_style}
-              >
-                <Ionicons
-                  name="heart"
-                  size={25}
-                  color="white"
-                  style={{
-                    position: "absolute",
-                    top: 10,
-                    right: 10,
-                    opacity: 0.7,
-                  }}
-                />
-                <Text style={styles.norm_text}>Mushk Pori Top</Text>
-              </ImageBackground>
-            </View>
-            <View style={styles.small_containers}>
-              <ImageBackground
-                source={require("../assets/land_page_toura.jpeg")}
-                style={styles.image_style}
-              >
-                <Ionicons
-                  name="heart"
-                  size={25}
-                  color="white"
-                  style={{
-                    position: "absolute",
-                    top: 10,
-                    right: 10,
-                    opacity: 0.7,
-                  }}
-                />
-                <Text style={styles.norm_text}>Hunza Valley</Text>
-              </ImageBackground>
-            </View>
-          </ScrollView>
+            <ImageBackground
+              source={require("../assets/land_page_toura.jpeg")}
+              style={styles.image_style}
+            >
+              <Ionicons
+                name="heart"
+                size={25}
+                color="white"
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                  opacity: 0.7,
+                }}
+              />
+              <Text style={styles.norm_text}>
+                
+                {item.place_name}
+
+              </Text>
+            </ImageBackground>
+          </View>
+           )}
+          />
+           
+           
+           
+           
+           
+          
+       
           <View>
             <Text style={styles.text_style2}>Browse Categories</Text>
           </View>
