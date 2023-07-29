@@ -12,6 +12,7 @@ import {
   Modal,
   ViewPropsAndroid,
   FlatList,
+
 } from "react-native";
 import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
@@ -25,6 +26,10 @@ import { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
+import { Video } from 'expo-av';
+// import Video from 'react-native-video';
+import * as Animatable from "react-native-animatable";
+import TypeWriter from "@sucho/react-native-typewriter";
 
 async function loadFonts() {
   Font.loadAsync({
@@ -34,6 +39,8 @@ async function loadFonts() {
   });
 }
 export default function Bookings({ navigation }) {
+  
+ 
   const {
     userId,
     setUserId,
@@ -48,11 +55,23 @@ export default function Bookings({ navigation }) {
     cartitems,
     setcart_items,
   } = useContext(TouraContext);
-  const Stack = createStackNavigator();
+ 
+  // const [vidset, setvidset] = useState(false);
+  const [emptypage, setemptypage] = useState(false);
   useEffect(() => {
     loadFonts();
-    // setcartedplaces(cartedplaces);
+    
+    
+
     setcart_items(cartedplaces.length);
+
+    if (bookedplaces.length === 0) {
+      // console.log("bookedplaces is empty");
+      setemptypage(true);
+    } else {
+      setemptypage(false);
+    }
+
   });
   function cancelbooking(item) {
     console.log("item......", item.place_name);
@@ -65,6 +84,12 @@ export default function Bookings({ navigation }) {
       navigation.navigate("WelcomePage");
     }
   }
+
+  function navtosearch() {
+    console.log("search");
+    navigation.navigate("Search");
+  }
+
   return (
     <View style={styles.container}>
       <View
@@ -82,6 +107,42 @@ export default function Bookings({ navigation }) {
           Bookings
         </Text>
       </View>
+     
+      {emptypage && (
+     <View
+     style={{
+        flex: 1,
+     }}
+     >
+      
+        <Video
+          source={{
+            uri: "https://firebasestorage.googleapis.com/v0/b/toura-470c7.appspot.com/o/ProfilePictures%2Fvid5.mp4?alt=media&token=004c3c82-aab0-413f-9fe4-5829fb262aa1",
+          }}
+          rate={1.0}
+          volume={1.0}
+          isMuted={false}
+          resizeMode="cover"
+          shouldPlay
+          isLooping
+          style={{ width: "80%", height: "90%", marginTop: 190,
+          alignSelf: "center", borderRadius: 20, 
+
+        
+        }}
+
+        />
+        <Pressable
+         onPress={() =>{navtosearch()}}
+
+        style={styles.button_style3}
+        
+        >
+          <Text style={styles.slogan_style}>Find Things to do</Text>
+        </Pressable>
+     
+      </View>
+      )}
 
       <FlatList
         style={{ marginTop: 90, flex: 1 }}
@@ -147,6 +208,7 @@ export default function Bookings({ navigation }) {
           </View>
         )}
       />
+           
     </View>
   );
 }
@@ -154,6 +216,7 @@ export default function Bookings({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
 
   header_style: {
@@ -204,6 +267,41 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderWidth: 1,
   },
+  button_style3: {
+    backgroundColor: "#01877e",
+    width: "70%",
+    alignSelf: "center",
+    justifyContent: "center",
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    alignSelf: "center",
+    marginRight: 10,
+    borderColor: "#13313D",
+    borderWidth: 1.7,
+    marginLeft: 10,
+    marginBottom: 7,
+    shadowColor: "black",
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 10,
+    opacity: 1,
+    marginTop: -10,
+  },
+
+  slogan_style: {
+    color: "white",
+
+    fontSize: 22,
+    fontFamily: "Podkova",
+  
+    alignSelf: "center",
+    
+    // fontStyle: "italic",
+   
+  },
   small_container: {
     margin: 8,
     alignSelf: "center",
@@ -226,10 +324,10 @@ const styles = StyleSheet.create({
   },
   text_style2: {
     color: "white",
-    fontSize: 23,
+    fontSize: 25,
     // fontWeight: "bold",
     margin: 15,
-    marginRight: 2,
+    // marginRight: 2,
     fontFamily: "Podkova",
   },
   text_container: {
@@ -260,10 +358,17 @@ const styles = StyleSheet.create({
   },
 
   image_style: {
-    width: 100,
+
+    width: 120,
     height: 100,
+
+
     borderRadius: 10,
-    marginLeft: 7,
+   
+    // marginTop: 200,
+    alignSelf: "center",
+    // marginBottom: 20,
+    
   },
   inner_container1: {
     flexDirection: "row",

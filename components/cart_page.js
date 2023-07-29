@@ -25,6 +25,8 @@ import { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
+import { Video } from 'expo-av';
+import SearchPage from "./search_page";
 
 async function loadFonts() {
   Font.loadAsync({
@@ -48,11 +50,19 @@ export default function Cart({ navigation }) {
     cartitems,
     setcart_items,
   } = useContext(TouraContext);
+  const [emptypage, setemptypage] = useState(false);
 
   useEffect(() => {
     loadFonts();
     setcartedplaces(cartedplaces);
     setcart_items(cartedplaces.length);
+    if (cartedplaces.length === 0) {
+      // console.log("bookedplaces is empty");
+      setemptypage(true);
+    } else {
+      setemptypage(false);
+    }
+
   });
 
   let cart_price = 0;
@@ -83,7 +93,40 @@ export default function Cart({ navigation }) {
           Shopping Cart
         </Text>
       </View>
+      {emptypage && (
+     <View
+     style={{
+        flex: 1,
+     }}
+     >
+      
+        <Video
+          source={{
+            uri: "https://firebasestorage.googleapis.com/v0/b/toura-470c7.appspot.com/o/ProfilePictures%2Fvid5.mp4?alt=media&token=004c3c82-aab0-413f-9fe4-5829fb262aa1",
+          }}
+          rate={1.0}
+          volume={1.0}
+          isMuted={false}
+          resizeMode="cover"
+          shouldPlay
+          isLooping
+          style={{ width: "80%", height: "90%", marginTop: 190,
+          alignSelf: "center", borderRadius: 20, 
 
+        
+        }}
+
+        />
+        <Pressable
+        style={styles.button_style3}
+        onPress={() => navigation.navigate("Search")}
+
+        >
+          <Text style={styles.slogan_style}>Find Things to do</Text>
+        </Pressable>
+     
+      </View>
+      )}
       <FlatList
         style={{ marginBottom: 60, marginTop: 90, flex: 1 }}
         data={cartedplaces}
@@ -208,7 +251,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    // backgroundColor: "black",
+    backgroundColor: "white",
+  },
+  button_style3: {
+    backgroundColor: "#01877e",
+    width: "70%",
+    alignSelf: "center",
+    justifyContent: "center",
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    alignSelf: "center",
+    marginRight: 10,
+    borderColor: "#13313D",
+    borderWidth: 1.7,
+    marginLeft: 10,
+    marginBottom: 7,
+    shadowColor: "black",
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 10,
+    opacity: 1,
+    marginTop: -10,
   },
 
   header_style: {
@@ -275,7 +341,17 @@ const styles = StyleSheet.create({
 
     borderWidth: 2,
   },
+  slogan_style: {
+    color: "white",
 
+    fontSize: 22,
+    fontFamily: "Podkova",
+  
+    alignSelf: "center",
+    
+    // fontStyle: "italic",
+   
+  },
   waiting_button: {
     backgroundColor: "#13313D",
     width: "100%",
