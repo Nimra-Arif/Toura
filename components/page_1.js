@@ -27,33 +27,13 @@ import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
 import { useState, useEffect, useContext } from "react";
 
-async function loadFonts() {
-  Font.loadAsync({
-    Podkova: require("../assets/fonts/Podkova.ttf"),
-    Playball: require("../assets/fonts/Playball.ttf"),
-    // Add other custom fonts here if needed
-  });
-}
+
+
 
 export default function Activities({ navigation }) {
-  const {
-    userId,
-    setUserId,
-    places,
-    setplaces,
-    selectedplace,
-    setselectedplace,
-    cartedplaces,
-    setcartedplaces,
-    bookedplaces,
-    setbookedplaces,
-    placetype,
-    setplacetype,
-    cartitems,
-    setcart_items,
-    Wishlistplace,
-    setWishlistplace,
-  } = useContext(TouraContext);
+  const   { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,bookedplaces, setbookedplaces,placetype, setplacetype,
+    cartitems,setcart_items,Wishlistplace,setWishlistplace,activitiesid,setactivitiesid
+  }= useContext(TouraContext);
   const [tosearch, onchangetosearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -62,8 +42,9 @@ export default function Activities({ navigation }) {
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
+  
 
-
+ 
 
   const options = [
     { option: "Recommended", value: "Recommended" },
@@ -81,67 +62,72 @@ export default function Activities({ navigation }) {
   };
 
   function selectActivity(item) {
-
-
-    setselectedplace(item.item);
     console.log("selected place is");
+console.log(item.item.id);
+    setselectedplace(item.item);
+
+   
     // console.log(item);
     console.log(item.item.departure_spot);
     navigation.navigate("SecondPage");
   }
- function addtoWishlist(item) {
-  const updatedPlaces = places.map((place) => {
-    if (place.place_name === item.place_name) {
-      // If the place matches the item clicked, toggle the heart icon color
-      const newColor = place.iconColor === "white" ? "red" : "white";
-      return {
-        ...place,
-        iconColor: newColor,
-      };
-    }
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        Podkova: require("../assets/fonts/Podkova.ttf"),
+        Playball: require("../assets/fonts/Playball.ttf"),
+      });
+    };
+  
+    loadFonts();
+    // const updatedPlaces = places.map((place) => ({
+    //   ...place,
+    //   iconColor: Wishlistplace.some(
+    //     (wishlistItem) => wishlistItem.id === place.id
+    //   )
+    //     ? "red"
+    //     : "white",
+  
+    // }));
+  
+    // setplaces(updatedPlaces);
+  
+    // setactivitiesid(updatedPlaces);
+  }, []);
+  
 
-    return place;
-  });
+  // function addtoWishlist(item) {
+  //   const updatedPlaces = places.map((place) => {
+  //     if (place.place_name === item.place_name) {
+  //       // If the place matches the item clicked, toggle the heart icon color
+  //       const newColor = place.iconColor === "white" ? "red" : "white";
+  //       return {
+  //         ...place,
+  //         iconColor: newColor,
+  //       };
+  //     }
+  //     return place;
 
-  setplaces(updatedPlaces);
-
-  // Check if the item is already in the wishlist
-  const index = Wishlistplace.findIndex(
-    (wishlistItem) => wishlistItem.place_name === item.place_name
-  );
-
-  if (index !== -1) {
-    // If the item is in the wishlist, remove it from the wishlist
-    const updatedWishlist = [...Wishlistplace];
-    updatedWishlist.splice(index, 1);
-    setWishlistplace(updatedWishlist);
-  } else {
-    // If the item is not in the wishlist, add it to the wishlist
-    setWishlistplace([...Wishlistplace, item]);
-  }
-}
-
-useEffect(() => {
-  loadFonts();
-
-  for (let i = 0; i < Wishlistplace.length; i++) {
-    console.log("wishlist place is");
-    console.log(Wishlistplace[i].id);
-  }
-
-  // Map through the places and update the iconColor based on whether it is in the Wishlistplace or not
-  const updatedPlaces = places.map((place) => ({
-    ...place,
-    iconColor: Wishlistplace.some(
-      (wishlistItem) => wishlistItem.place_name === place.place_name
-    )
-      ? "red"
-      : "white",
-  }));
-
-  // Update the places with the updated iconColor
-  setplaces(updatedPlaces);
-}, []); 
+  //   });
+  
+  //   setplaces(updatedPlaces);
+  
+  //   // Check if the item is already in the wishlist
+  //   const index = Wishlistplace.findIndex(
+  //     (wishlistItem) => wishlistItem.place_name === item.place_name
+  //   );
+  
+  //   if (index !== -1) {
+  //     // If the item is in the wishlist, remove it from the wishlist
+  //     const updatedWishlist = [...Wishlistplace];
+  //     updatedWishlist.splice(index, 1);
+  //     setWishlistplace(updatedWishlist);
+  //   } else {
+  //     // If the item is not in the wishlist, add it to the wishlist
+  //     setWishlistplace([...Wishlistplace, item]);
+  //   }
+  // }
+  
 
 
 
@@ -177,6 +163,7 @@ useEffect(() => {
                    source={{uri: item.img}}
 
                   style={styles.image_style}
+                  resizeMode="cover"
                 >
                   {/* <Pressable
                    style={styles.icon_style}
@@ -295,7 +282,7 @@ const styles = StyleSheet.create({
    
   },
   small_containers2: {
-    width: "50%",
+    width: "45%",
     height: 170,
     // borderColor: "black",
     // borderRadius: 20,
@@ -303,6 +290,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     alignSelf: "center",
     margin: 5,
+    marginLeft: 1,
+    marginRight: 10,
     // borderWidth: 1,
    
   },

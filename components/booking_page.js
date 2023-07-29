@@ -127,6 +127,7 @@ export default function Bookings({ navigation }) {
           isLooping
           style={{ width: "80%", height: "90%", marginTop: 190,
           alignSelf: "center", borderRadius: 20, 
+          opacity: 1, 
 
         
         }}

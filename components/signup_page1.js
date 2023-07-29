@@ -65,6 +65,10 @@ export default function SignUp1({ navigation }) {
           gender: gender,
           uid: user.uid,
           profile_pic: "",
+          wishlist: [],
+          cart: [],
+          booked: [],
+          
         });
         console.log("User created successfully!");
 

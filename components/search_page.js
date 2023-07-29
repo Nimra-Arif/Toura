@@ -43,17 +43,54 @@ const data = [
   { key: "shangrila", value: "Shangrila" },
 ];
 
-
-
-
 export default function SearchPage({ navigation }) {
   let [tosearch, onchangetosearch] = useState("");
   const {
-
+    userId,
+    setUserId,
+    places,
     setplaces,
+    selectedplace,
+    setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+    bookedplaces,
+    setbookedplaces,
     placetype,
-  
+    setplacetype,
+    cartitems,
+    setcart_items,
+    Wishlistplace,
+    setWishlistplace,
+    activitiesid,
+    setactivitiesid,
+    
+    topplaces,
+    settopplaces,
   } = useContext(TouraContext);
+
+  const [Recommendedplaces, setRecommendedplaces] = useState([]);
+  useEffect(() => {
+    // Update Recommendedplaces and Wishlistplace using map function
+    const updatedWishlist = topplaces.map((place) => {
+      // Check if the item is already in the Wishlistplace array
+      const index = Wishlistplace.findIndex(
+        (wishlistItem) => wishlistItem.place_name === place.place_name
+      );
+      // If the item is in the wishlist, set the iconColor to "red", otherwise set it to "white"
+      const iconColor = index !== -1 ? "red" : "white";
+      return {
+        ...place,
+        iconColor,
+      };
+    });
+    setRecommendedplaces(updatedWishlist);
+  }, [Wishlistplace, topplaces]);
+
+  // ... (rest of the component)
+
+  
+ 
 
   async function search_next_button(val) {
     console.log("search next button pressed");
@@ -71,17 +108,75 @@ export default function SearchPage({ navigation }) {
         console.log("No such document!");
       } else {
         const newPlaces = [];
+        const newid = [];
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().place_name);
           newPlaces.push(doc.data());
+          newid.push(doc.id);
         });
         navigation.navigate("Activities");
         setplaces(newPlaces);
+        setactivitiesid(newid);
       }
     } catch (error) {
       console.log("Error getting documents: ", error);
     }
   }
+  function selectActivity(item) {
+    setselectedplace(item.item);
+    console.log("selected place is");
+    // console.log(item);
+    console.log(item.item.departure_spot);
+    navigation.navigate("SecondPage2");
+  }
+  function addtoWishlist(item) {
+    const updatedAllPlaces = Recommendedplaces.map((place) => {
+      if (place.place_name === item.place_name) {
+        // If the place matches the item clicked, toggle the heart icon color
+        const newColor = place.iconColor === "white" ? "red" : "white";
+        return {
+          ...place,
+          iconColor: newColor,
+        };
+      }
+      return place;
+    });
+
+    setRecommendedplaces(updatedAllPlaces);
+
+    // Check if the item is already in the wishlist
+    const index = Wishlistplace.findIndex(
+      (wishlistItem) => wishlistItem.place_name === item.place_name
+    );
+
+    if (index !== -1) {
+      // If the item is in the wishlist, remove it from the wishlist
+      const updatedWishlist = [...Wishlistplace];
+      updatedWishlist.splice(index, 1);
+      setWishlistplace(updatedWishlist);
+    } else {
+      // If the item is not in the wishlist, add it to the wishlist
+      setWishlistplace([...Wishlistplace, item]);
+    }
+  }
+
+  // setRecommendedplaces([...topplaces]);
+
+  // // Update Wishlistplace using map function
+  // const updatedWishlist = topplaces.map((place) => {
+  //   // Check if the item is already in the Wishlistplace array
+  //   const index = Wishlistplace.findIndex(
+  //     (wishlistItem) => wishlistItem.place_name === place.place_name
+  //   );
+  //   // If the item is in the wishlist, set the iconColor to "red", otherwise set it to "white"
+  //   const iconColor = index !== -1 ? "red" : "white";
+  //   return {
+  //     ...place,
+  //     iconColor,
+  //   };
+  // });
+  // setRecommendedplaces(updatedWishlist);
+ 
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -90,20 +185,17 @@ export default function SearchPage({ navigation }) {
           <Text style={styles.text_style2}>Where do you want to go?</Text>
         </View>
 
-       <View 
-       >
-       <SelectList
-          setSelected={(val)=>search_next_button(val)}
-          data={data}
-          save="value"
-          // style={styles.search_style}
-          search={true}
-          maxHeight={200}
-          inputStyles={styles.input_style}
-          placeholder="Search"
-          boxStyles={
-            {
-              
+        <View>
+          <SelectList
+            setSelected={(val) => search_next_button(val)}
+            data={data}
+            save="value"
+            // style={styles.search_style}
+            search={true}
+            maxHeight={200}
+            inputStyles={styles.input_style}
+            placeholder="Search for a place"
+            boxStyles={{
               width: "85%",
               height: 45,
               borderRadius: 50,
@@ -117,12 +209,9 @@ export default function SearchPage({ navigation }) {
               shadowRadius: 5,
               shadowOpacity: 0.4,
               elevation: 5,
-        
-
-            }
-          }
-          dropdownStyles={{
-            width: "85%",
+            }}
+            dropdownStyles={{
+              width: "85%",
               borderRadius: 20,
               justifyContent: "center",
               // alignItems: "center",
@@ -134,103 +223,50 @@ export default function SearchPage({ navigation }) {
               shadowOpacity: 0.4,
               elevation: 5,
               zIndex: 1,
-
-          }}
-         dropdownTextStyles={
-        styles.input_style 
-        }
-        />
-       </View>
+            }}
+            dropdownTextStyles={styles.input_style}
+          />
+        </View>
 
         <View>
           <Text style={styles.text_style2}>Recommended Places</Text>
         </View>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <View style={styles.small_containers}>
-            <ImageBackground
-              source={require("../assets/topsearch_1.jpeg")}
-              style={styles.image_style}
-            >
-              <Ionicons
-                name="heart"
-                size={25}
-                color="white"
-                style={styles.heart_icon_style}
-              />
-              <Text style={styles.norm_text}>Fairy Meadows</Text>
-            </ImageBackground>
-          </View>
-          <View style={styles.small_containers}>
-            <ImageBackground
-              source={require("../assets/topsearch_2.jpeg")}
-              style={styles.image_style}
-            >
-              <Ionicons
-                name="heart"
-                size={25}
-                color="white"
-                style={styles.heart_icon_style}
-              />
-              <Text style={styles.norm_text}>Mushk Pori Top</Text>
-            </ImageBackground>
-          </View>
-          <View style={styles.small_containers}>
-            <ImageBackground
-              source={require("../assets/land_page_toura.jpeg")}
-              style={styles.image_style}
-            >
-              <Ionicons
-                name="heart"
-                size={25}
-                color="white"
-                style={styles.heart_icon_style}
-              />
-              <Text style={styles.norm_text}>Hunza Valley</Text>
-            </ImageBackground>
-          </View>
-          <View style={styles.small_containers}>
-            <ImageBackground
-              source={require("../assets/topsearch_1.jpeg")}
-              style={styles.image_style}
-            >
-              <Ionicons
-                name="heart"
-                size={25}
-                color="white"
-                style={styles.heart_icon_style}
-              />
-              <Text style={styles.norm_text}>Fairy Meadows</Text>
-            </ImageBackground>
-          </View>
-          <View style={styles.small_containers}>
-            <ImageBackground
-              source={require("../assets/topsearch_2.jpeg")}
-              style={styles.image_style}
-            >
-              <Ionicons
-                name="heart"
-                size={25}
-                color="white"
-                style={styles.heart_icon_style}
-              />
-              <Text style={styles.norm_text}>Mushk Pori Top</Text>
-            </ImageBackground>
-          </View>
-          <View style={styles.small_containers}>
-            <ImageBackground
-              source={require("../assets/land_page_toura.jpeg")}
-              style={styles.image_style}
-            >
-              <Ionicons
-                name="heart"
-                size={25}
-                color="white"
-                style={styles.heart_icon_style}
-              />
-              <Text style={styles.norm_text}>Hunza Valley</Text>
-            </ImageBackground>
-          </View>
-        </ScrollView>
+        <FlatList
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          data={Recommendedplaces}
+          renderItem={({ item }) => (
+            <Pressable onPress={() => selectActivity({ item })}>
+              <View style={styles.small_containers}>
+                <ImageBackground
+                  source={{ uri: item.img }}
+                  style={styles.image_style}
+                >
+                  <Pressable
+                    style={{
+                      position: "absolute",
+                      top: 10,
+                      right: 10,
+                      opacity: 0.7,
+                    }}
+                    onPress={() => {
+                      addtoWishlist(item);
+                    }}
+                  >
+                    <Ionicons
+                      name="heart"
+                      size={25}
+                      color={item.iconColor} // Use the stored iconColor for this place
+                      // color="red"
+                    />
+                  </Pressable>
+                  <Text style={styles.norm_text}>{item.place_name}</Text>
+                </ImageBackground>
+              </View>
+            </Pressable>
+          )}
+        />
+
         <ScrollView>
           <View>
             <Text style={styles.text_style2}>{placetype} Guidlines</Text>
@@ -312,7 +348,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowOpacity: 0.4,
     elevation: 5,
-  
+
     borderRadius: 20,
     overflow: "hidden",
   },
@@ -324,7 +360,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flexDirection: "column-reverse",
     resizeMode: "contain",
-   
   },
   button_style: {
     backgroundColor: "white",
@@ -378,9 +413,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
     flexDirection: "row",
     fontFamily: "Podkova",
-color: "#01877e",
+    color: "#01877e",
     textAlign: "left",
-   
   },
   heart_icon_style: {
     position: "absolute",
@@ -424,7 +458,6 @@ color: "#01877e",
     marginBottom: 20,
     // borderColor: "13313D",
     // borderWidth: 1,
-  
   },
   search_suggestion: {
     marginTop: 0,

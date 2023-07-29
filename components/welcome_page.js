@@ -18,7 +18,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import {
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  copyDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
 import { useState, useEffect, useContext } from "react";
@@ -42,23 +49,9 @@ function showtext(step) {
 
 export default function WelcomePage({ navigation }) {
   const [iconColor, setIconColor] = useState("white");
-  const {
-    userId,
-    setUserId,
-    places,
-    setplaces,
-    selectedplace,
-    setselectedplace,
-    cartedplaces,
-    setcartedplaces,
-    bookedplaces,
-    setbookedplaces,
-    placetype,
-    setplacetype,
-    cartitems,
-    setcart_items,
-    Wishlistplace,
-    setWishlistplace,
+  const    { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,bookedplaces, setbookedplaces,placetype, setplacetype,
+    cartitems,setcart_items,Wishlistplace,setWishlistplace,activitiesid,setactivitiesid,Recommendedplaces,setRecommendedplaces,
+    topplaces,settopplaces
   } = useContext(TouraContext);
 
   const images = [
@@ -109,46 +102,95 @@ export default function WelcomePage({ navigation }) {
     });
   }
 
-  const [Allplaces, setAllplaces] = useState([]);
+  // const [Allplaces, setAllplaces] = useState([]);
   // ...
 
-useEffect(() => {
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      Podkova: require("../assets/fonts/Podkova.ttf"),
-      Playball: require("../assets/fonts/Playball.ttf"),
-    });
-  };
+  useEffect(() => {
+    // const q = query(collection(db, "users"), where("uid", "==", userId));
+    // getDocs(q).then((querySnapshot) => {
+    //   querySnapshot.forEach((doc) => {
+    //     // doc.data() is never undefined for query doc snapshots
+    //     console.log(doc.id, " => ", doc.data());
 
-  loadFonts();
+    //     let existingUser = doc.data();
 
-  const getTop7Places = async () => {
-    const placesRef = collection(db, "place");
-    const querySnapshot = await getDocs(placesRef);
-    const placesData = querySnapshot.docs.map((doc) => doc.data());
+    //     console.log(existingUser);
+    //     console.log("existing user id");
 
-    // Sort the placesData array in descending order based on ratings
-    placesData.sort((a, b) => b.rating - a.rating);
+    //     setWishlistplace(existingUser.wishlist);
+    //     setcartedplaces(existingUser.cart);
+    //     setbookedplaces(existingUser.booked);
 
-    // Select the top 7 places from the sorted array
-    // const top7Places = placesData.slice(0, 10);
+    //   });
+    // });
 
-    // setAllplaces(top7Places);
+    // const q = query(collection(db, "users"), where("uid", "==", userId));
+    // setDoc(doc(db, "users", userId), {
 
-    const top7Places = placesData.slice(0, 10).map((place) => ({
-      ...place,
-      iconColor: Wishlistplace.some((wishlistItem) => wishlistItem.place_name === place.place_name)
-        ? "red" // If the item is in the Wishlist, set the iconColor to red
-        : "white", // Otherwise, set the iconColor to white
-    }));
-    setAllplaces(top7Places);
-  };
+    // })
+    // const q1 = query(collection(db, "users"), where("uid", "==", userId));
+    // getDocs(q1).then((querySnapshot) => {
+    //   querySnapshot.forEach((doc) => {
+    //     doc.data().cart = cartedplaces.map((place) => ({
+    //       ...place,
+    //     }));
 
-  getTop7Places();
-}, [Wishlistplace]); // Add Wishlistplace as a dependency to re-run the useEffect whenever the Wishlist is updated
+    //     doc.data().wishlist = Wishlistplace.map((place) => ({
+    //       ...place,
+    //     }));
+    //     doc.data().booked = bookedplaces.map((place) => ({
+    //       ...place,
+    //     }));
+    //     updateDoc(doc.ref, {
+    //       wishlist: Wishlistplace,
+    //       cart: cartedplaces,
+    //       booked: bookedplaces,
+    //     });
+    //   });
+    // });
 
-// ...
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        Podkova: require("../assets/fonts/Podkova.ttf"),
+        Playball: require("../assets/fonts/Playball.ttf"),
+      });
+    };
 
+    loadFonts();
+
+    const getTop7Places = async () => {
+      const placesRef = collection(db, "place");
+      const querySnapshot = await getDocs(placesRef);
+      const placesData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      // Sort the placesData array in descending order based on ratings
+      placesData.sort((a, b) => b.rating - a.rating);
+
+      // Select the top 7 places from the sorted array
+      const top7Places = placesData.slice(0, 7).map((place) => ({
+        ...place,
+        iconColor: Wishlistplace.some(
+          (wishlistItem) => wishlistItem.id === place.id
+        )
+          ? "red" // If the item is in the Wishlist, set the iconColor to red
+          : "white", // Otherwise, set the iconColor to white
+      }));
+      settopplaces(top7Places);
+
+
+      // Print the ids of the top 7 places
+      // top7Places.forEach((place) => {
+      //   console.log("Place ID:", place.id);
+      // });
+    };
+
+    getTop7Places();
+  }, [Wishlistplace]); // Add Wishlistplace as a dependency to re-run the useEffect whenever the Wishlist is updated
+
+  // ...
 
   function welcomeButton(type) {
     setplacetype(type);
@@ -163,7 +205,7 @@ useEffect(() => {
     navigation.navigate("SecondPage2");
   }
   function addtoWishlist(item) {
-    const updatedAllPlaces = Allplaces.map((place) => {
+    const updatedAllPlaces = topplaces.map((place) => {
       if (place.place_name === item.place_name) {
         // If the place matches the item clicked, toggle the heart icon color
         const newColor = place.iconColor === "white" ? "red" : "white";
@@ -174,14 +216,14 @@ useEffect(() => {
       }
       return place;
     });
-  
-    setAllplaces(updatedAllPlaces);
-  
+
+    settopplaces(updatedAllPlaces);
+
     // Check if the item is already in the wishlist
     const index = Wishlistplace.findIndex(
       (wishlistItem) => wishlistItem.place_name === item.place_name
     );
-  
+
     if (index !== -1) {
       // If the item is in the wishlist, remove it from the wishlist
       const updatedWishlist = [...Wishlistplace];
@@ -192,7 +234,6 @@ useEffect(() => {
       setWishlistplace([...Wishlistplace, item]);
     }
   }
-  
 
   return (
     <View>
@@ -238,7 +279,7 @@ useEffect(() => {
           <FlatList
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            data={Allplaces}
+            data={topplaces}
             indicatorStyle="black"
             renderItem={({ item }) => (
               <Pressable onPress={() => selectActivity({ item })}>
@@ -383,7 +424,7 @@ const styles = StyleSheet.create({
     height: 140,
     borderWidth: 1,
     borderColor: "white",
-    borderRadius: 70,
+    // borderRadius: 70,
     flexDirection: "column-reverse",
   },
   button_style: {

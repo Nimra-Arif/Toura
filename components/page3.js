@@ -96,6 +96,7 @@ export default function SecondPage2({ navigation }) {
               style={{
                 color: "red",
                 fontSize: 15,
+                fontFamily: "Podkova",
               }}
             >
               {selectedplace.activity_provider}
@@ -107,6 +108,7 @@ export default function SecondPage2({ navigation }) {
               style={{
                 color: "red",
                 fontSize: 15,
+                fontFamily: "Podkova",
               }}
             >
               {selectedplace.date}
@@ -391,5 +393,6 @@ const styles = StyleSheet.create({
     color: "#01877E",
     fontSize: 15,
     paddingRight: 5,
+    fontFamily: "Podkova",
   },
 });

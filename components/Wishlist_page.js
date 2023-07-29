@@ -112,6 +112,7 @@ export default function Wishlist({ navigation }) {
                 <View style={styles.inner_container1}>
                   <Image
                     source={{uri: item.img}}
+
                     style={styles.image_style}
                   />
 
@@ -222,7 +223,8 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     borderBottomColor: "#01877e",
 
-    borderWidth: 2,
+    borderWidth: 1.5,
+    
   },
 
   waiting_button: {
@@ -285,7 +287,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   image_style: {
-    width: 116,
+    width: 129,
     height: 150,
     borderRadius: 10,
     marginLeft: 7,
