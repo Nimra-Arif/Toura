@@ -64,7 +64,7 @@ export default function Profile({ navigation }) {
     };
 
     // Upload file and metadata to the object 'images/mountains.jpg'
-    const storageRef = ref(storage, "ProfilePictures/" + Date.now());
+    const storageRef = ref(storage, "user/" + Date.now());
     const uploadTask = uploadBytesResumable(storageRef, blobImage, metadata);
 
     // Listen for state changes, errors, and completion of the upload.
@@ -252,7 +252,7 @@ const [data,setData]=useState([])
                     }}
                   />
                 </View>
-                
+
               )}
               <Pressable
                 style={{

@@ -257,19 +257,19 @@ export default function SecondPage2({ navigation }) {
             <Text style={styles.heading_style}>Customer Reviews</Text>
             <View style={{ flexDirection: "row", paddingTop: 5 }}>
               <Pressable>
-                <Ionicons name="star" size={30} color="#FFFF00" />
+                <Ionicons name="star" size={30} color="#ffdd02" />
               </Pressable>
               <Pressable>
-                <Ionicons name="star" size={30} color="#FFFF00" />
+                <Ionicons name="star" size={30} color="#ffdd02" />
               </Pressable>
               <Pressable>
-                <Ionicons name="star" size={30} color="#FFFF00" />
+                <Ionicons name="star" size={30} color="#ffdd02" />
               </Pressable>
               <Pressable>
-                <Ionicons name="star" size={30} color="#FFFF00" />
+                <Ionicons name="star" size={30} color="#ffdd02" />
               </Pressable>
               <Pressable>
-                <Ionicons name="star" size={30} color="#FFFF00" />
+                <Ionicons name="star" size={30} color="#ffdd02" />
               </Pressable>
             </View>
           </View>

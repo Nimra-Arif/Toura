@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   },
   small_containers: {
     marginTop: 30,
-    marginBottom: 30,
+    marginBottom: 40,
     width: 220,
     height: 160,
     margin: 20,
@@ -312,7 +312,9 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowOpacity: 0.4,
     elevation: 5,
+  
     borderRadius: 20,
+    overflow: "hidden",
   },
   image_style: {
     width: "100%",
@@ -322,7 +324,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flexDirection: "column-reverse",
     resizeMode: "contain",
-    borderRadius: 20,
+   
   },
   button_style: {
     backgroundColor: "white",

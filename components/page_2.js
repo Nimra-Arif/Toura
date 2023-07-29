@@ -72,7 +72,13 @@ export default function SecondPage({ navigation }) {
       ></View>
       <ScrollView>
         <SafeAreaView>
-          <ImageBackground
+         <View
+         style={{marginBottom: 10, borderRadius: 30,
+          overflow: "hidden",marginTop: 4,
+        
+        }}
+         >
+         <ImageBackground
             style={styles.home_image}
             source={{uri: selectedplace.img}}
           >
@@ -84,6 +90,7 @@ export default function SecondPage({ navigation }) {
               <Ionicons name="arrow-back-circle" size={47} color="#01877E" />
             </Pressable>
           </ImageBackground>
+         </View>
           <View>
             <Text style={styles.heading_style}>
               From {selectedplace.departure_spot} : {selectedplace.place_name}{" "}
@@ -96,6 +103,7 @@ export default function SecondPage({ navigation }) {
               style={{
                 color: "red",
                 fontSize: 15,
+                fontFamily: "Podkova",
               }}
             >
               {selectedplace.activity_provider}
@@ -107,6 +115,7 @@ export default function SecondPage({ navigation }) {
               style={{
                 color: "red",
                 fontSize: 15,
+                fontFamily: "Podkova",
               }}
             >
               {selectedplace.date}
@@ -257,19 +266,19 @@ export default function SecondPage({ navigation }) {
             <Text style={styles.heading_style}>Customer Reviews</Text>
             <View style={{ flexDirection: "row", paddingTop: 5 }}>
               <Pressable>
-                <Ionicons name="star" size={30} color="#FFFF00" />
+                <Ionicons name="star" size={30} color="#ffdd02" />
               </Pressable>
               <Pressable>
-                <Ionicons name="star" size={30} color="#FFFF00" />
+                <Ionicons name="star" size={30} color="#ffdd02" />
               </Pressable>
               <Pressable>
-                <Ionicons name="star" size={30} color="#FFFF00" />
+                <Ionicons name="star" size={30} color="#ffdd02" />
               </Pressable>
               <Pressable>
-                <Ionicons name="star" size={30} color="#FFFF00" />
+                <Ionicons name="star" size={30} color="#ffdd02" />
               </Pressable>
               <Pressable>
-                <Ionicons name="star" size={30} color="#FFFF00" />
+                <Ionicons name="star" size={30} color="#ffdd02" />
               </Pressable>
             </View>
           </View>
@@ -389,6 +398,7 @@ const styles = StyleSheet.create({
   },
   small_text: {
     color: "#01877E",
+    fontFamily: "Podkova",
     fontSize: 15,
     paddingRight: 5,
   },

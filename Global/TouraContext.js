@@ -7,6 +7,7 @@ const TouraContext = React.createContext();
 const TouraProvider = (props) => {
   const [userId, setUserId] = useState("");
   const [places, setplaces] = useState([]);
+  const [Wishlistplace, setWishlistplace] = useState([]);
   const [selectedplace, setselectedplace] = useState("");
   const [cartedplaces, setcartedplaces] = useState([]);
   const [bookedplaces, setbookedplaces] = useState([]);
@@ -17,9 +18,11 @@ const TouraProvider = (props) => {
 
 
   return (
-    <TouraContext.Provider value={{ userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,bookedplaces, setbookedplaces,placetype, setplacetype,
-      cartitems,setcart_items
-    }}>
+    <TouraContext.Provider value={
+      { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,bookedplaces, setbookedplaces,placetype, setplacetype,
+      cartitems,setcart_items,Wishlistplace,setWishlistplace
+    }
+    }>
       {props.children}
     </TouraContext.Provider>
   );

@@ -18,7 +18,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { query, where, getDocs, deleteDoc, copyDoc} from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
 import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
 import { useState, useEffect, useContext } from "react";
@@ -41,7 +41,7 @@ function showtext(step) {
 }
 
 export default function WelcomePage({ navigation }) {
-  let [tosearch, onchangetosearch] = useState("");
+  const [iconColor, setIconColor] = useState("white");
   const {
     userId,
     setUserId,
@@ -57,8 +57,9 @@ export default function WelcomePage({ navigation }) {
     setplacetype,
     cartitems,
     setcart_items,
+    Wishlistplace,
+    setWishlistplace,
   } = useContext(TouraContext);
-
 
   const images = [
     require("../assets/home_page_img.png"),
@@ -68,92 +69,85 @@ export default function WelcomePage({ navigation }) {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  async function add() {
+    const q = query(
+      collection(db, "place"),
+      where("place_name", "==", "fairy meadows")
+    );
+    const querySnapshot = getDocs(q);
+    querySnapshot.then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
 
+        let existingPlace = doc.data();
 
+        console.log(existingPlace);
+        console.log("existing place id");
 
+        addDoc(collection(db, "place"), {
+          place_name: existingPlace.place_name,
 
-async function add(){
-
- const q=  query(collection(db, "place"), where("place_name", "==", "fairy meadows"));
-  const querySnapshot =   getDocs(q);
-  querySnapshot.then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-      
-      let existingPlace = doc.data();
-      
-      console.log(existingPlace);
-      console.log("existing place id");
-      
-     addDoc(collection(db, "place"), {
-
-      place_name: existingPlace.place_name,
-    
-        place_name: existingPlace.place_name,
-        activity_provider: existingPlace.activity_provider,
-        date: existingPlace.date,
-        description: existingPlace.description,
-        departure_spot: existingPlace.departure_spot,
-        duration: existingPlace.duration,
-        full_description: existingPlace.full_description,
-        highlights: existingPlace.highlights, 
-        includes: existingPlace.includes,
-        know_before_you_go: existingPlace.know_before_you_go,
-        not_suitable_for: existingPlace.not_suitable_for,
-        opening_timings: existingPlace.opening_timings,
-        pickup: existingPlace.pickup,
-        price: existingPlace.price,
-        rating: existingPlace.rating,
-        what_to_bring: existingPlace.what_to_bring,
- 
-
-     })
-    
+          place_name: existingPlace.place_name,
+          activity_provider: existingPlace.activity_provider,
+          date: existingPlace.date,
+          description: existingPlace.description,
+          departure_spot: existingPlace.departure_spot,
+          duration: existingPlace.duration,
+          full_description: existingPlace.full_description,
+          highlights: existingPlace.highlights,
+          includes: existingPlace.includes,
+          know_before_you_go: existingPlace.know_before_you_go,
+          not_suitable_for: existingPlace.not_suitable_for,
+          opening_timings: existingPlace.opening_timings,
+          pickup: existingPlace.pickup,
+          price: existingPlace.price,
+          rating: existingPlace.rating,
+          what_to_bring: existingPlace.what_to_bring,
+        });
+      });
     });
-  })
- 
+  }
 
+  const [Allplaces, setAllplaces] = useState([]);
+  // ...
 
-
-}
-
-
-const [Allplaces, setAllplaces] = useState([]);
 useEffect(() => {
-
   const loadFonts = async () => {
     await Font.loadAsync({
       Podkova: require("../assets/fonts/Podkova.ttf"),
       Playball: require("../assets/fonts/Playball.ttf"),
     });
   };
-  
+
   loadFonts();
+
   const getTop7Places = async () => {
-    const placesRef = collection(db, 'place');
+    const placesRef = collection(db, "place");
     const querySnapshot = await getDocs(placesRef);
     const placesData = querySnapshot.docs.map((doc) => doc.data());
 
     // Sort the placesData array in descending order based on ratings
     placesData.sort((a, b) => b.rating - a.rating);
-  
 
     // Select the top 7 places from the sorted array
-    const top7Places = placesData.slice(0, 10);
+    // const top7Places = placesData.slice(0, 10);
 
+    // setAllplaces(top7Places);
 
+    const top7Places = placesData.slice(0, 10).map((place) => ({
+      ...place,
+      iconColor: Wishlistplace.some((wishlistItem) => wishlistItem.place_name === place.place_name)
+        ? "red" // If the item is in the Wishlist, set the iconColor to red
+        : "white", // Otherwise, set the iconColor to white
+    }));
     setAllplaces(top7Places);
-
   };
 
   getTop7Places();
-}, []);
+}, [Wishlistplace]); // Add Wishlistplace as a dependency to re-run the useEffect whenever the Wishlist is updated
 
-
-
-
-
+// ...
 
 
   function welcomeButton(type) {
@@ -162,14 +156,44 @@ useEffect(() => {
   }
 
   function selectActivity(item) {
-
-
     setselectedplace(item.item);
     console.log("selected place is");
     // console.log(item);
     console.log(item.item.departure_spot);
     navigation.navigate("SecondPage2");
   }
+  function addtoWishlist(item) {
+    const updatedAllPlaces = Allplaces.map((place) => {
+      if (place.place_name === item.place_name) {
+        // If the place matches the item clicked, toggle the heart icon color
+        const newColor = place.iconColor === "white" ? "red" : "white";
+        return {
+          ...place,
+          iconColor: newColor,
+        };
+      }
+      return place;
+    });
+  
+    setAllplaces(updatedAllPlaces);
+  
+    // Check if the item is already in the wishlist
+    const index = Wishlistplace.findIndex(
+      (wishlistItem) => wishlistItem.place_name === item.place_name
+    );
+  
+    if (index !== -1) {
+      // If the item is in the wishlist, remove it from the wishlist
+      const updatedWishlist = [...Wishlistplace];
+      updatedWishlist.splice(index, 1);
+      setWishlistplace(updatedWishlist);
+    } else {
+      // If the item is not in the wishlist, add it to the wishlist
+      setWishlistplace([...Wishlistplace, item]);
+    }
+  }
+  
+
   return (
     <View>
       <View
@@ -211,46 +235,42 @@ useEffect(() => {
           <View>
             <Text style={styles.text_style2}>Top Searches</Text>
           </View>
-          <FlatList horizontal={true} showsHorizontalScrollIndicator={false}
-           data={Allplaces}
-           indicatorStyle="black"
-           renderItem={({ item }) => (
-          <Pressable
-          onPress={() => selectActivity({item})}
-          >
-              <View style={styles.small_containers}>
-            <ImageBackground
-              source={{uri: item.img}}
-              style={styles.image_style}
-            >
-              <Ionicons
-                name="heart"
-                size={25}
-                color="white"
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  opacity: 0.7,
-                }}
-              />
-              <Text style={styles.norm_text}>
-                
-                {item.place_name}
-
-              </Text>
-            </ImageBackground>
-          </View>
-          </Pressable>
-           )}
+          <FlatList
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            data={Allplaces}
+            indicatorStyle="black"
+            renderItem={({ item }) => (
+              <Pressable onPress={() => selectActivity({ item })}>
+                <View style={styles.small_containers}>
+                  <ImageBackground
+                    source={{ uri: item.img }}
+                    style={styles.image_style}
+                  >
+                    <Pressable
+                      style={{
+                        position: "absolute",
+                        top: 10,
+                        right: 10,
+                        opacity: 0.7,
+                      }}
+                      onPress={() => {
+                        addtoWishlist(item);
+                      }}
+                    >
+                      <Ionicons
+                        name="heart"
+                        size={25}
+                        color={item.iconColor} // Use the stored iconColor for this place
+                      />
+                    </Pressable>
+                    <Text style={styles.norm_text}>{item.place_name}</Text>
+                  </ImageBackground>
+                </View>
+              </Pressable>
+            )}
           />
-           
-           
-           
-           
-           
-          
-       
+
           <View>
             <Text style={styles.text_style2}>Browse Categories</Text>
           </View>
@@ -355,14 +375,15 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowOpacity: 0.4,
     elevation: 5,
-   
+    borderRadius: 20,
+    overflow: "hidden",
   },
   image_style: {
-    width: "100%",
-    height: "100%",
+    width: 140,
+    height: 140,
     borderWidth: 1,
     borderColor: "white",
-    borderRadius: 20,
+    borderRadius: 70,
     flexDirection: "column-reverse",
   },
   button_style: {
@@ -380,7 +401,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     elevation: 5,
     marginBottom: 20,
-    borderColor: "13313D",
+    borderColor: "#01877e",
     borderWidth: 1,
   },
   button_container: {

@@ -36,17 +36,34 @@ async function loadFonts() {
 }
 
 export default function Activities({ navigation }) {
-  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace }= useContext(TouraContext);
-  // let searchplace = "Fairy Meadows";
+  const {
+    userId,
+    setUserId,
+    places,
+    setplaces,
+    selectedplace,
+    setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+    bookedplaces,
+    setbookedplaces,
+    placetype,
+    setplacetype,
+    cartitems,
+    setcart_items,
+    Wishlistplace,
+    setWishlistplace,
+  } = useContext(TouraContext);
   const [tosearch, onchangetosearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [iconColor, setIconColor] = useState("white");
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
 
-  loadFonts();
+
 
   const options = [
     { option: "Recommended", value: "Recommended" },
@@ -72,6 +89,61 @@ export default function Activities({ navigation }) {
     console.log(item.item.departure_spot);
     navigation.navigate("SecondPage");
   }
+ function addtoWishlist(item) {
+  const updatedPlaces = places.map((place) => {
+    if (place.place_name === item.place_name) {
+      // If the place matches the item clicked, toggle the heart icon color
+      const newColor = place.iconColor === "white" ? "red" : "white";
+      return {
+        ...place,
+        iconColor: newColor,
+      };
+    }
+
+    return place;
+  });
+
+  setplaces(updatedPlaces);
+
+  // Check if the item is already in the wishlist
+  const index = Wishlistplace.findIndex(
+    (wishlistItem) => wishlistItem.place_name === item.place_name
+  );
+
+  if (index !== -1) {
+    // If the item is in the wishlist, remove it from the wishlist
+    const updatedWishlist = [...Wishlistplace];
+    updatedWishlist.splice(index, 1);
+    setWishlistplace(updatedWishlist);
+  } else {
+    // If the item is not in the wishlist, add it to the wishlist
+    setWishlistplace([...Wishlistplace, item]);
+  }
+}
+
+useEffect(() => {
+  loadFonts();
+
+  for (let i = 0; i < Wishlistplace.length; i++) {
+    console.log("wishlist place is");
+    console.log(Wishlistplace[i].id);
+  }
+
+  // Map through the places and update the iconColor based on whether it is in the Wishlistplace or not
+  const updatedPlaces = places.map((place) => ({
+    ...place,
+    iconColor: Wishlistplace.some(
+      (wishlistItem) => wishlistItem.place_name === place.place_name
+    )
+      ? "red"
+      : "white",
+  }));
+
+  // Update the places with the updated iconColor
+  setplaces(updatedPlaces);
+}, []); 
+
+
 
   return (
     <View>
@@ -100,18 +172,25 @@ export default function Activities({ navigation }) {
             <Pressable style={styles.button_style}
             onPress={() => selectActivity({item})}
             >
-              <View style={styles.small_containers}>
+              <View style={styles.small_containers2}>
                 <ImageBackground
                    source={{uri: item.img}}
-                   
+
                   style={styles.image_style}
                 >
+                  {/* <Pressable
+                   style={styles.icon_style}
+                   onPress={() => {
+                    addtoWishlist(item);
+                  }}
+                  >
                   <Ionicons
-                    name="heart-outline"
-                    size={25}
-                    color="red"
-                    style={styles.icon_style}
+                    name="heart"
+                    size={27}
+                    color={item.iconColor} 
+                   
                   />
+                  </Pressable> */}
                 </ImageBackground>
               </View>
               <View style={styles.small_containers}>
@@ -205,26 +284,42 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   small_containers: {
-    width: "50%",
-    height: 175,
+    width: "45%",
+    height: 170,
     // borderColor: "black",
     // borderRadius: 20,
+    // borderRadius: 30,
+    // overflow: "hidden",
+    // alignSelf: "center",
+    // borderWidth: 1,
+   
+  },
+  small_containers2: {
+    width: "50%",
+    height: 170,
+    // borderColor: "black",
+    // borderRadius: 20,
+    borderRadius: 20,
+    overflow: "hidden",
+    alignSelf: "center",
+    margin: 5,
+    // borderWidth: 1,
    
   },
   image_style: {
-    margin: 2,
-    width: "95%",
-    height: "95%",
+    // margin: 5,
+    marginRight: 10,
+    width: "100%",
+    height: "100%",
     borderColor: "black",
-    borderRadius: 50,
+    // borderRadius: 50,
     // borderWidth: 1,
     // borderColor: "black",
-    // borderRadius: 20,
-
-    // borderRadius: 20,
+   
+ 
 
     flexDirection: "column-reverse",
-    resizeMode: "contain",
+   
   },
   button_style: {
     backgroundColor: "white",
@@ -240,7 +335,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     elevation: 5,
     marginBottom: 20,
-    borderColor: "13313D",
+    borderColor: "#01877E",
     borderWidth: 1,
     flexDirection: "row",
   },

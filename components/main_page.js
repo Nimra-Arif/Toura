@@ -27,6 +27,7 @@ import Profile from "./Profile_page.js";
 import Cart from "./cart_page.js";
 import Bookings from "./booking_page.js";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Wishlist from "./Wishlist_page";
 
 export default function MainPage({ navigation }) {
   const { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,
@@ -61,10 +62,16 @@ export default function MainPage({ navigation }) {
               
             } else if (route.name === "Bookings") {
               iconName = "bookmarks";
-            } else if (route.name === "Cart") {
+            } 
+            else if (route.name === "Cart") {
               iconName = "cart";
               
-            } else if (route.name === "Profile") {
+            } 
+            else if (route.name === "Wishlist") {
+              iconName = "heart";
+              
+            } 
+            else if (route.name === "Profile") {
               iconName = "person";
             }
             return <Ionicons name={iconName} size={size} color={color} />;
@@ -87,6 +94,7 @@ export default function MainPage({ navigation }) {
         <Tab.Screen name="Cart" component={Cart} 
         options={{ tabBarBadge: cartitems }} 
         />
+        <Tab.Screen name="Wishlist" component={Wishlist} />
         <Tab.Screen name="Bookings" component={Bookings} />
 
         <Tab.Screen name="Profile" component={Profile} />

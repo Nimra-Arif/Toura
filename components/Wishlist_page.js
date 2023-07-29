@@ -12,6 +12,7 @@ import {
   FlatList,
   Modal,
   ViewPropsAndroid,
+  Alert,
 } from "react-native";
 import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
@@ -33,38 +34,51 @@ async function loadFonts() {
     // Add other custom fonts here if needed
   });
 }
-export default function Cart({ navigation }) {
-  const {
-    userId,
-    setUserId,
-    places,
-    setplaces,
-    selectedplace,
-    setselectedplace,
-    cartedplaces,
-    setcartedplaces,
-    bookedplaces,
-    setbookedplaces,
-    cartitems,
-    setcart_items,
-  } = useContext(TouraContext);
+export default function Wishlist({ navigation }) {
+  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,bookedplaces, setbookedplaces,placetype, setplacetype,
+    cartitems,setcart_items,Wishlistplace,setWishlistplace
+  }= useContext(TouraContext);
 
   useEffect(() => {
     loadFonts();
-    setcartedplaces(cartedplaces);
-    setcart_items(cartedplaces.length);
+  
+    
   });
 
-  let cart_price = 0;
+ 
 
-  for (let i = 0; i < cartedplaces.length; i++) {
-    cart_price = cart_price + cartedplaces[i].price;
+  function Wishlistout(item) {
+    Alert.alert(
+      "Confirm Deletion",
+      "Are you sure you want to remove this item from your wishlist?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => {
+            const updatedWishlist = Wishlistplace.filter(
+              (wishlist) => wishlist.place_name !== item.place_name
+            );
+            setWishlistplace(updatedWishlist);
+            console.log("updated cart");
+            if (updatedWishlist.length === 0) {
+              navigation.navigate("WelcomePage");
+            }
+          },
+          style: "destructive",
+        },
+      ]
+    );
   }
-
-  function cartout(item) {
-    console.log("item", item.place_name);
-    const updatedCart = cartedplaces.filter((cartItem) => cartItem !== item);
-    setcartedplaces(updatedCart);
+  function selectActivity(item) {
+    setselectedplace(item.item);
+    console.log("selected place is");
+    // console.log(item);
+    console.log(item.item.departure_spot);
+    navigation.navigate("SecondPage2");
   }
   return (
     <View style={styles.container}>
@@ -80,33 +94,21 @@ export default function Cart({ navigation }) {
       ></View>
       <View style={styles.header_style}>
         <Text style={styles.header_text} numberOfLines={2}>
-          Shopping Cart
+         Wishlist
         </Text>
       </View>
 
       <FlatList
         style={{ marginBottom: 60, marginTop: 90, flex: 1 }}
-        data={cartedplaces}
+        data={Wishlistplace}
         indicatorStyle="black"
         renderItem={({ item }) => (
           <View>
-            <View
-
-            // style={{ flex: 1, marginTop: 90, marginBottom: 90 }}
-            >
-              <View style={styles.small_container}>
-                <View
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Pressable style={styles.waiting_button}>
-                    <Text style={styles.text_style}>
-                      We'll hold your spot for 60 minutes
-                    </Text>
-                  </Pressable>
-                </View>
+           
+              <Pressable style={styles.small_container}
+               onPress={() => selectActivity({item})}
+              >
+               
                 <View style={styles.inner_container1}>
                   <Image
                     source={{uri: item.img}}
@@ -114,92 +116,39 @@ export default function Cart({ navigation }) {
                   />
 
                   <View style={styles.text_container}>
+                    
                     <Text style={styles.text_style2}>
-                      From {item.departure_spot} :{item.duration}-days Tour of
+                     <Text>
+                     From {item.departure_spot} :{item.duration}-days Tour of
                       {"\n"}
                       {item.place_name}
+                     </Text>
+                      <Text style={styles.price_style}>{"\n"}
+                        Rs {item.price}</Text>
                     </Text>
                   </View>
                   <Pressable
                     onPress={() => {
-                      cartout(item);
+                      Wishlistout(item);
                     }}
                   >
                     <Ionicons
-                      name="trash"
+                      name="heart"
                       size={30}
                       color="red"
-                      marginTop={15}
-                      marginLeft={17}
+                      marginTop={35}
+                      marginRight={17}
                     />
                   </Pressable>
                 </View>
-                <View style={styles.inner_container2}>
-                  <View style={styles.inner_container3}>
-                    <Ionicons name="calendar" style={styles.icon_style} />
-                    <Text style={styles.text_style3}>{item.date}</Text>
-                  </View>
-
-                  <View style={styles.inner_container3}>
-                    <Ionicons name="time" style={styles.icon_style} />
-                    <Text style={styles.text_style3}>
-                      Opening hours: {item.opening_timings}
-                    </Text>
-                  </View>
-                  <View style={styles.inner_container3}>
-                    <Ionicons name="timer" style={styles.icon_style} />
-                    <Text style={styles.text_style3}>
-                      Duration: {item.duration} days
-                    </Text>
-                  </View>
-                  <View style={styles.inner_container3}>
-                    <Ionicons name="person-circle" style={styles.icon_style} />
-                    <Text style={styles.text_style3}>1 Adult</Text>
-                  </View>
-                  <View style={styles.inner_container3}>
-                    <Ionicons name="globe-outline" style={styles.icon_style} />
-                    <Text style={styles.text_style3}>Language : English</Text>
-                  </View>
-                  {/* <View style={styles.inner_container3}>
-                    <Ionicons name="wallet" style={styles.icon_style} />
-                    <View style={{ flexDirection: "column" }}>
-                      <Text style={styles.text_style3}>Pay nothing today</Text>
-                      <Text style={styles.text_style4}>
-                        Book now and pay three days before your tour
-                      </Text>
-                    </View>
-                  </View> */}
-                  <View style={styles.inner_container3}>
-                    <Ionicons name="checkmark" size={30} color="#00FF00" />
-                    <View style={{ flexDirection: "column" }}>
-                      <Text style={styles.text_style3}>Free Cancellation</Text>
-                      <Text style={styles.text_style4}>
-                        Until 12:00 AM one day before your tour
-                      </Text>
-                    </View>
-                  </View>
-                  <Text style={styles.price_style}>Rs {item.price}</Text>
-                </View>
-              </View>
-            </View>
+                
+              
+              </Pressable>
+         
           </View>
         )}
       />
-      <View style={styles.footer_style}>
-        <Text style={styles.footer_text} numberOfLines={2}>
-          Rs. {cart_price} {"\n"} Subtotal
-        </Text>
-        <Pressable
-          style={styles.footer_button}
-          disabled={cartedplaces.length == 0 ? true : false}
-          opacity={cartedplaces.length == 0 ? 0.3 : 1}
-          onPress={() => {
-            navigation.navigate("Billing");
-          }}
-        >
-          <Text style={styles.footer_text}>Check out</Text>
-        </Pressable>
-      </View>
+     
     </View>
   );
 }
@@ -266,7 +215,7 @@ const styles = StyleSheet.create({
   },
   small_container: {
     // flex:1,
-    margin: 2,
+    // margin: 12,
     alignSelf: "center",
     // marginTop: 90,
     width: "97%",
@@ -333,15 +282,17 @@ const styles = StyleSheet.create({
   },
   text_container: {
     width: "50%",
+    flexDirection: "column",
   },
   image_style: {
-    width: 100,
-    height: 100,
+    width: 116,
+    height: 150,
     borderRadius: 10,
     marginLeft: 7,
   },
   inner_container1: {
     flexDirection: "row",
+    margin: 10,
   },
   inner_container2: {
     flexDirection: "column",
@@ -354,7 +305,7 @@ const styles = StyleSheet.create({
   },
   price_style: {
     color: "red",
-    fontSize: 23,
+    fontSize: 22,
     marginTop: 5,
     marginLeft: 220,
     fontFamily: "Podkova",
