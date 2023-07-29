@@ -61,6 +61,9 @@ export default function Bookings({ navigation }) {
     )
     setbookedplaces(updatedbookings);
     console.log("updated cart");
+    if(updatedbookings.length==0){
+      navigation.navigate("WelcomePage");
+    }
   }
   return (
     <View style={styles.container}>
@@ -95,7 +98,7 @@ export default function Bookings({ navigation }) {
               ></View>
               <View style={styles.inner_container1}>
                 <Image
-                  source={require("../assets/topsearch_1.jpeg")}
+                 source={{uri: item.img}}
                   style={styles.image_style}
                 />
 

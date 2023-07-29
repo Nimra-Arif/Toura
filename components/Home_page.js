@@ -25,11 +25,13 @@ import SearchPage from "./search_page";
 import WelcomePage from "./welcome_page";
 import Activities from "./page_1";
 import SecondPage from "./page_2";
+import SecondPage2 from "./page3";
 import Description from "./description_page";
 import Cart from "./cart_page";
 import Bookings from "./booking_page";
 import Billing from "./Billings";
 import PlaceGuidlines from "./place_guidlines";
+
 
 async function loadFonts() {
   Font.loadAsync({
@@ -56,6 +58,12 @@ export default function Home({ navigation }) {
         component={WelcomePage}
         options={{ headerShown: false, fontFamily: "Playball" }}
       />
+      <Stack.Screen
+        name="SecondPage2"
+        component={SecondPage2}
+        options={{ headerShown: false, fontFamily: "Playball" }}
+      />
+
       <Stack.Screen
         name="Search"
         component={SearchPage}

@@ -109,7 +109,7 @@ export default function Cart({ navigation }) {
                 </View>
                 <View style={styles.inner_container1}>
                   <Image
-                    source={require("../assets/topsearch_2.jpeg")}
+                    source={{uri: item.img}}
                     style={styles.image_style}
                   />
 

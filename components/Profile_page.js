@@ -224,7 +224,7 @@ const [data,setData]=useState([])
                     style={{
                       width: 120,
                       height: 120,
-                      color: "white",
+                     
                       borderRadius: 100,
                     }}
                   />
@@ -252,6 +252,7 @@ const [data,setData]=useState([])
                     }}
                   />
                 </View>
+                
               )}
               <Pressable
                 style={{

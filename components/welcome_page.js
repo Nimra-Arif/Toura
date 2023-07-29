@@ -137,11 +137,14 @@ useEffect(() => {
 
     // Sort the placesData array in descending order based on ratings
     placesData.sort((a, b) => b.rating - a.rating);
+  
 
     // Select the top 7 places from the sorted array
-    const top7Places = placesData.slice(0, 7);
+    const top7Places = placesData.slice(0, 10);
+
 
     setAllplaces(top7Places);
+
   };
 
   getTop7Places();
@@ -158,6 +161,15 @@ useEffect(() => {
     navigation.navigate("Search");
   }
 
+  function selectActivity(item) {
+
+
+    setselectedplace(item.item);
+    console.log("selected place is");
+    // console.log(item);
+    console.log(item.item.departure_spot);
+    navigation.navigate("SecondPage2");
+  }
   return (
     <View>
       <View
@@ -203,9 +215,12 @@ useEffect(() => {
            data={Allplaces}
            indicatorStyle="black"
            renderItem={({ item }) => (
-            <View style={styles.small_containers}>
+          <Pressable
+          onPress={() => selectActivity({item})}
+          >
+              <View style={styles.small_containers}>
             <ImageBackground
-              source={require("../assets/land_page_toura.jpeg")}
+              source={{uri: item.img}}
               style={styles.image_style}
             >
               <Ionicons
@@ -226,6 +241,7 @@ useEffect(() => {
               </Text>
             </ImageBackground>
           </View>
+          </Pressable>
            )}
           />
            
@@ -339,7 +355,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowOpacity: 0.4,
     elevation: 5,
-    borderRadius: 40,
+   
   },
   image_style: {
     width: "100%",

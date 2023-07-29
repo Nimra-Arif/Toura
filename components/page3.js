@@ -32,7 +32,7 @@ async function loadFonts() {
     // Add other custom fonts here if needed
   });
 }
-export default function SecondPage({ navigation }) {
+export default function SecondPage2({ navigation }) {
   const {
     userId,
     setUserId,
@@ -79,7 +79,7 @@ export default function SecondPage({ navigation }) {
             <Pressable
               color="#01877E"
               style={{ position: "absolute", top: 10, left: 10, opacity: 0.9 }}
-              onPress={() => navigation.navigate("Activities")}
+              onPress={() => navigation.navigate("WelcomePage")}
             >
               <Ionicons name="arrow-back-circle" size={47} color="#01877E" />
             </Pressable>

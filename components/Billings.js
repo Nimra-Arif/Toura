@@ -26,6 +26,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 import CountryPicker from "react-native-country-picker-modal";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 async function loadFonts() {
   Font.loadAsync({
@@ -40,6 +41,8 @@ export default function Billing({ navigation }) {
   const [phone, onchangephone] = useState("");
   const [country, onchangecountry] = useState("Select Country");
   const [modalVisible, setModalVisible] = useState(false);
+
+
 
   const handleCountrySelect = (selectedCountry) => {
     onchangecountry(selectedCountry.name);
@@ -56,6 +59,15 @@ export default function Billing({ navigation }) {
   for (let i = 0; i < cartedplaces.length; i++) {
     cart_price = cart_price + cartedplaces[i].price;
   }
+  
+  const q = query(collection(db, "users"), where("uid", "==", userId));
+getDocs(q).then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, " => ", doc.data());
+      onchangename(doc.data().username);
+      onchangeemail(doc.data().email);
+    })
+})
 
   function book_place() {
     console.log("bookedplace");
@@ -91,7 +103,7 @@ export default function Billing({ navigation }) {
       >
         <View style={styles.small_container}>
           <TextInput
-            value={userId.data().username}
+            value={name}
             placeholder="Name"
             onChangeText={(name) => {
               onchangename(name);
@@ -103,7 +115,7 @@ export default function Billing({ navigation }) {
         </View>
         <View style={styles.small_container}>
           <TextInput
-            value={userId.data().email}
+            value={email}
             placeholder="Email"
             onChangeText={(email) => {
               onchangeemail(email);

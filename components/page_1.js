@@ -102,7 +102,8 @@ export default function Activities({ navigation }) {
             >
               <View style={styles.small_containers}>
                 <ImageBackground
-                  source={require("../assets/topsearch_2.jpeg")}
+                   source={{uri: item.img}}
+                   
                   style={styles.image_style}
                 >
                   <Ionicons
