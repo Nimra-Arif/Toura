@@ -18,7 +18,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc,updateDoc } from "firebase/firestore";
 import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
 import { useState, useEffect, useContext } from "react";
@@ -28,13 +28,6 @@ import { ScrollView } from "react-native";
 import CountryPicker from "react-native-country-picker-modal";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
-async function loadFonts() {
-  Font.loadAsync({
-    Podkova: require("../assets/fonts/Podkova.ttf"),
-    Playball: require("../assets/fonts/Playball.ttf"),
-    // Add other custom fonts here if needed
-  });
-}
 export default function Billing({ navigation }) {
   const [name, onchangename] = useState("");
   const [email, onchangeemail] = useState("");
@@ -48,12 +41,11 @@ export default function Billing({ navigation }) {
     onchangecountry(selectedCountry.name);
     setModalVisible(false);
   };
-
-  const { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,bookedplaces, setbookedplaces,
-    cartitems,setcart_items
+  const    { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,bookedplaces, setbookedplaces,placetype, setplacetype,
+    cartitems,setcart_items,Wishlistplace,setWishlistplace,activitiesid,setactivitiesid,Recommendedplaces,setRecommendedplaces,
+    topplaces,settopplaces
   } = useContext(TouraContext);
 
-  loadFonts();
   let cart_price = 0;
 
   for (let i = 0; i < cartedplaces.length; i++) {
@@ -63,7 +55,7 @@ export default function Billing({ navigation }) {
   const q = query(collection(db, "users"), where("uid", "==", userId));
 getDocs(q).then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
+      // console.log(doc.id, " => ", doc.data());
       onchangename(doc.data().username);
       onchangeemail(doc.data().email);
     })
@@ -71,13 +63,39 @@ getDocs(q).then((querySnapshot) => {
 
   function book_place() {
     console.log("bookedplace");
-    setbookedplaces([])
-    setbookedplaces(cartedplaces);
+   setbookedplaces(
+      [...bookedplaces, ...cartedplaces]
+   )
     navigation.navigate("Bookings");
     setcartedplaces([]);
     setcart_items(0);
    
   }
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        Podkova: require("../assets/fonts/Podkova.ttf"),
+        Playball: require("../assets/fonts/Playball.ttf"),
+      });
+    };
+  
+    loadFonts();
+    const q = query(collection(db, "users"), where("uid", "==", userId));
+    const querySnapshot = getDocs(q);
+    querySnapshot.then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+
+       doc.data().wishlist=Wishlistplace;
+        doc.data().cartlist=cartedplaces;
+        doc.data().bookedlist=bookedplaces;
+
+       updateDoc(doc.ref, {wishlist:Wishlistplace})
+        updateDoc(doc.ref, {cartlist:cartedplaces})
+        updateDoc(doc.ref, {bookedlist:bookedplaces})
+      });
+    });
+  }, [Wishlistplace,cartedplaces,bookedplaces]);
+  
   return (
     <ScrollView style={styles.container}>
       <View

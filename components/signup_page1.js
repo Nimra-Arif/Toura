@@ -13,11 +13,21 @@ import {
 import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useState, useEffect } from "react";
 import { Picker } from "@react-native-picker/picker";
-import { Ionicons } from "@expo/vector-icons";
+
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import {
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  copyDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
+import { useState, useEffect, useContext } from "react";
+import { Ionicons } from "@expo/vector-icons";
 import { auth } from "./config.jsx";
 
 import {
@@ -43,7 +53,6 @@ export default function SignUp1({ navigation }) {
 
 
   let [iconName, seticonName] = useState("eye");
-  
 
   loadFonts();
   async function createuser() {
@@ -66,8 +75,8 @@ export default function SignUp1({ navigation }) {
           uid: user.uid,
           profile_pic: "",
           wishlist: [],
-          cart: [],
-          booked: [],
+          cartlist: [],
+          bookedlist: [],
           
         });
         console.log("User created successfully!");

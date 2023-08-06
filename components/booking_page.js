@@ -12,6 +12,8 @@ import {
   Modal,
   ViewPropsAndroid,
   FlatList,
+  Button,
+
 
 } from "react-native";
 import * as Font from "expo-font";
@@ -19,7 +21,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc ,updateDoc} from "firebase/firestore";
 import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
 import { useState, useEffect, useContext } from "react";
@@ -30,6 +32,7 @@ import { Video } from 'expo-av';
 // import Video from 'react-native-video';
 import * as Animatable from "react-native-animatable";
 import TypeWriter from "@sucho/react-native-typewriter";
+// import { Button } from "react-native-web";
 
 async function loadFonts() {
   Font.loadAsync({
@@ -40,20 +43,9 @@ async function loadFonts() {
 }
 export default function Bookings({ navigation }) {
   
- 
-  const {
-    userId,
-    setUserId,
-    places,
-    setplaces,
-    selectedplace,
-    setselectedplace,
-    cartedplaces,
-    setcartedplaces,
-    bookedplaces,
-    setbookedplaces,
-    cartitems,
-    setcart_items,
+  const    { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,bookedplaces, setbookedplaces,placetype, setplacetype,
+    cartitems,setcart_items,Wishlistplace,setWishlistplace,activitiesid,setactivitiesid,Recommendedplaces,setRecommendedplaces,
+    topplaces,settopplaces
   } = useContext(TouraContext);
  
   // const [vidset, setvidset] = useState(false);
@@ -61,7 +53,24 @@ export default function Bookings({ navigation }) {
   useEffect(() => {
     loadFonts();
     
-    
+
+      const q = query(collection(db, "users"), where("uid", "==", userId));
+      const querySnapshot = getDocs(q);
+      querySnapshot.then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+  
+         doc.data().wishlist=Wishlistplace;
+          doc.data().cartlist=cartedplaces;
+          doc.data().bookedlist=bookedplaces;
+  
+         updateDoc(doc.ref, {wishlist:Wishlistplace})
+          updateDoc(doc.ref, {cartlist:cartedplaces})
+          updateDoc(doc.ref, {bookedlist:bookedplaces})
+        });
+      })
+  
+  
+
 
     setcart_items(cartedplaces.length);
 
@@ -72,7 +81,7 @@ export default function Bookings({ navigation }) {
       setemptypage(false);
     }
 
-  });
+  },[cartedplaces,bookedplaces,Wishlistplace]);
   function cancelbooking(item) {
     console.log("item......", item.place_name);
     const updatedbookings = bookedplaces.filter(
@@ -85,11 +94,7 @@ export default function Bookings({ navigation }) {
     }
   }
 
-  function navtosearch() {
-    console.log("search");
-    navigation.navigate("Search");
-  }
-
+  
   return (
     <View style={styles.container}>
       <View
@@ -111,7 +116,7 @@ export default function Bookings({ navigation }) {
       {emptypage && (
      <View
      style={{
-        flex: 1,
+        // flex: 1,
      }}
      >
       
@@ -125,22 +130,27 @@ export default function Bookings({ navigation }) {
           resizeMode="cover"
           shouldPlay
           isLooping
-          style={{ width: "80%", height: "90%", marginTop: 190,
+          style={{ width: "80%", height: "45%", marginTop: 220,
           alignSelf: "center", borderRadius: 20, 
           opacity: 1, 
+          // borderColor : "#01877E",
+          // borderWidth: 2,
 
         
         }}
 
         />
         <Pressable
-         onPress={() =>{navtosearch()}}
-
-        style={styles.button_style3}
-        
+          onPress={() => 
+           {navigation.navigate("Search");}
+          
+          }
+       style={styles.button_style3}
         >
           <Text style={styles.slogan_style}>Find Things to do</Text>
+        
         </Pressable>
+      
      
       </View>
       )}

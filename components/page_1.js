@@ -22,7 +22,7 @@ import { ScrollView } from "react-native";
 import SearchPage from "./search_page";
 
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc ,updateDoc} from "firebase/firestore";
 import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
 import { useState, useEffect, useContext } from "react";
@@ -80,20 +80,21 @@ console.log(item.item.id);
     };
   
     loadFonts();
-    // const updatedPlaces = places.map((place) => ({
-    //   ...place,
-    //   iconColor: Wishlistplace.some(
-    //     (wishlistItem) => wishlistItem.id === place.id
-    //   )
-    //     ? "red"
-    //     : "white",
-  
-    // }));
-  
-    // setplaces(updatedPlaces);
-  
-    // setactivitiesid(updatedPlaces);
-  }, []);
+    const q = query(collection(db, "users"), where("uid", "==", userId));
+    const querySnapshot = getDocs(q);
+    querySnapshot.then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+
+       doc.data().wishlist=Wishlistplace;
+        doc.data().cartlist=cartedplaces;
+        doc.data().bookedlist=bookedplaces;
+
+       updateDoc(doc.ref, {wishlist:Wishlistplace})
+        updateDoc(doc.ref, {cartlist:cartedplaces})
+        updateDoc(doc.ref, {bookedlist:bookedplaces})
+      });
+    });
+  }, [Wishlistplace,cartedplaces,bookedplaces]);
   
 
   // function addtoWishlist(item) {

@@ -38,10 +38,12 @@ export default function Wishlist({ navigation }) {
   const { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,bookedplaces, setbookedplaces,placetype, setplacetype,
     cartitems,setcart_items,Wishlistplace,setWishlistplace
   }= useContext(TouraContext);
-
+  const [emptypage, setemptypage] = useState(true);
   useEffect(() => {
     loadFonts();
-  
+
+   
+
     
   });
 
@@ -98,8 +100,10 @@ export default function Wishlist({ navigation }) {
         </Text>
       </View>
 
+
+
       <FlatList
-        style={{ marginBottom: 60, marginTop: 90, flex: 1 }}
+        style={{ marginBottom: 1, marginTop: 90, flex: 1 }}
         data={Wishlistplace}
         indicatorStyle="black"
         renderItem={({ item }) => (

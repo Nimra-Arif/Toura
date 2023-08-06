@@ -40,7 +40,7 @@ async function loadFonts() {
 }
 export default function Profile({ navigation }) {
   const [username, setusername] = useState("");
-  const { userId, setUserId, places, setplaces } = useContext(TouraContext);
+  const { userId, setUserId, places, setplaces} = useContext(TouraContext);
   const [profimg,setprofimg]=useState("");
 
 
@@ -274,6 +274,8 @@ const [data,setData]=useState([])
               <Text style={styles.header_text1}>
                 {/* {userId} */}
                 {username}
+          
+                
               </Text>
 
             </View>

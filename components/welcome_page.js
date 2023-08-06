@@ -106,48 +106,7 @@ export default function WelcomePage({ navigation }) {
   // ...
 
   useEffect(() => {
-    // const q = query(collection(db, "users"), where("uid", "==", userId));
-    // getDocs(q).then((querySnapshot) => {
-    //   querySnapshot.forEach((doc) => {
-    //     // doc.data() is never undefined for query doc snapshots
-    //     console.log(doc.id, " => ", doc.data());
-
-    //     let existingUser = doc.data();
-
-    //     console.log(existingUser);
-    //     console.log("existing user id");
-
-    //     setWishlistplace(existingUser.wishlist);
-    //     setcartedplaces(existingUser.cart);
-    //     setbookedplaces(existingUser.booked);
-
-    //   });
-    // });
-
-    // const q = query(collection(db, "users"), where("uid", "==", userId));
-    // setDoc(doc(db, "users", userId), {
-
-    // })
-    // const q1 = query(collection(db, "users"), where("uid", "==", userId));
-    // getDocs(q1).then((querySnapshot) => {
-    //   querySnapshot.forEach((doc) => {
-    //     doc.data().cart = cartedplaces.map((place) => ({
-    //       ...place,
-    //     }));
-
-    //     doc.data().wishlist = Wishlistplace.map((place) => ({
-    //       ...place,
-    //     }));
-    //     doc.data().booked = bookedplaces.map((place) => ({
-    //       ...place,
-    //     }));
-    //     updateDoc(doc.ref, {
-    //       wishlist: Wishlistplace,
-    //       cart: cartedplaces,
-    //       booked: bookedplaces,
-    //     });
-    //   });
-    // });
+  
 
     const loadFonts = async () => {
       await Font.loadAsync({
@@ -157,6 +116,22 @@ export default function WelcomePage({ navigation }) {
     };
 
     loadFonts();
+
+
+      const q = query(collection(db, "users"), where("uid", "==", userId));
+      const querySnapshot = getDocs(q);
+      querySnapshot.then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+  
+         doc.data().wishlist=Wishlistplace;
+          doc.data().cartlist=cartedplaces;
+          doc.data().bookedlist=bookedplaces;
+  
+         updateDoc(doc.ref, {wishlist:Wishlistplace})
+          updateDoc(doc.ref, {cartlist:cartedplaces})
+          updateDoc(doc.ref, {bookedlist:bookedplaces})
+        });
+      });
 
     const getTop7Places = async () => {
       const placesRef = collection(db, "place");
@@ -188,7 +163,7 @@ export default function WelcomePage({ navigation }) {
     };
 
     getTop7Places();
-  }, [Wishlistplace]); // Add Wishlistplace as a dependency to re-run the useEffect whenever the Wishlist is updated
+  }, [Wishlistplace,cartedplaces,bookedplaces]); // Add Wishlistplace as a dependency to re-run the useEffect whenever the Wishlist is updated
 
   // ...
 
@@ -229,9 +204,13 @@ export default function WelcomePage({ navigation }) {
       const updatedWishlist = [...Wishlistplace];
       updatedWishlist.splice(index, 1);
       setWishlistplace(updatedWishlist);
+
+
+
     } else {
       // If the item is not in the wishlist, add it to the wishlist
       setWishlistplace([...Wishlistplace, item]);
+   
     }
   }
 

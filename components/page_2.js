@@ -16,7 +16,7 @@ import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc,updateDoc } from "firebase/firestore";
 import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
 import { useState, useEffect, useContext } from "react";
@@ -33,19 +33,9 @@ async function loadFonts() {
   });
 }
 export default function SecondPage({ navigation }) {
-  const {
-    userId,
-    setUserId,
-    places,
-    setplaces,
-    selectedplace,
-    setselectedplace,
-    cartedplaces,
-    setcartedplaces,
-    bookedplaces,
-    setbookedplaces,
-    cartitems,
-    setcart_items,
+  const    { userId, setUserId,places,setplaces,selectedplace,setselectedplace,cartedplaces,setcartedplaces ,bookedplaces, setbookedplaces,placetype, setplacetype,
+    cartitems,setcart_items,Wishlistplace,setWishlistplace,activitiesid,setactivitiesid,Recommendedplaces,setRecommendedplaces,
+    topplaces,settopplaces
   } = useContext(TouraContext);
   loadFonts();
 
@@ -57,6 +47,22 @@ export default function SecondPage({ navigation }) {
     
     navigation.navigate("Cart");
   }
+  useEffect(() => {
+    const q = query(collection(db, "users"), where("uid", "==", userId));
+    const querySnapshot = getDocs(q);
+    querySnapshot.then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+
+       doc.data().wishlist=Wishlistplace;
+        doc.data().cartlist=cartedplaces;
+        doc.data().bookedlist=bookedplaces;
+
+       updateDoc(doc.ref, {wishlist:Wishlistplace})
+        updateDoc(doc.ref, {cartlist:cartedplaces})
+        updateDoc(doc.ref, {bookedlist:bookedplaces})
+      });
+    });
+  },[cartedplaces,bookedplaces,Wishlistplace])
 
   return (
     <View style={styles.container}>

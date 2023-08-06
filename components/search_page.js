@@ -21,7 +21,7 @@ import { sending_data } from "./signup_page1";
 import { ScrollView } from "react-native";
 
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { query, where, getDocs, deleteDoc, copyDoc } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc, copyDoc,updateDoc } from "firebase/firestore";
 import { TouraProvider, TouraContext } from "../Global/TouraContext";
 import { db } from "./config.jsx";
 import { useState, useEffect, useContext } from "react";
@@ -85,6 +85,21 @@ export default function SearchPage({ navigation }) {
       };
     });
     setRecommendedplaces(updatedWishlist);
+
+    const q = query(collection(db, "users"), where("uid", "==", userId));
+    const querySnapshot = getDocs(q);
+    querySnapshot.then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+
+       doc.data().wishlist=Wishlistplace;
+        doc.data().cartlist=cartedplaces;
+        doc.data().bookedlist=bookedplaces;
+
+       updateDoc(doc.ref, {wishlist:Wishlistplace})
+        updateDoc(doc.ref, {cartlist:cartedplaces})
+        updateDoc(doc.ref, {bookedlist:bookedplaces})
+      });
+    })
   }, [Wishlistplace, topplaces]);
 
   // ... (rest of the component)

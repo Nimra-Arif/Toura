@@ -42,13 +42,28 @@ export default function Login({ navigation }) {
     setplaces,
     selectedplace,
     setselectedplace,
+    cartedplaces,
+    setcartedplaces,
+    bookedplaces,
+    setbookedplaces,
+    placetype,
+    setplacetype,
+    cartitems,
+    setcart_items,
+    Wishlistplace,
+    setWishlistplace,
+    activitiesid,
+    setactivitiesid,
+    
+    topplaces,
+    settopplaces,
   } = useContext(TouraContext);
 
   let [email, onchangeemail] = useState("");
   const [password, onchangepassword] = useState("");
   const [secureTextEntry, setsecureTextEntry] = useState(true);
 
-  let [iconName, seticonName] = useState("eye-off");
+  let [iconName, seticonName] = useState("eye");
 
   async function handleResetPassword() {
     email = email.trim();
@@ -74,9 +89,27 @@ export default function Login({ navigation }) {
   useEffect(() => {
     onchangeemail("");
     onchangepassword("");
+      
   }, []);
 
   loadFonts();
+
+  function    settingData(id) {
+    const q = query(collection(db, "users"), where("uid", "==", id));
+    const querySnapshot = getDocs(q);
+    querySnapshot.then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        setWishlistplace(doc.data().wishlist);
+        setcartedplaces(doc.data().cartlist);
+        setbookedplaces(doc.data().bookedlist);
+        console.log("length here")
+        console.log(Wishlistplace.length);
+        console.log(doc.data().wishlist.length);
+
+      });
+    });
+  }
+
 
   function loginuser() {
     if (email === "" || password === "") {
@@ -84,13 +117,20 @@ export default function Login({ navigation }) {
     } else {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+         
           const user = userCredential.user;
 
+
           if (user.emailVerified) {
-            navigation.navigate("MainPage");
+            
+           
             setUserId(user.uid);
             console.log("User logged in successfully");
+          
             console.log(user.uid);
+            settingData(user.uid); 
+            navigation.navigate("MainPage"); 
+           
           } else {
             alert("Please verify your email before logging in.");
           }
@@ -114,11 +154,11 @@ export default function Login({ navigation }) {
   }
 
   async function showPassword() {
-    if (iconName === "eye") {
-      seticonName("eye-off");
+    if (iconName === "eye-off") {
+      seticonName("eye");
       setsecureTextEntry(true);
     } else {
-      seticonName("eye");
+      seticonName("eye-off");
       setsecureTextEntry(false);
     }
   }
