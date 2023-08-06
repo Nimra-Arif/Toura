@@ -6,27 +6,14 @@ import {
   TextInput,
   Pressable,
   Platform,
-  Image,
   KeyboardAvoidingView,
-  Button,
 } from "react-native";
 import * as Font from "expo-font";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { Picker } from "@react-native-picker/picker";
 
-import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import {
-  query,
-  where,
-  getDocs,
-  deleteDoc,
-  copyDoc,
-  updateDoc,
-} from "firebase/firestore";
-import { TouraProvider, TouraContext } from "../Global/TouraContext";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from "./config.jsx";
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { auth } from "./config.jsx";
 
@@ -50,7 +37,6 @@ export default function SignUp1({ navigation }) {
   const [password, onchangepassword] = useState("");
   const [gender, onchangegender] = useState("");
   const [secureTextEntry, setsecureTextEntry] = useState(true);
-
 
   let [iconName, seticonName] = useState("eye");
 
@@ -77,11 +63,9 @@ export default function SignUp1({ navigation }) {
           wishlist: [],
           cartlist: [],
           bookedlist: [],
-          
         });
         console.log("User created successfully!");
 
-        // Send verification email to the user
         await sendEmailVerification(user)
           .then(() => {
             console.log("Verification email sent successfully.");
@@ -90,7 +74,7 @@ export default function SignUp1({ navigation }) {
             console.error("Error sending verification email:", error);
           });
         alert("Verify your email to login");
-     
+
         console.log("Creating user...");
 
         onchangeemail("");
@@ -112,7 +96,7 @@ export default function SignUp1({ navigation }) {
       setsecureTextEntry(false);
     }
   }
-  
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -181,16 +165,6 @@ export default function SignUp1({ navigation }) {
                 />
               </Pressable>
             </View>
-            {/* <TextInput
-              value={gender}
-              placeholder="Gender"
-              onChangeText={(gender) => {
-                onchangegender(gender);
-              }}
-              style={styles.input_style}
-              placeholderTextColor="#Ebe8"
-              clearButtonMode="always"
-            ></TextInput> */}
             <View style={styles.picker_outercontainer_style}>
               <View style={styles.picker_container_style}>
                 <Picker
@@ -246,16 +220,12 @@ const styles = StyleSheet.create({
   },
   big_container: {
     flex: 1,
-    paddingTop: "1%",
-    // flexDirection: "column",
   },
-  //
   container1: {
     flex: 1,
     flexDirection: "column-reverse",
     paddingLeft: "1%",
-    // justifyContent: "center",
-    paddingTop: 30,
+    paddingTop: 80,
   },
   container2: {
     flex: 0.8,

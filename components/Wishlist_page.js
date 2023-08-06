@@ -42,6 +42,12 @@ export default function Wishlist({ navigation }) {
   useEffect(() => {
     loadFonts();
 
+    if (Wishlistplace.length === 0) {
+      setemptypage(true);
+    }
+    else{
+      setemptypage(false);
+    }
    
 
     
@@ -99,7 +105,14 @@ export default function Wishlist({ navigation }) {
          Wishlist
         </Text>
       </View>
+{emptypage &&(
+  <View style={{alignSelf:"center",marginTop:350}}>
 
+<Text style={{fontSize:23,fontFamily:"Podkova",color:"#01877E",alignSelf:"center",textAlign:"center"
+
+}}>Your Wishlist is Empty at the moment</Text>
+  </View>
+)}
 
 
       <FlatList

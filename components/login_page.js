@@ -38,25 +38,10 @@ export default function Login({ navigation }) {
   const {
     userId,
     setUserId,
-    places,
-    setplaces,
-    selectedplace,
-    setselectedplace,
-    cartedplaces,
     setcartedplaces,
-    bookedplaces,
     setbookedplaces,
-    placetype,
-    setplacetype,
-    cartitems,
-    setcart_items,
     Wishlistplace,
     setWishlistplace,
-    activitiesid,
-    setactivitiesid,
-    
-    topplaces,
-    settopplaces,
   } = useContext(TouraContext);
 
   let [email, onchangeemail] = useState("");
@@ -84,17 +69,14 @@ export default function Login({ navigation }) {
     }
   }
 
-
-
   useEffect(() => {
     onchangeemail("");
     onchangepassword("");
-      
   }, []);
 
   loadFonts();
 
-  function    settingData(id) {
+  function settingData(id) {
     const q = query(collection(db, "users"), where("uid", "==", id));
     const querySnapshot = getDocs(q);
     querySnapshot.then((querySnapshot) => {
@@ -102,14 +84,12 @@ export default function Login({ navigation }) {
         setWishlistplace(doc.data().wishlist);
         setcartedplaces(doc.data().cartlist);
         setbookedplaces(doc.data().bookedlist);
-        console.log("length here")
+        console.log("length here");
         console.log(Wishlistplace.length);
         console.log(doc.data().wishlist.length);
-
       });
     });
   }
-
 
   function loginuser() {
     if (email === "" || password === "") {
@@ -117,20 +97,15 @@ export default function Login({ navigation }) {
     } else {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-         
           const user = userCredential.user;
 
-
           if (user.emailVerified) {
-            
-           
             setUserId(user.uid);
             console.log("User logged in successfully");
-          
+
             console.log(user.uid);
-            settingData(user.uid); 
-            navigation.navigate("MainPage"); 
-           
+            settingData(user.uid);
+            navigation.navigate("MainPage");
           } else {
             alert("Please verify your email before logging in.");
           }
@@ -223,7 +198,7 @@ export default function Login({ navigation }) {
               style={styles.normal_text}
               onPress={() => handleResetPassword()}
             >
-              <Text style={{color:"white"}}>Forgot Password?</Text>
+              <Text style={{ color: "white" }}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>
 
@@ -243,8 +218,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   big_container: {
-    // paddingTop: "60%",
-    // flexDirection: "column",
+  
     flex: 1,
   },
   container1: {
@@ -282,30 +256,21 @@ const styles = StyleSheet.create({
   text_style: {
     color: "white",
     fontSize: 35,
-
-    // fontWeight: "bold",
-    // fontStyle: "italic",
     fontFamily: "Podkova",
     paddingLeft: "6%",
   },
   normal_text: {
     color: "white",
     fontSize: 15,
-    // fontFamily: "Roboto",
-    // fontStyle: "italic",
-    // paddingLeft: "33%",
     paddingTop: "2%",
     fontFamily: "Podkova",
   },
   icon_style: {
-    // paddingTop: "10%",
     paddingLeft: "80%",
     paddingBottom: "10%",
     paddingRight: "10%",
   },
   previous_icon_style: {
-    // position: "absolute",
-
     paddingLeft: 10,
     paddingTop: "10%",
   },
@@ -314,11 +279,8 @@ const styles = StyleSheet.create({
     width: "70%",
     color: "white",
     borderWidth: 1,
-    // padding: 10,
     fontSize: 18,
     borderColor: "transparent",
-    // borderBottomColor: "white",
-    // marginTop: 13,
     fontFamily: "Podkova",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -328,7 +290,6 @@ const styles = StyleSheet.create({
     width: "70%",
     color: "white",
     borderWidth: 1,
-    // padding: 10,
     fontSize: 22,
     borderColor: "transparent",
     borderBottomColor: "white",

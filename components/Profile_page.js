@@ -44,6 +44,8 @@ export default function Profile({ navigation }) {
   const [profimg,setprofimg]=useState("");
 
 
+
+  
   const uploadImage = async (img) => {
     console.log("uploadImage");
     const blobImage = await new Promise((resolve, reject) => {
@@ -142,17 +144,7 @@ export default function Profile({ navigation }) {
   }, []);
   const [image, setImage] = useState(null);
 const [data,setData]=useState([])
-  // useLayoutEffect(() => {
-
-  //   const ref=db.collection("ProfilePictures");
-  //   onSnapshot(ref, (querySnapshot) => {
-  //     setData(ProfilePictures.docs.map((doc) => ({
-  //       id: doc.id,
-  //       data: doc.data()
-  //     })));
-  //   })
-
-  // })
+ 
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -243,7 +235,7 @@ const [data,setData]=useState([])
                   }}
                 >
                   <Image
-                    source={require("../assets/profile_pic1.png")}
+                    source={require("../assets/profile_pic3.png")}
                     style={{
                       width: 120,
                       height: 120,
@@ -261,37 +253,27 @@ const [data,setData]=useState([])
                 }}
                 onPress={pickImage}
               >
-                <Ionicons name="camera-outline" size={34} color="#13313D" />
+                <Ionicons name="camera" size={39} color="#Ecf9" />
               </Pressable>
             </View>
             <View style={
               {
                 alignItems: "center",
                 justifyContent: "center",
-                margin: 20,
+                // margin: 20,
+                marginTop: 20,
+                marginBottom: 20,
               }
             }>
               <Text style={styles.header_text1}>
-                {/* {userId} */}
+             
                 {username}
           
                 
               </Text>
 
             </View>
-           {/* {
-            profimg && (
-               <Image
-             source={{uri: profimg}}
-             style={{
-               width: 120,
-               height: 120,
 
-               borderRadius: 100,
-             }}
-            />
-            )
-           } */}
 
             <View style={styles.inner_container2}>
               <Ionicons name="person" size={24} color="white" />
@@ -385,7 +367,7 @@ const styles = StyleSheet.create({
   inner_container1: {
     justifyContent: "center",
     alignItems: "center",
-    margin: 30,
+    // margin: 30,
   },
   inner_container2: {
     width: "60%",

@@ -175,24 +175,6 @@ export default function SearchPage({ navigation }) {
     }
   }
 
-  // setRecommendedplaces([...topplaces]);
-
-  // // Update Wishlistplace using map function
-  // const updatedWishlist = topplaces.map((place) => {
-  //   // Check if the item is already in the Wishlistplace array
-  //   const index = Wishlistplace.findIndex(
-  //     (wishlistItem) => wishlistItem.place_name === place.place_name
-  //   );
-  //   // If the item is in the wishlist, set the iconColor to "red", otherwise set it to "white"
-  //   const iconColor = index !== -1 ? "red" : "white";
-  //   return {
-  //     ...place,
-  //     iconColor,
-  //   };
-  // });
-  // setRecommendedplaces(updatedWishlist);
- 
-
   return (
     <KeyboardAvoidingView style={styles.container}>
       <SafeAreaView>
@@ -211,8 +193,9 @@ export default function SearchPage({ navigation }) {
             inputStyles={styles.input_style}
             placeholder="Search for a place"
             boxStyles={{
+              
               width: "85%",
-              height: 45,
+              height: 50,
               borderRadius: 50,
               justifyContent: "center",
               alignItems: "center",

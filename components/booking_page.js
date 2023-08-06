@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
   button_style: {
     backgroundColor: "#13313D",
     width: 130,
-    height: 55,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
   button_style2: {
     backgroundColor: "red",
     width: 130,
-    height: 55,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,
@@ -317,12 +317,15 @@ const styles = StyleSheet.create({
     margin: 8,
     alignSelf: "center",
     // marginTop: 90,
-    width: "99%",
+    width: "95%",
+    
 
-    padding: 15,
+    padding: 10,
 
     backgroundColor: "#01877e",
+
     borderRadius: 20,
+    opacity: 0.9,
   },
 
   text_style: {
@@ -330,14 +333,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
     // fontWeight: "bold",
     fontFamily: "Podkova",
-    marginLeft: 10,
+    // marginLeft: 10,
     alignSelf: "center",
   },
   text_style2: {
     color: "white",
-    fontSize: 25,
+    fontSize: 22,
     // fontWeight: "bold",
-    margin: 15,
+    // margin: 10,
     // marginRight: 2,
     fontFamily: "Podkova",
   },
@@ -370,7 +373,7 @@ const styles = StyleSheet.create({
 
   image_style: {
 
-    width: 120,
+    width: 100,
     height: 100,
 
 
