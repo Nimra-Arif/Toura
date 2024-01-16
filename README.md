@@ -37,7 +37,7 @@ Before signing up it is essential to have your registration verified. An email i
 
 #### Email received:
 
-<img src="https://github.com/Nimra-Arif/Toura/assets/119102280/08bf3a57-bd46-4406-ab4d-6c84c1a6dbdc" alt="Email received" width="500" height="500">
+<img src="https://github.com/Nimra-Arif/Toura/assets/119102280/08bf3a57-bd46-4406-ab4d-6c84c1a6dbdc" alt="Email received" width="800" height="500">
 
 On clicking the link
 
@@ -68,12 +68,6 @@ We have also added a search bar that shows recommendations as well as you can ty
 Other screens: 
 
 <img src="https://github.com/Nimra-Arif/Toura/assets/119102280/243a4335-80c3-498c-9b3a-d20a7651f830" alt="Home Screen" width="350" height="700">
-
-<img src="https://github.com/Nimra-Arif/Toura/assets/119102280/8508ffe2-c7b8-4d78-9e23-f602377ac128" alt="Home Screen" width="350" height="700">
-
-<img src="https://github.com/Nimra-Arif/Toura/assets/119102280/52574781-97a0-4b96-b765-ad7ff2821584" alt="Home Screen" width="350" height="700">
-
-<img src="https://github.com/Nimra-Arif/Toura/assets/119102280/e287efb7-c17e-41cb-b0fa-748fdf70c534" alt="Home Screen" width="350" height="700">
 
 On searching Hunza, from the search bar we navigate to a screen on activities generated with the Hunza Keyword.
 
