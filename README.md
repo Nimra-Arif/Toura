@@ -8,13 +8,15 @@ In the following report I have tried to incorporate most of the screens of my ap
 ## Screens
 ### Lauch Screen
 When the app launches the following screen appears with a zoom in  animation
-![Screenshot_20231120-070850](https://github.com/Nimra-Arif/Toura/assets/119102280/d3b851d5-4e67-484b-9b3e-9c8f0951c137)
+![image](https://github.com/Nimra-Arif/Toura/assets/119102280/ae07de9c-8dfa-4d92-8aaf-2db66fbe564d)
+
 
 After a time lapse of  2 seconds this screen transitions to the landing screen.
 
 
+
 ### Landing Screen
-![Screenshot_20231120-070856](https://github.com/Nimra-Arif/Toura/assets/119102280/380ed47b-898d-43c2-b51f-dbf54262232b)
+![image](https://github.com/Nimra-Arif/Toura/assets/119102280/19d49bf3-940e-42df-bfa3-f5f0d33e083f)
 
 Note: the text embrace the journey, Embrace the World appears in the form of typewriter animation (each letters appears to be typed)
 
@@ -22,19 +24,16 @@ Note: the text embrace the journey, Embrace the World appears in the form of typ
 A new user would then press on the Sign in pressable and would navigate to the Sign up page.
 ### Sign Up Screen
 
+![image](https://github.com/Nimra-Arif/Toura/assets/119102280/9a23b27c-eba9-4783-bf93-b83686d48f4c)
+
+
 Note that if a user is already signed up then the ‘Get Started’ button would prompt/ alert that the user is already signed up.
 
 #### Eyes-off feature	
+![image](https://github.com/Nimra-Arif/Toura/assets/119102280/24a3e9c9-ec12-4e80-9ed0-e8dfa8f937e3)
 
 Before signing up it is essential to have your registration verified. An email is sent out to the email address from where the registration is made. Only after the verification is complete the account is registered.
- 
-
-
-![Screenshot_20231120-071905](https://github.com/Nimra-Arif/Toura/assets/119102280/bdfa89f0-da49-49dc-b0a9-77e966a9a396)
-![Screenshot_20231120-072100](https://github.com/Nimra-Arif/Toura/assets/119102280/dc16276e-b7ff-4228-8a94-dc33f9ccecb6)
-![Screenshot_20231120-071909](https://github.com/Nimra-Arif/Toura/assets/119102280/a791a3a5-2d82-4cb1-b933-06b542433741)
-
-
+ ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/ea72bfaa-0a55-4a76-95ac-19bec6ae4437)
 
 
 #### Email received:
