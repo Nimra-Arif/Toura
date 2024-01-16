@@ -33,11 +33,11 @@ Note that if a user is already signed up then the ‘Get Started’ button would
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/24a3e9c9-ec12-4e80-9ed0-e8dfa8f937e3)
 
 Before signing up it is essential to have your registration verified. An email is sent out to the email address from where the registration is made. Only after the verification is complete the account is registered.
- ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/ea72bfaa-0a55-4a76-95ac-19bec6ae4437)
+![image](https://github.com/Nimra-Arif/Toura/assets/119102280/ea72bfaa-0a55-4a76-95ac-19bec6ae4437)
 
 
 #### Email received:
- ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/08bf3a57-bd46-4406-ab4d-6c84c1a6dbdc)
+![image](https://github.com/Nimra-Arif/Toura/assets/119102280/08bf3a57-bd46-4406-ab4d-6c84c1a6dbdc)
 
 On clicking the link
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/bc3d777a-3051-4bdc-83a0-a73a6ab284de)
@@ -118,12 +118,12 @@ For booking one needs to input their phone number and select their country from 
 
 We can click on the heart icon on every icon to add them to our WishList.
 
- ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/18950f72-d2cd-4a0c-8f43-f4becba47b00)
+![image](https://github.com/Nimra-Arif/Toura/assets/119102280/18950f72-d2cd-4a0c-8f43-f4becba47b00)
 
 
 ### Wishlist Screen
 All the locations that are liked are added to the Wishlist and displayed on the Wishlist Screen.
- ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/6dfe2070-8a56-48d1-81f3-8531a8eeea9c)
+![image](https://github.com/Nimra-Arif/Toura/assets/119102280/6dfe2070-8a56-48d1-81f3-8531a8eeea9c)
 
 Items can be deleted from wish list by clicking on the heart button
 
@@ -139,7 +139,7 @@ Since we have made a booking for Hunza this is now the outlook of the Bookings S
 
 ### Profile Screen
 Customization to profile such as adding a profile picture could be done through this screen 
- ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/79dc59a5-b907-4991-8338-2cc071ad4fa5)
+![image](https://github.com/Nimra-Arif/Toura/assets/119102280/79dc59a5-b907-4991-8338-2cc071ad4fa5)
 
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/e54b6566-0995-40d1-b8c6-0392cca6bf5d)
 
