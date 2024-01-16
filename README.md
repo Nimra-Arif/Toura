@@ -69,12 +69,9 @@ Other screens:
 
 <img src="https://github.com/Nimra-Arif/Toura/assets/119102280/243a4335-80c3-498c-9b3a-d20a7651f830" alt="Home Screen" width="350" height="700">
 
-
 <img src="https://github.com/Nimra-Arif/Toura/assets/119102280/8508ffe2-c7b8-4d78-9e23-f602377ac128" alt="Home Screen" width="350" height="700">
 
-
 <img src="https://github.com/Nimra-Arif/Toura/assets/119102280/52574781-97a0-4b96-b765-ad7ff2821584" alt="Home Screen" width="350" height="700">
-
 
 <img src="https://github.com/Nimra-Arif/Toura/assets/119102280/e287efb7-c17e-41cb-b0fa-748fdf70c534" alt="Home Screen" width="350" height="700">
 
@@ -136,8 +133,7 @@ Customization to the profile such as adding a profile picture could be done thro
 
 <img src="https://github.com/Nimra-Arif/Toura/assets/119102280/79dc59a5-b907-4991-8338-2cc071ad4fa5" alt="Profile Screen" width="350" height="700">
 
+#### Profile picture updated
+
 <img src="https://github.com/Nimra-Arif/Toura/assets/119102280/e54b6566-0995-40d1-b8c6-0392cca6bf5d" alt="Profile Screen" width="350" height="700">
-
-Profile picture updated
-
 
