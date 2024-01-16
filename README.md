@@ -8,14 +8,15 @@ In the following report I have tried to incorporate most of the screens of my ap
 ## Screens
 ### Lauch Screen
 When the app launches the following screen appears with a zoom in  animation
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/ae07de9c-8dfa-4d92-8aaf-2db66fbe564d)
 
 
 After a time lapse of  2 seconds this screen transitions to the landing screen.
 
 
-
 ### Landing Screen
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/19d49bf3-940e-42df-bfa3-f5f0d33e083f)
 
 Note: the text embrace the journey, Embrace the World appears in the form of typewriter animation (each letters appears to be typed)
@@ -29,6 +30,7 @@ A new user would then press on the Sign in pressable and would navigate to the S
 Note that if a user is already signed up then the ‘Get Started’ button would prompt/ alert that the user is already signed up.
 
 #### Eyes-off feature	
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/24a3e9c9-ec12-4e80-9ed0-e8dfa8f937e3)
 
 Before signing up it is essential to have your registration verified. An email is sent out to the email address from where the registration is made. Only after the verification is complete the account is registered.
@@ -37,6 +39,7 @@ Before signing up it is essential to have your registration verified. An email i
 
 
 #### Email received:
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/08bf3a57-bd46-4406-ab4d-6c84c1a6dbdc)
 
 On clicking the link
@@ -47,6 +50,7 @@ Now we can Sign in. After Signing in we navigate to the Home Screen
 
 
 ### Home Screen
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/043a8ad0-63f1-4eb4-87be-1473d6d02766)
 
  
@@ -66,21 +70,23 @@ We have also added a search bar that shows recommendations as well as you can ty
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/efef3471-2cf1-4f24-b1c9-e80346ace505)
 
 #### Search bar (feature)
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/51bed518-603d-4ac0-844b-e3030343dc91)
+
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/243a4335-80c3-498c-9b3a-d20a7651f830)
+
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/8508ffe2-c7b8-4d78-9e23-f602377ac128)
+
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/52574781-97a0-4b96-b765-ad7ff2821584)
+
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/e287efb7-c17e-41cb-b0fa-748fdf70c534)
 
 
-
-
-  
-  
-
 On searching Hunza, from the search bar we navigate to a screen on activities generated with the Hunza Keyword.
-
-
 
 ### Activities Screen
 
@@ -91,6 +97,7 @@ The activity screen contains multiple pressable showcasing the services we have 
 
 
 #### Sort (feature)
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/2de9f2fc-b9d2-4f51-b042-4c2b0ef96255)
 
 We can sort the activities based on the shown parameters/filters.
@@ -102,6 +109,7 @@ On selecting an activity from the activities screen, we land to the following sc
 
 On pressing book now, we navigate to the shopping cart page. Where we can view our selection and the cumulative price of it
 ### Shopping Cart Screen
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/3dd66300-b221-4086-96a8-2dfb5cf9b5e0)
 
 
@@ -110,6 +118,7 @@ Note: The cart now indicates ‘1’ whereas before making a booking it indicate
 On pressing Check out we navigate to the Billing Screen
 
 ### Billing Screen 
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/54a3050d-b098-4bc4-bc72-effc10943fe4)
 
 The prefilled details such as user name, email are available (of course you can edit them if you are booking for someone else) 
@@ -123,12 +132,14 @@ We can click on the heart icon on every icon to add them to our WishList.
 
 ### Wishlist Screen
 All the locations that are liked are added to the Wishlist and displayed on the Wishlist Screen.
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/6dfe2070-8a56-48d1-81f3-8531a8eeea9c)
 
 Items can be deleted from wish list by clicking on the heart button
 
 ### Bookings Screen
 When there is booking made the booking Screen looks like this. Find Things to do is actually an animation
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/4d205c6e-b8d5-47ea-93d8-ecb8f3c50f14)
 
 
@@ -139,6 +150,7 @@ Since we have made a booking for Hunza this is now the outlook of the Bookings S
 
 ### Profile Screen
 Customization to profile such as adding a profile picture could be done through this screen 
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/79dc59a5-b907-4991-8338-2cc071ad4fa5)
 
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/e54b6566-0995-40d1-b8c6-0392cca6bf5d)
