@@ -26,13 +26,13 @@ A new user would then press on the Sign in pressable and would navigate to the S
 
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/9a23b27c-eba9-4783-bf93-b83686d48f4c)
 
-
 Note that if a user is already signed up then the ‘Get Started’ button would prompt/ alert that the user is already signed up.
 
 #### Eyes-off feature	
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/24a3e9c9-ec12-4e80-9ed0-e8dfa8f937e3)
 
 Before signing up it is essential to have your registration verified. An email is sent out to the email address from where the registration is made. Only after the verification is complete the account is registered.
+
 ![image](https://github.com/Nimra-Arif/Toura/assets/119102280/ea72bfaa-0a55-4a76-95ac-19bec6ae4437)
 
 
