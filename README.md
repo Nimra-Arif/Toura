@@ -9,7 +9,7 @@ In the following report I have tried to incorporate most of the screens of my ap
 ### Lauch Screen
 When the app launches the following screen appears with a zoom in  animation
 
-<img src="![image](https://github.com/Nimra-Arif/Toura/assets/119102280/ae07de9c-8dfa-4d92-8aaf-2db66fbe564d)" alt="Your Image Alt Text" width="300" height="200">
+<img src="https://github.com/Nimra-Arif/Toura/assets/119102280/ae07de9c-8dfa-4d92-8aaf-2db66fbe564d" alt="Your Image Alt Text" width="300" height="200">
 
 After a time lapse of  2 seconds this screen transitions to the landing screen.
 
