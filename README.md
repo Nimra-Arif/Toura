@@ -37,11 +37,11 @@ Before signing up it is essential to have your registration verified. An email i
 
 #### Email received:
 
-<img src="https://github.com/Nimra-Arif/Toura/assets/119102280/29b58bd4-a64b-447e-8ef6-e011bf6324fd" alt="Email received" width="800" height="500">
+<img src="https://github.com/Nimra-Arif/Toura/assets/119102280/29b58bd4-a64b-447e-8ef6-e011bf6324fd" alt="Email received" width="850" height="500">
 
 On clicking the link
 
-<img src="https://github.com/Nimra-Arif/Toura/assets/119102280/bc3d777a-3051-4bdc-83a0-a73a6ab284de" alt="On clicking the link" width="400" height="400">
+<img src="https://github.com/Nimra-Arif/Toura/assets/119102280/bc3d777a-3051-4bdc-83a0-a73a6ab284de" alt="On clicking the link" width="450" height="400">
 
 Now we can Sign in. After Signing in, we navigate to the Home Screen
 
