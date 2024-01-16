@@ -131,3 +131,27 @@ Customization to the profile such as adding a profile picture could be done thro
 
 <img src="https://github.com/Nimra-Arif/Toura/assets/119102280/e54b6566-0995-40d1-b8c6-0392cca6bf5d" alt="Profile Screen" width="350" height="700">
 
+
+## How to run the app
+### Steps to Run the "Toura":
+### 1. Install Expo Go App:
+ - On your mobile device, go to the App Store (iPhone) or Play Store (Android).
+ - Search for "Expo Go" and install the app.
+### 2. Install Node.js
+ - If you're using a computer, download and install Node.js from [nodejs.org](https://nodejs.org).
+### 3. Get the App Code:
+ - Save the file containing the "Sanctuary" app code on your computer.
+### 4. Open Terminal or Command Prompt:
+ - Navigate to the folder with the "Sanctuary" app code.
+### 5. Run Commands:
+ - Type `npm install` and press Enter to install the necessary project dependencies.
+ - Then type `expo start` and press Enter to start the app.
+### 6. Open Expo Go App:
+ - On your mobile device, launch the Expo Go app.
+### 7. Scan QR Code:
+ - In the Expo Go app, tap "Scan QR Code."
+ - Use your phone's camera to scan the QR code displayed on your computer screen.
+### 8. App Loading:
+ - Wait for the app to load on your device within the Expo Go app.
+### 9. Explore the App:
+ - Once loaded, you can explore and use the "Sanctuary" app on your mobile device.
