@@ -37,9 +37,10 @@ Before signing up it is essential to have your registration verified. An email i
 
 #### Email received:
 
-<img src="https://github.com/Nimra-Arif/Toura/assets/119102280/08bf3a57-bd46-4406-ab4d-6c84c1a6dbdc" alt="Email received" width="400" height="400">
+<img src="https://github.com/Nimra-Arif/Toura/assets/119102280/08bf3a57-bd46-4406-ab4d-6c84c1a6dbdc" alt="Email received" width="500" height="500">
 
 On clicking the link
+
 <img src="https://github.com/Nimra-Arif/Toura/assets/119102280/bc3d777a-3051-4bdc-83a0-a73a6ab284de" alt="On clicking the link" width="400" height="400">
 
 Now we can Sign in. After Signing in, we navigate to the Home Screen
@@ -64,6 +65,7 @@ We have also added a search bar that shows recommendations as well as you can ty
 
 <img src="https://github.com/Nimra-Arif/Toura/assets/119102280/51bed518-603d-4ac0-844b-e3030343dc91" alt="Home Screen" width="350" height="700">
 
+Other screens: 
 
 <img src="https://github.com/Nimra-Arif/Toura/assets/119102280/243a4335-80c3-498c-9b3a-d20a7651f830" alt="Home Screen" width="350" height="700">
 
